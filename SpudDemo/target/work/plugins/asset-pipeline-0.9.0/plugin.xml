@@ -1,0 +1,31 @@
+<plugin name='asset-pipeline' version='0.9.0' grailsVersion='2.0 &gt; *'>
+  <author>David Estes</author>
+  <authorEmail>destes@bcap.com</authorEmail>
+  <title>Asset Pipeline Plugin</title>
+  <description>The Grails `asset-pipeline` is a plugin used for managing/processing static assets. These include processing, and minification of both css, and javascript files. It is also capable of being extended to compile custom static assets, such as coffeescript.</description>
+  <documentation>http://github.com/bertramdev/asset-pipeline</documentation>
+  <type>AssetPipelineGrailsPlugin</type>
+  <resources>
+    <resource>AssetPipelineBootStrap</resource>
+    <resource>AssetUrlMappings</resource>
+    <resource>asset.pipeline.AssetsFilters</resource>
+    <resource>asset.pipeline.AssetsController</resource>
+    <resource>asset.pipeline.AssetProcessorService</resource>
+    <resource>asset.pipeline.AssetsTagLib</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies>
+    <test>
+      <dependency group='org.spockframework' name='spock-grails-support' version='0.7-groovy-2.0' />
+    </test>
+    <runtime>
+      <dependency group='org.mozilla' name='rhino' version='1.7R4' />
+    </runtime>
+  </dependencies>
+  <plugins />
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

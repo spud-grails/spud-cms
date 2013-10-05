@@ -1,0 +1,38 @@
+<plugin name='spring-security-core' version='1.2.7.3' grailsVersion='1.2.2 &gt; *'>
+  <author>Burt Beckwith</author>
+  <authorEmail>beckwithb@vmware.com</authorEmail>
+  <title>Spring Security Core Plugin</title>
+  <description>Spring Security Core plugin</description>
+  <documentation>http://grails.org/plugin/spring-security-core</documentation>
+  <type>SpringSecurityCoreGrailsPlugin</type>
+  <resources>
+    <resource>DefaultSecurityConfig</resource>
+    <resource>test.TestPersistentLogin</resource>
+    <resource>test.TestRequestmap</resource>
+    <resource>test.TestRole</resource>
+    <resource>test.TestUser</resource>
+    <resource>test.TestUserRole</resource>
+    <resource>grails.plugins.springsecurity.SpringSecurityService</resource>
+    <resource>grails.plugins.springsecurity.SecurityTagLib</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies>
+    <compile>
+      <dependency group='org.springframework.security' name='spring-security-core' version='3.0.7.RELEASE' />
+      <dependency group='org.springframework.security' name='spring-security-web' version='3.0.7.RELEASE' />
+    </compile>
+  </dependencies>
+  <plugins>
+    <provided>
+      <plugin group='org.grails.plugins' name='webxml' version='1.4.1' />
+    </provided>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>
