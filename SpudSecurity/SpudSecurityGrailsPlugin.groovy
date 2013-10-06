@@ -43,12 +43,11 @@ Brief summary/description of the plugin.
     def doWithSpring = {
         application.config.spud.securityService = 'spudSecurityService'
         application.config.grails.plugins.springsecurity.password.algorithm = 'SHA-512'
-        application.config.grails.plugins.springsecurity.userLookup.userDomainClassName = 'spud.core.SpudUser'
+        application.config.grails.plugins.springsecurity.userLookup.userDomainClassName = 'spud.security.SpudUser'
         application.config.grails.plugins.springsecurity.password.algorithm = 'SHA-512'
-        application.config.grails.plugins.springsecurity.userLookup.userDomainClassName = 'spud.core.SpudUser'
-        application.config.grails.plugins.springsecurity.authority.className = 'spud.core.SpudAdminPermission'
-        application.config.grails.plugins.springsecurity.authority.nameField = 'name'
-        application.config.grails.plugins.springsecurity.userLookup.authoritiesPropertyName = 'spudUserSettings'
+        application.config.grails.plugins.springsecurity.authority.className = 'spud.security.SpudRole'
+        application.config.grails.plugins.springsecurity.authority.nameField = 'authority'
+        application.config.grails.plugins.springsecurity.userLookup.authoritiesPropertyName = 'authorities'
     }
 
     def doWithDynamicMethods = { ctx ->

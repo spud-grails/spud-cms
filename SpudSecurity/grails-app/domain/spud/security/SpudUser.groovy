@@ -1,7 +1,7 @@
 package spud.security
 
 class SpudUser {
-		transient springSecurityService
+	transient springSecurityService
 	static transients = ["passwordConfirmation"]
 
 	Long id
@@ -29,32 +29,34 @@ class SpudUser {
 	Boolean superAdmin = false
 
 
-		static constraints = {
-			login blank: false, nullable: false, unique: true
-			email blank: false, nullable: false
-			password nullable: false, blank:false
-			passwordSalt nullable: false, blank: false
-			timeZone nullable:true
-			singleAccessToken nullable:true
-			persistenceToken nullable:true
-			perishableToken nullable:true
-			currentLoginAt nullable:true
-			lastLoginIp nullable:true
-			lastLoginAt nullable:true
-			lastRequestAt nullable:true
-			firstName nullable:true
-			lastName nullable:true
-		}
+	static constraints = {
+		login blank: false, nullable: false, unique: true
+		email blank: false, nullable: false
+		password nullable: false, blank:false
+		passwordSalt nullable: false, blank: false
+		timeZone nullable:true
+		singleAccessToken nullable:true
+		persistenceToken nullable:true
+		perishableToken nullable:true
+		currentLoginAt nullable:true
+		lastLoginIp nullable:true
+		lastLoginAt nullable:true
+		lastRequestAt nullable:true
+		firstName nullable:true
+		lastName nullable:true
+	}
 
-		static mapping = {
-			table 'spud_users'
-			autoTimestamp true
-			password column: 'crypted_password'
-			dateCreated column: 'created_at'
-			lastUpdated column: 'updated_at'
-		}
+	static mapping = {
+		table 'spud_users'
+		autoTimestamp true
+		password column: 'crypted_password'
+		dateCreated column: 'created_at'
+		lastUpdated column: 'updated_at'
+	}
 
-
+	Set<SpudRole> getAuthorities() {
+			SpudUserRole.findAllBySpudUser(this).collect { it.role } as Set
+	 }
 
 	def beforeInsert() {
 		encodePassword()
@@ -82,11 +84,9 @@ class SpudUser {
 	def setPassword() {
 		if(this.password && this.passwordConfirmation && this.password == this.passwordConfirmation)
 		{
-			//TODO: Set Crypted Password and Salt SHA256
+			encodePassword()
 		}
 	}
-
-
 
 	def updateSessionInfo(request) {
 		this.lastRequestAt = new Date()
