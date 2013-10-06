@@ -68,7 +68,7 @@ a:hover .ui-button-text {
 	width:200px;
 	height:100px;
 	text-indent:-10000px;
-	background: url('/assets/spud/admin/spud_logo.png') center left no-repeat;
+	background: url('spud_logo.png') center left no-repeat;
 	background-size:200px 90px;
 }
 #header h1 .site_name {
@@ -453,7 +453,7 @@ form input.full-width {
 	only screen and (min--moz-device-pixel-ratio: 1.5),
 	only screen and (min-device-pixel-ratio: 1.5) {
 		#header h1 {
-			background: url('/assets/spud/admin/spud_logo@2x.png') top left no-repeat;
+			background: url('spud_logo@2x.png') top left no-repeat;
 			background-size:200px 90px;
 
 		}

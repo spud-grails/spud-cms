@@ -38,16 +38,20 @@ Brief summary/description of the plugin.
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before
+
     }
 
     def doWithSpring = {
         application.config.spud.securityService = 'spudSecurityService'
         application.config.grails.plugins.springsecurity.password.algorithm = 'SHA-512'
         application.config.grails.plugins.springsecurity.userLookup.userDomainClassName = 'spud.security.SpudUser'
+        application.config.grails.plugins.springsecurity.userLookup.usernamePropertyName = 'login'
         application.config.grails.plugins.springsecurity.password.algorithm = 'SHA-512'
         application.config.grails.plugins.springsecurity.authority.className = 'spud.security.SpudRole'
         application.config.grails.plugins.springsecurity.authority.nameField = 'authority'
         application.config.grails.plugins.springsecurity.userLookup.authoritiesPropertyName = 'authorities'
+
+        springConfig.addAlias "spudSecurity", 'spudSecurityService'
     }
 
     def doWithDynamicMethods = { ctx ->

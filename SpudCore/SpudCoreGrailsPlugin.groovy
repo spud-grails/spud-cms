@@ -1,3 +1,5 @@
+import org.springframework.beans.factory.support.*
+
 class SpudCoreGrailsPlugin {
 		// the plugin version
 		def version = "0.1"
@@ -41,6 +43,8 @@ Brief summary/description of the plugin.
 		}
 
 		def doWithSpring = {
+			def beanName = application.config.spud.containsKey('securityService') ? application.config.spud.securityService : 'abstractSpudSecurityService'
+			springConfig.addAlias "spudSecurity", beanName
 
 		}
 
@@ -49,6 +53,9 @@ Brief summary/description of the plugin.
 		}
 
 		def doWithApplicationContext = { ctx ->
+			// def spudSecurityService = ctx[application.config.spud.containsKey('securityService') ? application.config.spud.securityService : 'abstractSpudSecurityService']
+			// DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) ctx.getBeanFactory()
+	  //   beanFactory.registerBeanDefinition("spudSecurityService", BeanDefinitionBuilder.rootBeanDefinition(spudSecurityService.class.getName()).getBeanDefinition())
 				// TODO Implement post initialization spring config (optional)
 		}
 

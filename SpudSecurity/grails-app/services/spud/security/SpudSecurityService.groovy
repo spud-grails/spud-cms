@@ -7,7 +7,19 @@ class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 	def springSecurityService
 
 	def storeLocation(request) {
-		log.warn("Store Location (request) not implemented")
+		request.session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", request);
+	}
+
+	def getCurrentUser() {
+		return springSecurityService.currentUser
+	}
+
+	def getCurrentUserDisplayName() {
+		return springSecurityService.currentUser.displayName
+	}
+
+	def isLoggedIn() {
+		return springSecurityService.isLoggedIn()
 	}
 
 	def isAuthorized(spudSecureAnnotation, request, params) {
@@ -15,7 +27,7 @@ class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 			return false
 		}
 
-		if(spudSecureAnnotation.value.contains('AUTHORIZED')) {
+		if(spudSecureAnnotation.value().contains('AUTHORIZED')) {
 			return true
 		}
 
@@ -23,8 +35,11 @@ class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 	}
 
 	def getLoginUrl() {
-		log.error "SECURITY SERVICE NOT IMPLEMENTED (getLoginUrl)"
 		return [controller: 'login', action: 'auth']
+	}
+
+	def getLogoutUrl() {
+		return [controller: 'logout', action: 'index']
 	}
 }
 

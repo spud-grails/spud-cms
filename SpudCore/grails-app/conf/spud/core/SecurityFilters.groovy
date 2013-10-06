@@ -10,10 +10,13 @@ class SecurityFilters {
 				def context = grailsApplication.mainContext
 				def spudSecurityService = context[grailsApplication.config.spud.containsKey('securityService') ? grailsApplication.config.spud.securityService : 'abstractSpudSecurityService']
 				def controllerClass = grailsApplication.controllerClasses.find {it.logicalPropertyName == controllerName}
-				def action = applicationContext.getBean(controllerClass.fullName).class.declaredFields.find { field -> field.name == actionName }
+				def action
+				if(controllerClass) {
+					action = applicationContext.getBean(controllerClass.fullName).class.declaredFields.find { field -> field.name == actionName }
+				}
 				def annotation = action?.getAnnotation(SpudSecure)
 
-				if(!annotation) {
+				if(!annotation && controllerClass) {
 					annotation = controllerClass.clazz.getAnnotation(SpudSecure)
 				}
 

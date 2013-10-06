@@ -16,7 +16,7 @@
 
 
 	<div id="user_meta">
-		<span class="greeting">Hello [Admin]</span>&nbsp;|&nbsp;<g:link controller="spudUser" action="settings">Settings</g:link>&nbsp;|&nbsp;<g:link uri="/logout">Logout</g:link>
+		<span class="greeting">Hello <spud:currentUserDisplayName/></span>&nbsp;|&nbsp;<g:link controller="spudUser" action="settings">Settings</g:link>&nbsp;|&nbsp;<spud:logoutLink>Logout</spud:logoutLink>
 	</div>
 
 </div>

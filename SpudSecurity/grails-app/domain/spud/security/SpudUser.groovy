@@ -2,7 +2,7 @@ package spud.security
 
 class SpudUser {
 	transient springSecurityService
-	static transients = ["passwordConfirmation"]
+	static transients = ["passwordConfirmation", 'displayName']
 
 	Long id
 
@@ -26,6 +26,10 @@ class SpudUser {
 	Date lastUpdated
 	String timeZone
 
+	Boolean enabled=true
+	boolean accountExpired
+	boolean accountLocked
+	boolean passwordExpired
 	Boolean superAdmin = false
 
 
@@ -33,7 +37,7 @@ class SpudUser {
 		login blank: false, nullable: false, unique: true
 		email blank: false, nullable: false
 		password nullable: false, blank:false
-		passwordSalt nullable: false, blank: false
+		passwordSalt nullable: true, blank: true
 		timeZone nullable:true
 		singleAccessToken nullable:true
 		persistenceToken nullable:true
@@ -54,8 +58,21 @@ class SpudUser {
 		lastUpdated column: 'updated_at'
 	}
 
+	public String getDisplayName() {
+		if(firstName && lastName) {
+			return "${firstName} ${lastName}"
+		}
+		if(firstName) {
+			return firstName
+		}
+		if(lastName) {
+			return lastName
+		}
+		return login
+	}
+
 	Set<SpudRole> getAuthorities() {
-			SpudUserRole.findAllBySpudUser(this).collect { it.role } as Set
+			SpudUserRole.findAllByUser(this).collect { it.role } as Set
 	 }
 
 	def beforeInsert() {
@@ -64,29 +81,24 @@ class SpudUser {
 
 	def beforeUpdate() {
 		if (isDirty('password')) {
-			 encodePassword()
+			encodePassword()
 		}
 	}
 
 	protected void encodePassword() {
-		if(!this.passwordSalt) {
-			this.passwordSalt = login;
-		}
-		def digest = "${password}${passwordSalt}"
+		// if(!this.passwordSalt) {
+			// this.passwordSalt = login;
+		// }
+		// def digest = "${password}${passwordSalt}"
 
-		for ( i in 1..20 ) {
-			digest = springSecurityService.encodePassword(digest)
-		}
-		password = digest
+		// for ( i in 1..20 ) {
+			password = springSecurityService.encodePassword(password)
+		// }
+		// password = digest
 
 	}
 
-	def setPassword() {
-		if(this.password && this.passwordConfirmation && this.password == this.passwordConfirmation)
-		{
-			encodePassword()
-		}
-	}
+
 
 	def updateSessionInfo(request) {
 		this.lastRequestAt = new Date()

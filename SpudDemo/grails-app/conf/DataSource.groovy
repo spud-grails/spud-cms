@@ -14,10 +14,33 @@ hibernate {
 // environment specific settings
 environments {
     development {
-        dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+      dataSource {
+        pooled = true
+        url = "jdbc:mysql://localhost/spud-demo_development"
+        driverClassName = "com.mysql.jdbc.Driver"
+        username = 'root'
+        password = ''
+        dbCreate = "update"
+        dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+
+        properties {
+          validationQuery = 'select 1'
+          testOnBorrow = true
+          testOnReturn = false
+          testWhileIdle = true
+          timeBetweenEvictionRunsMillis = 300000
+          numTestsPerEvictionRun = 3
+          minEvictableIdleTimeMillis = 600000
+          initialSize = 1
+          minIdle = 1
+          maxActive = 10
+          maxIdle = 10000
+          maxWait = 90000
+          removeAbandoned = true
+          removeAbandonedTimeout = 6000
+          logAbandoned = true
         }
+      }
     }
     test {
         dataSource {

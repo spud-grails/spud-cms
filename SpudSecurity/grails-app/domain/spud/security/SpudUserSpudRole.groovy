@@ -33,7 +33,7 @@ class SpudUserSpudRole implements Serializable {
 	}
 
 	static boolean remove(SpudUser spudUser, SpudRole spudRole, boolean flush = false) {
-		SpudUserSpudRole instance = SpudUserSpudRole.findBySpudUserAndSpudRole(spudUser, spudRole)
+		SpudUserSpudRole instance = SpudUserSpudRole.findByUserAndRole(spudUser, spudRole)
 		if (!instance) {
 			return false
 		}
