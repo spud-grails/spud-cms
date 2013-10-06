@@ -11,12 +11,20 @@ class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 	}
 
 	def isAuthorized(spudSecureAnnotation, request, params) {
-		log.error "Spud-Security SECURITY SERVICE NOT IMPLEMENTED (isAuthorized)"
-		return true
+		if(!springSecurityService.isLoggedIn()) {
+			return false
+		}
+
+		if(spudSecureAnnotation.value.contains('AUTHORIZED')) {
+			return true
+		}
+
+		return false
 	}
 
 	def getLoginUrl() {
 		log.error "SECURITY SERVICE NOT IMPLEMENTED (getLoginUrl)"
-		return [controller: 'session', action: 'login']
+		return [controller: 'login', action: 'auth']
 	}
 }
+
