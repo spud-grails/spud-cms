@@ -86,16 +86,15 @@ class SpudUser {
 	}
 
 	protected void encodePassword() {
-		// if(!this.passwordSalt) {
-			// this.passwordSalt = login;
-		// }
-		// def digest = "${password}${passwordSalt}"
+		if(!this.passwordSalt) {
+			this.passwordSalt = login;
+		}
+		def digest = "${password}${passwordSalt}"
 
-		// for ( i in 1..20 ) {
-			password = springSecurityService.encodePassword(password)
-		// }
-		// password = digest
-
+		for ( i in 1..20 ) {
+			digest = springSecurityService.encodePassword(password)
+		}
+		password = digest
 	}
 
 

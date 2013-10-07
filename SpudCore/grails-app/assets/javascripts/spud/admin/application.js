@@ -8,10 +8,7 @@
 //= require jquery-ui/js/jquery-ui-1.9.1.custom
 //= require_self
 //= require_tree .
-
-// require retina_tag
-
-// require jquery_ujs
+//= require_full_tree .
 
 spud = {admin:{}};
 

@@ -2,10 +2,15 @@ import spud.security.*
 class BootStrap {
 
     def init = { servletContext ->
+
     	def user = SpudUser.findByLogin("admin")
     	if(!user) {
-    		new SpudUser(login: "admin", email: 'destes@bcap.com', password: 'password', passwordConfirmation: 'password').save(flush:true, failOnError:true)
+    		user = new SpudUser(login: "admin", email: 'destes@bcap.com', password: 'password', passwordConfirmation: 'password', superAdmin: true)
     	}
+
+
+    	user.save(flush:true, failOnError:true)
+
     }
     def destroy = {
     }

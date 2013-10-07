@@ -11,4 +11,5 @@ public @interface SpudApp {
 	String name()
 	String thumbnail()
 	String subsection() default "false"
+	String order() default "0"
 }

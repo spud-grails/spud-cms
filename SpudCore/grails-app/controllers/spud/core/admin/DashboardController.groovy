@@ -8,6 +8,6 @@ class DashboardController {
 		static namespace = 'spud_admin'
 
     def index = {
-    	[adminApplications: grailsApplication.config.spud.core.adminApplications, breadCrumbs:[["Dashboard", "/spud/admin"]]]
+    	render view: '/spud/admin/dashboard/index', model: [adminApplications: grailsApplication.config.spud.core.adminApplications, breadCrumbs:[["Dashboard", "/spud/admin"]]]
     }
 }

@@ -11,10 +11,12 @@
         <g:pageProperty name="page.data_controls"/>
   		</span>
   		<h2>
-  			<%if(pageThumbnail) {%>
-  				<span class="thumb_wrapper"><img src="/assets/${pageThumbnail}"/></span>
-  			<%}%>
-  			${pageName}
+
+				<span class="thumb_wrapper">
+          <spud:pageThumbnail/>
+        </span>
+
+  			<spud:pageName/>
   		</h2>
 
   		<div id="details">

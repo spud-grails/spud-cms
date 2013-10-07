@@ -43,9 +43,9 @@ Brief summary/description of the plugin.
 		}
 
 		def doWithSpring = {
-			def beanName = application.config.spud.containsKey('securityService') ? application.config.spud.securityService : 'abstractSpudSecurityService'
+			def beanName = application.config.spud.securityService ? application.config.spud.securityService : 'abstractSpudSecurityService'
 			springConfig.addAlias "spudSecurity", beanName
-
+			springConfig.addAlias "spudTemplateService", application.config.spud.templateService ? application.config.spud.templateService : 'defaultSpudTemplateService'
 		}
 
 		def doWithDynamicMethods = { ctx ->
@@ -53,10 +53,8 @@ Brief summary/description of the plugin.
 		}
 
 		def doWithApplicationContext = { ctx ->
-			// def spudSecurityService = ctx[application.config.spud.containsKey('securityService') ? application.config.spud.securityService : 'abstractSpudSecurityService']
-			// DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) ctx.getBeanFactory()
-	  //   beanFactory.registerBeanDefinition("spudSecurityService", BeanDefinitionBuilder.rootBeanDefinition(spudSecurityService.class.getName()).getBeanDefinition())
-				// TODO Implement post initialization spring config (optional)
+			ctx.adminApplicationService.initialize()
+
 		}
 
 		def onChange = { event ->

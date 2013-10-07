@@ -8,7 +8,7 @@ class SecurityFilters {
 		all(controller:'*', action:'*') {
 			before = {
 				def context = grailsApplication.mainContext
-				def spudSecurityService = context[grailsApplication.config.spud.containsKey('securityService') ? grailsApplication.config.spud.securityService : 'abstractSpudSecurityService']
+				def spudSecurityService = context[grailsApplication.config.spud.securityService ? grailsApplication.config.spud.securityService : 'abstractSpudSecurityService']
 				def controllerClass = grailsApplication.controllerClasses.find {it.logicalPropertyName == controllerName}
 				def action
 				if(controllerClass) {

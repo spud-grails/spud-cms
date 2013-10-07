@@ -70,3 +70,4 @@ grails.project.dependency.resolution = {
 }
 grails.plugin.location."spud-core" = "../SpudCore"
 grails.plugin.location."spud-security" = "../SpudSecurity"
+grails.plugin.location."spud-cms" = "../SpudCms"

@@ -30,8 +30,21 @@ class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 		if(spudSecureAnnotation.value().contains('AUTHORIZED')) {
 			return true
 		}
+		if(getCurrentUser().superAdmin) {
+			return true
+		}
+		def requiredAuthorities = spudSecureAnnotation.value()
+		def authorities = getCurrentUser().authorities
+		def authorized = false
+		authorities.find { role ->
+			def authority = role.authority
+			if(requiredAuthorities.find { it == authority}) {
+				authorized = true
+				return true
+			}
+		}
 
-		return false
+		return authorized
 	}
 
 	def getLoginUrl() {
