@@ -6,8 +6,8 @@ import  spud.core.*
 @SpudSecure(['PAGES'])
 class PagesController {
 	static namespace = 'spud_admin'
-	def spudTemplateService
 	def grailsApplication
+  def spudTemplateService
 
   def index = {
   	def pages = SpudPage.list([sort: 'pageOrder', spudPage: null] + params)
@@ -16,7 +16,8 @@ class PagesController {
 
   def create = {
   	def page = new SpudPage()
-  	def layoutsForSite = spudTemplateService.layoutsForSite(0)
+    def templateService = spudTemplateService.activeTemplateService()
+  	def layoutsForSite  = templateService.layoutsForSite(0)
   	def defaultLayoutName = grailsApplication.config.spud.cms.defaultLayout ?: 'application'
   	def defaultLayout = layoutsForSite.find { it.name == defaultLayoutName }
   	def partials = []
@@ -61,4 +62,6 @@ class PagesController {
 		}
 		return page
   }
+
+
 }

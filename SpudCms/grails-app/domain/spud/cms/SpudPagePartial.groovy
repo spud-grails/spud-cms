@@ -25,5 +25,14 @@ class SpudPagePartial {
 		symbolName blank: false
 		name blank:false
 	}
+
+
+	public String getContentProcessed() {
+		if(properties.contentProcessed) {
+			return properties.contentProcessed
+		}
+		// TODO : Find out if a renderer / formatter is needed on the content
+		return content
+	}
 }
 

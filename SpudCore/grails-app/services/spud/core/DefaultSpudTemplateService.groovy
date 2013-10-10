@@ -4,16 +4,13 @@ class DefaultSpudTemplateService {
 	def grailsApplication
 
 	def layoutsForSite(siteId=0) {
-		def layouts = grailsApplication.config.spud.core.layouts
-		def layoutArray = []
-		layouts.each {
-			layoutArray << [name: it.key, partials: it.value.collect { partial -> [name: partial.key, format: partial.value] }]
-		}
-		return layoutArray
+		def layouts = grailsApplication.config.spud.core.layouts?.findAll{ !it.containsKey('siteId') || it.siteId == siteId}
+		return layouts
 	}
 
-	def renderContent(page) {
-		render view: '/page/show', model: [page: page]
+	def render(defaultView, options) {
+		//Options available, view: 'file ref', content: 'content', model, objects to pass through
+		return [view: defaultView] + options
 	}
 
 }

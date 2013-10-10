@@ -52,18 +52,22 @@ spud.admin.editor = {};
     $(selector).each(function() {
       var $this = $(this);
       var dataFormat = $this.attr('data-format');
-      switch(dataFormat) {
-        case 'Markdown':
-          editor.initCodeMirrorWithOptions(this,'markdown', options || {});
-          break;
-        case 'HTML':
-        default:
-          editor.initMCEWithOptions(this, options || {});
-      };
-
-
+      if(editor.formats[dataFormat]) {
+        editor.formats[dataFormat]();
+      } else {
+        editor.initMCEWithOptions(this, options || {});
+      }
     });
 
+  };
+
+  editor.formats = {
+    'HTML': function(options) {
+      editor.initMCEWithOptions(this, options || {});
+    },
+    'RAW': function(options) {
+      editor.initCodeMirrorWithOptions(this,'html', options || {});
+    }
   };
 
   editor.monitorFormatters = function() {

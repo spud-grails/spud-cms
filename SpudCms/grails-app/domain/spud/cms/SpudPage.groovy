@@ -21,6 +21,10 @@ class SpudPage {
 	String createdBy
 	String updatedBy
 
+
+	String renderer = 'gsp'
+	String templateEngine = 'system'
+
 	Date publishAt
 	Date dateCreated
 	Date lastUpdated

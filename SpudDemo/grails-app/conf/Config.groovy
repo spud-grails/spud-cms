@@ -115,7 +115,7 @@ log4j = {
 }
 
 spud.core.layouts = [
-    'application': [body: 'html'],
-    'home': [banner: 'html', sidebar: 'html', body: 'html', site: 0]
+    [name: 'application',partials: [body: [formats: ['html']]]],
+    [name: 'home', partials: [body: [formats: ['html']]], siteId: 0]
 ]
 

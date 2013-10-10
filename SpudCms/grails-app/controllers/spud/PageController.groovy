@@ -19,7 +19,8 @@ class PageController {
 			render status: 404
 			return
 		}
+		def templateService = spudTemplateService.activeTemplateService(page.templateEngine)
+		render templateService.render('/page/show', model: [page:page])
 
-		spudTemplateService.render(page)
 	}
 }

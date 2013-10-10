@@ -45,7 +45,11 @@ Brief summary/description of the plugin.
 		def doWithSpring = {
 			def beanName = application.config.spud.securityService ? application.config.spud.securityService : 'abstractSpudSecurityService'
 			springConfig.addAlias "spudSecurity", beanName
-			springConfig.addAlias "spudTemplateService", application.config.spud.templateService ? application.config.spud.templateService : 'defaultSpudTemplateService'
+
+			application.config.spud.renderers              = application.config.spud.renderers ?: [:]
+			application.config.spud.templateEngines        = application.config.spud.templateEngines ?: [:]
+			application.config.spud.renderers.gsp          = 'defaultSpudRendererService'
+			application.config.spud.templateEngines.system = 'defaultSpudTemplateService'
 		}
 
 		def doWithDynamicMethods = { ctx ->
