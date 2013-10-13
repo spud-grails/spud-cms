@@ -1,7 +1,8 @@
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
-
+grails.project.repos.default = "bertramlabsSnap"
+grails.release.scm.enabled = false
 grails.project.fork = [
     // configure settings for compilation JVM, note that if you alter the Groovy version forked compilation is required
     //  compile: [maxMemory: 256, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
@@ -15,6 +16,21 @@ grails.project.fork = [
     // configure settings for the Console UI JVM
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
+
+grails.project.ivy.authentication.credentials.realm=System.getProperty('project.ivy.authentication.credentials.realm')
+grails.project.ivy.authentication.credentials.host=System.getProperty('project.ivy.authentication.credentials.host')
+grails.project.ivy.authentication.credentials.username=System.getProperty('project.ivy.authentication.credentials.username')
+grails.project.ivy.authentication.credentials.password=System.getProperty('project.ivy.authentication.credentials.password')
+
+grails.project.repos.bertramlabsSnap.url = "http://nexus.bertramlabs.com/content/repositories/snapshots"
+// grails.project.repos.bertramlabsSnap.username = System.getProperty('project.repos.bertramlabsSnap.username')
+// grails.project.repos.bertramlabsSnap.password = System.getProperty('project.repos.bertramlabsSnap.password')
+
+grails.project.repos.bertramlabsRel.url = "http://nexus.bertramlabs.com/content/repositories/releases"
+// grails.project.repos.bertramlabsRel.username = System.getProperty('project.repos.bertramlabsRel.username')
+// grails.project.repos.bertramlabsRel.password = System.getProperty('project.repos.bertramlabsRel.password')
+
+
 
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
@@ -33,6 +49,9 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+
+        mavenRepo name:'BertramLabs', root:'http://nexus.bertramlabs.com/content/repositories/snapshots'
+        mavenRepo name:'BertramLabsRelease', root:'http://nexus.bertramlabs.com/content/repositories/releases'
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -43,7 +62,7 @@ grails.project.dependency.resolution = {
         runtime ":asset-pipeline:0.9.0"
         runtime ":coffee-asset-pipeline:0.8.0"
 build ":tomcat:7.0.42"
-        build(":release:3.0.0",
+        build(":release:3.0.1",
               ":rest-client-builder:1.0.3") {
             export = false
         }

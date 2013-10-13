@@ -2,7 +2,8 @@ import org.springframework.beans.factory.support.*
 
 class SpudCoreGrailsPlugin {
 		// the plugin version
-		def version = "0.1"
+		def groupId = "com.bertramlabs"
+		def version = "0.1-SNAPSHOT"
 		// the version or versions of Grails the plugin is designed for
 		def grailsVersion = "2.3 > *"
 		// resources that are excluded from plugin packaging
@@ -12,8 +13,8 @@ class SpudCoreGrailsPlugin {
 
 		// TODO Fill in these fields
 		def title = "Spud Core Plugin" // Headline display name of the plugin
-		def author = "Your name"
-		def authorEmail = ""
+		def author = "David Estes"
+		def authorEmail = "destes@bcap.com"
 		def description = '''\
 Brief summary/description of the plugin.
 '''
