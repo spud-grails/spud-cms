@@ -1,5 +1,5 @@
 package spud.core
-
+import grails.util.GrailsWebUtil
 class SecurityFilters {
 
 	def grailsApplication
@@ -9,7 +9,7 @@ class SecurityFilters {
 			before = {
 				def context = grailsApplication.mainContext
 				def spudSecurityService = context[grailsApplication.config.spud.securityService ? grailsApplication.config.spud.securityService : 'abstractSpudSecurityService']
-				def controllerClass = grailsApplication.controllerClasses.find {it.logicalPropertyName == controllerName}
+				def controllerClass = GrailsWebUtil.getControllerFromRequest(request)
 				def action
 				if(controllerClass) {
 					action = applicationContext.getBean(controllerClass.fullName).class.declaredFields.find { field -> field.name == actionName }
