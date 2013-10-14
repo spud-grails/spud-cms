@@ -5,11 +5,17 @@ class SecurityFilters {
 	def grailsApplication
 
 	def filters = {
-		all(controller:'*', action:'*') {
+		spudAdmin(uri: '/spud/admin/**') {
 			before = {
+
 				def context = grailsApplication.mainContext
+				// def urlMapping =  context.grailsUrlMappingsHolder.match(request.forwardURI)
+				// println "Found Url Mapping for ${urlMapping.controllerName} in ${urlMapping.getNamespace()} ${urlMapping.getPluginName()}"
 				def spudSecurityService = context[grailsApplication.config.spud.securityService ? grailsApplication.config.spud.securityService : 'abstractSpudSecurityService']
-				def controllerClass = GrailsWebUtil.getControllerFromRequest(request)
+				def controllerClass = grailsApplication.getArtefactByLogicalPropertyName("Controller", controllerName)
+
+				// println params
+				// def controllerClass = GrailsWebUtil.getControllerFromRequest(request)
 				def action
 				if(controllerClass) {
 					action = applicationContext.getBean(controllerClass.fullName).class.declaredFields.find { field -> field.name == actionName }
