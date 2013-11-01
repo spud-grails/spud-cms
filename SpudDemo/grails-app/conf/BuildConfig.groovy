@@ -68,7 +68,7 @@ grails.project.dependency.resolution = {
         // compile ":jms:1.2"
 
         // plugins needed at runtime but not for compilation
-        runtime ":hibernate:3.6.10.1" // or ":hibernate4:4.1.11.1"
+        runtime ":hibernate:3.6.10.2" // or ":hibernate4:4.1.11.1"
         runtime ":database-migration:1.3.5"
         runtime ":jquery:1.10.2"
         runtime ":asset-pipeline:0.9.0"
@@ -79,3 +79,4 @@ grails.project.dependency.resolution = {
 grails.plugin.location."spud-core" = "../SpudCore"
 grails.plugin.location."spud-security" = "../SpudSecurity"
 grails.plugin.location."spud-cms" = "../SpudCms"
+grails.plugin.location."seed-me" = "../../seed-me"

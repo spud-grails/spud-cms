@@ -15,7 +15,7 @@ class AdminApplicationService {
 			}
 		}
 
-		grailsApplication.config.spud.core.adminApplications = adminApplications
+		grailsApplication.config.spud.core.adminApplications = adminApplications.sort{ it.order }
 	}
 
 	private def adminMapFromAnnotation(annotation, controllerClass) {
