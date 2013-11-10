@@ -27,5 +27,11 @@ class SpudPageUrlMappings {
 			namespace: 'spud_admin',
 			action: [PUT: 'update', DELETE: 'delete']
 		)
+
+
+		"/$id**" (
+			controller: 'page',
+			action: 'show'
+		)
 	}
 }

@@ -11,9 +11,9 @@
 	</span>
 	<br style="clear:both;"/>
 </div>
-<g:if test="${page.spudPages.count() > 0}">
+<g:if test="${page.pages.size() > 0}">
 	<div class="left_guide">
-		<g:each var="subPage" in="${page.spudPages}">
+		<g:each var="subPage" in="${page.pages}">
 			<g:render template="/spud/admin/pages/page_row" model="[page:subPage]"/>
 		</g:each>
 	</div>

@@ -1,4 +1,4 @@
-<plugin name='spud-core' version='0.1-SNAPSHOT' grailsVersion='2.3.1 &gt; *'>
+<plugin name='spud-core' version='0.1-SNAPSHOT' grailsVersion='2.3 &gt; *'>
   <author>David Estes</author>
   <authorEmail>destes@bcap.com</authorEmail>
   <title>Spud Core Plugin</title>

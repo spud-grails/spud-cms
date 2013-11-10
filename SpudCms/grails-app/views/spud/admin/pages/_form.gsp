@@ -1,3 +1,5 @@
+<g:renderErrors bean="${page}" />
+
 <fieldset>
 	<div class="control-group">
 		<legend>Page Title</legend>
@@ -11,8 +13,8 @@
 	</ul>
 	<g:each var="partial" in="${partials}">
 		<div class="formtab tab-pane">
-			<g:hiddenField name="partial.name" value="${partial.name}" class="tab_name"/>
-			<g:textArea    name="partial.content" class="tinymce"/>
+			<g:hiddenField name="partialName" value="${partial.name}" class="tab_name"/>
+			<g:textArea name="partial.${partial.name}" class="tinymce" value="${partial.content}"/>
 		</div>
 	</g:each>
 </div>
@@ -24,7 +26,8 @@
 			<div class="control-group">
 				<label for="page.layout" class="control-label">Template</label>
 				<div class="controls">
-					%{-- TODO DROPDOWN BOX TO SELECT LAYOUT GOES HERE --}%
+					<g:select name="page.layout" from="${layouts}" value="${page?.layout}" optionKey="name" optionValue="name"/>
+
 					<span class="help-inline">Use this to control the layout template to be used for this page if they are available.</span>
 				</div>
 			</div>

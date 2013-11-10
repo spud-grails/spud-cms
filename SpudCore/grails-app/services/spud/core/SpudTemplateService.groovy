@@ -15,7 +15,7 @@ class SpudTemplateService {
   }
 
   private templateServiceByName(key) {
-    def engineName = grailsApplication.config.spud.templateEngine[key]
+    def engineName = grailsApplication.config.spud.templateEngines[key]
     if(engineName) {
       return grailsApplication.mainContext[engineName]
     } else {

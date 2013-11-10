@@ -23,14 +23,43 @@ class PagesController {
   	def partials = []
   	if(defaultLayout) {
   		defaultLayout.partials.each {
-  			partials << new SpudPagePartial(name: it.name, content: null)
+  			partials << new SpudPagePartial(name: it.key, content: null)
   		}
   	}
-  	println partials
   	render view: '/spud/admin/pages/create', model:[page: page, layouts: layoutsForSite, partials: partials]
   }
 
   def save = {
+    if(!params.page) {
+      flash.error = "Page submission not specified"
+      redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+      return
+    }
+
+    def page = new SpudPage(params.page)
+
+    params.partial.each { partial ->
+      def partialRecord = new SpudPagePartial(name: partial.key, content: partial.value)
+      page.addToPartials(partialRecord)
+    }
+
+    if(page.save(flush:true)) {
+      redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+    } else {
+      flash.error = "Error Saving Page"
+
+      def templateService   = spudTemplateService.activeTemplateService()
+      def layoutsForSite    = templateService.layoutsForSite(0)
+      def defaultLayoutName = page.layout ?: grailsApplication.config.spud.cms.defaultLayout ?: 'application'
+      def defaultLayout     = layoutsForSite.find { it.name == defaultLayoutName }
+      def partials = []
+      if(defaultLayout) {
+        defaultLayout.partials.each {
+          partials << new SpudPagePartial(name: it.key, content: null)
+        }
+      }
+      render view: '/spud/admin/pages/create', model:[page: page, layouts: layoutsForSite, partials: partials]
+    }
 
   }
 
