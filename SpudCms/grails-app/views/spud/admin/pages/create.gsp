@@ -1,7 +1,6 @@
 <g:applyLayout name="spud/admin/detail" >
 
 	<content tag="detail">
-		<asset:javascript src="spud/admin/cms/application.js"/>
 		<g:form name="new_user" url="[action: 'index',controller: 'pages',namespace: 'spud_admin']" method="POST" class="form-horizontal">
 			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials]" />
 

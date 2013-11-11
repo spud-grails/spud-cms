@@ -71,11 +71,13 @@ grails.project.dependency.resolution = {
         runtime ":hibernate:3.6.10.2" // or ":hibernate4:4.1.11.1"
         runtime ":database-migration:1.3.5"
         runtime ":jquery:1.10.2"
-        runtime ":asset-pipeline:0.9.0"
+        runtime ":asset-pipeline:1.1.0"
 
 
     }
 }
+
+// grails.plugin.location."asset-pipeline" = "../../asset-pipeline"
 grails.plugin.location."spud-core" = "../SpudCore"
 grails.plugin.location."spud-security" = "../SpudSecurity"
 grails.plugin.location."spud-cms" = "../SpudCms"

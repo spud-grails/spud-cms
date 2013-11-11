@@ -20,6 +20,9 @@ class PagesController {
   	def layoutsForSite  = templateService.layoutsForSite(0)
   	def defaultLayoutName = grailsApplication.config.spud.cms.defaultLayout ?: 'application'
   	def defaultLayout = layoutsForSite.find { it.name == defaultLayoutName }
+    if(!defaultLayout) {
+      defaultLayout = layoutsForSite[0]
+    }
   	def partials = []
   	if(defaultLayout) {
   		defaultLayout.partials.each {
