@@ -59,9 +59,9 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":asset-pipeline:0.9.0"
-        runtime ":coffee-asset-pipeline:0.8.0"
-build ":tomcat:7.0.42"
+        runtime ":asset-pipeline:1.2.1"
+        runtime ":coffee-asset-pipeline:1.2.0"
+        build ":tomcat:7.0.42"
         build(":release:3.0.1",
               ":rest-client-builder:1.0.3") {
             export = false

@@ -59,7 +59,7 @@ grails.project.dependency.resolution = {
 
     plugins {
         // plugins for the build system only
-        build ":tomcat:7.0.42"
+        build ":tomcat:7.0.47"
 
         // plugins for the compile step
         compile ":scaffolding:2.0.0"
@@ -68,10 +68,10 @@ grails.project.dependency.resolution = {
         // compile ":jms:1.2"
 
         // plugins needed at runtime but not for compilation
-        runtime ":hibernate:3.6.10.2" // or ":hibernate4:4.1.11.1"
+        runtime ":hibernate:3.6.10.6" // or ":hibernate4:4.1.11.1"
         runtime ":database-migration:1.3.5"
         runtime ":jquery:1.10.2"
-        runtime ":asset-pipeline:0.9.0"
+        runtime ":asset-pipeline:1.2.1"
 
 
     }
@@ -79,4 +79,4 @@ grails.project.dependency.resolution = {
 grails.plugin.location."spud-core" = "../SpudCore"
 grails.plugin.location."spud-security" = "../SpudSecurity"
 grails.plugin.location."spud-cms" = "../SpudCms"
-grails.plugin.location."seed-me" = "../../seed-me"
+grails.plugin.location."retina-tag" = "../../retina-tag"
