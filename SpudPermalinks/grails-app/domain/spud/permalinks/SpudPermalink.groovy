@@ -11,7 +11,8 @@ class SpudPermalink {
 	Date lastUpdated
 
   static constraints = {
-  	url nullable: true
+  	attachmentType nullable: true
+  	attachmentId nullable: true
   }
 
 	static mapping = {

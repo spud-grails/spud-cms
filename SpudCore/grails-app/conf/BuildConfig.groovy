@@ -60,6 +60,7 @@ grails.project.dependency.resolution = {
 
     plugins {
         runtime ":asset-pipeline:0.9.0"
+        runtime ":retina-tag:0.5.0"
         runtime ":coffee-asset-pipeline:0.8.0"
 build ":tomcat:7.0.42"
         build(":release:3.0.1",
