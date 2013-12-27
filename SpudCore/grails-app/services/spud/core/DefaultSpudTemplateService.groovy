@@ -8,6 +8,11 @@ class DefaultSpudTemplateService {
 		return layouts
 	}
 
+	def layoutForName(name, siteId=0) {
+		def layouts = layoutsForSite(siteId)
+		return layouts.find {it.name == name}
+	}
+
 	def render(defaultView, options) {
 		//Options available, view: 'file ref', content: 'content', model, objects to pass through
 		return [view: defaultView] + options

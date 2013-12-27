@@ -115,7 +115,16 @@ log4j = {
 }
 
 spud.core.layouts = [
-    [name: 'page',partials: [body: [formats: ['html']], sidebar: [formats: ['html']]]],
-    [name: 'home', partials: [body: [formats: ['html']]], siteId: 0]
+    [name: 'page',partials:
+        [
+            body: [formats: ['html']],
+            sidebar: [formats: ['html']]
+        ]
+    ],
+    [name: 'home', partials:
+        [
+            body: [formats: ['html']]
+        ]
+    , siteId: 0]
 ]
 

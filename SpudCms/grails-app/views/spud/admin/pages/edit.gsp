@@ -1,11 +1,11 @@
 <g:applyLayout name="spud/admin/detail" >
 
 	<content tag="detail">
-		<g:form name="new_page" url="[action: 'index',controller: 'pages',namespace: 'spud_admin']" method="POST" class="form-horizontal">
+		<g:form name="edit_page" url="[action: 'show',controller: 'pages',namespace: 'spud_admin']" method="PUT" class="form-horizontal">
 			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials]" />
 
 			<div class="form-actions">
-				<g:submitButton name="_submit" value="Create Page" class="btn btn-primary"/>
+				<g:submitButton name="_submit" value="Save Page" class="btn btn-primary"/>
 		  </div>
 		</g:form>
 		<script type="text/javascript">

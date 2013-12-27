@@ -72,11 +72,11 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.3.5"
         runtime ":jquery:1.10.2"
         runtime ":asset-pipeline:1.2.1"
-
-
     }
 }
+
+// grails.plugin.location."asset-pipeline" = "../../asset-pipeline"
 grails.plugin.location."spud-core" = "../SpudCore"
 grails.plugin.location."spud-security" = "../SpudSecurity"
 grails.plugin.location."spud-cms" = "../SpudCms"
-grails.plugin.location."retina-tag" = "../../retina-tag"
+grails.plugin.location."spud-permalinks" = "../SpudPermalinks"
