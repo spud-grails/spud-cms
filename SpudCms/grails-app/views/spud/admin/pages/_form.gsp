@@ -4,7 +4,7 @@
 	<div class="control-group">
 		<legend>Page Title</legend>
 		<label for="page.name" style="display:none;" class="control-label">Name</label>
-		<g:textField name="page.name" class="full-width"/>
+		<g:textField name="page.name" class="full-width" value="${page?.name}"/>
 	</div>
 </fieldset>
 
@@ -44,7 +44,7 @@
 			<label for="page.urlName" class="control-label">Perma Link</label>
 
 			<div class="controls">
-				/<g:textField name="page.urlName" title="" size="20" id="spud_page_url_namme"/>
+				/<g:textField name="page.urlName" value="${page?.urlName}" title="" size="20" id="spud_page_url_namme"/>
 				<label class="checkbox inline">
 					<g:checkBox name="page.useCustomUrlName" onchange="\$('#spud_page_url_name').attr('disabled',!this.checked);"/>
 					Customize this pages url
@@ -60,7 +60,7 @@
 		<div class="control-group">
 			<label for="page.metaKeywords" class="control-label">Keywords</label>
 			<div class="controls">
-				<g:textField name="page.metaKeywords" style="width:600px;"/>
+				<g:textField name="page.metaKeywords" style="width:600px;" value="${page?.metaKeywords}"/>
 				<span class="help-inline">A Comma seperated list of keywords for search engines. Keep it short (no more than 10 keywords)</span>
 			</div>
 
@@ -69,7 +69,7 @@
 			<label for="page.metaDescription" class="control-label">Description</label>
 
 			<div class="controls">
-				<g:textArea name="page.metaDescription" style="width:600px;height:40px;"/>
+				<g:textArea name="page.metaDescription" style="width:600px;height:40px;" value="${page?.metaDescription}"/>
 				<span class="help-inline">A short description of the page. This is what appears on a search engines search result page.</span>
 			</div>
 		</div>
@@ -82,13 +82,13 @@
 		<div class="control-group">
 			<label for="page.published" class="control-label">Published</label>
 			<div class="controls">
-				<g:checkBox name="page.published"/>
+				<g:checkBox name="page.published" value="${page?.published}"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label for="page.notes" class="control-label"Notes></label>
 			<div class="controls">
-				<g:textArea name="page.notes" style="width:400px;height:40px;"/>
+				<g:textArea name="page.notes" style="width:400px;height:40px;" value="${page?.notes}"/>
 				<span class="help-inline">Have a note to make about this page while you work? Place it here for later.</span>
 			</div>
 		</div>
