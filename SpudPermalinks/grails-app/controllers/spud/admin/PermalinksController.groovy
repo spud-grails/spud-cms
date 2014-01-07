@@ -25,7 +25,9 @@ class PermalinksController {
 		}
 
 		def permalink = new SpudPermalink(params.permalink)
-
+		if(params.int('siteId')) {
+			permalink.siteId = params.int('siteId')
+		}
 		if(permalink.save(flush:true)) {
 			redirect(controller: 'permalinks', action: 'index', namespace: 'spud_admin')
 		} else {
@@ -47,7 +49,7 @@ class PermalinksController {
 	def update = {
 		if(!params.permalink) {
 			flash.error = "Permalink Submission not specified"
-			redirect controller: 'permalinks', action: 'index', namespace: 'spud_admin'
+			redirect resource: 'permalinks', action: 'index', namespace: 'spud_admin'
 			return
 		}
 
@@ -57,7 +59,9 @@ class PermalinksController {
 		}
 
 		params.permalink.each { param ->
-			permalink."${param.key}" = param.value
+			if(param.key != 'siteId') {
+				permalink."${param.key}" = param.value
+			}
 		}
 
 		if(!permalink.save(flush:true)) {
@@ -65,7 +69,7 @@ class PermalinksController {
 			render view: '/spud/admin/permalinks/edit', model: [permalink: permalink]
 			return
 		}
-		redirect controller: 'permalinks', action: 'index', namespace: 'spud_admin'
+		redirect resource: 'permalinks', action: 'index', namespace: 'spud_admin'
 	}
 
 
@@ -77,20 +81,22 @@ class PermalinksController {
 		}
 		permalink.delete(flush:true)
 
-		redirect controller: 'permalinks', action: 'index', namespace: 'spud_admin'
+		redirect resource: 'permalinks', action: 'index', namespace: 'spud_admin'
 	}
 
 	private loadPermalink() {
+
 		if(!params.id) {
 			flash.error = "Permalink Submission not specified"
 			redirect controller: 'permalink', action: 'index', namespace: 'spud_admin'
 			return null
 		}
 
-		def permalink = SpudPermalink.get(params.id)
+		def siteId = params.int('siteId') ?: 0
+		def permalink = SpudPermalink.findBySiteIdAndId(siteId,params.id)
 		if(!permalink) {
 			flash.error = "Permalink not found!"
-			redirect controller: 'permalinks', action: 'index', namespace: 'spud_admin'
+			redirect resource: 'permalinks', action: 'index', namespace: 'spud_admin'
 			return null
 		}
 		return permalink

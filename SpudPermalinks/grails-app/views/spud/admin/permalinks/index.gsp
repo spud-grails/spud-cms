@@ -24,7 +24,7 @@
           <td>${permalink.dateCreated}</td>
           <td align="right">
             <g:link action="edit" id="${permalink.id}" title="Edit ${permalink.urlName}" namespace="spud_admin" class="btn">Edit</g:link>
-            <g:link resource="permalinks" namespace="spud_admin" data-method="delete" id="${permalink.id}" date-confirm="Are you sure you want to remove this permalink?" class="btn btn-danger">Remove</g:link>
+            <g:link controller="permalinks" action="delete" namespace="spud_admin" method="POST" data-method="post" id="${permalink.id}" data-confirm="Are you sure you want to remove this permalink?" class="btn btn-danger">Remove</g:link>
           </td>
         </tr>
       </g:each>

@@ -1,7 +1,7 @@
 <div class="page_row">
 
 	<span class="row_meta">
-		<spud:adminLink action="edit" id="${page.id}">${page.name}</spud:adminLink>
+		<spud:adminLink resource="pages" action="edit" id="${page.id}">${page.name}</spud:adminLink>
 	</span>
 
 	<span class="edit_controls">

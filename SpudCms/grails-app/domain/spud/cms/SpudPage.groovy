@@ -1,10 +1,13 @@
 package spud.cms
+import spud.permalinks.*
 
 class SpudPage {
+
+	static hasMany = [pages: SpudPage, partials:SpudPagePartial ]
+	def spudPermalinkService
+
 	Integer siteId = 0
 	SpudPage spudPage //Parent Page if it has one
-	static hasMany = [pages: SpudPage, partials:SpudPagePartial ]
-
 	String name
 	String urlName
 	Boolean userCustomUrlName = false
@@ -20,7 +23,6 @@ class SpudPage {
 
 	String createdBy
 	String updatedBy
-
 
 	String renderer = 'gsp'
 	String templateEngine = 'system'
@@ -49,15 +51,24 @@ class SpudPage {
 		publishAt nullable: true
 	}
 
-	def beforeValidate() {
+	def beforeUpdate() {
+		generateUrlName()
+	}
+	def beforeInsert() {
 		generateUrlName()
 	}
 
+	def beforeDelete() {
+		SpudPermalink.withNewSession { session ->
+			spudPermalinkService.deletePermalinksForAttachment(this, this.siteId)
+		}
+	}
+
 	private generateUrlName() {
+		def original
 		if(!name) {
 			return true //Throw Name validation error instead of generated url name
 		}
-
 		def urlNamePrefix = ""
 		if(spudPage) {
 			urlNamePrefix += spudPage.urlName + "/"
@@ -80,11 +91,34 @@ class SpudPage {
 				counter += 1
 			}
 
-			urlName = urlNamePrefix + urlNameNew
-			// TODO: Verify Does not exist in Permalink Database
+			def originalUrlName = getPersistentValue('urlName')
+
+
+			// Update Permalinks
+			SpudPermalink.withNewSession {
+				def permalink = spudPermalinkService.permalinkForUrl(urlNamePrefix + urlNameNew)
+				while(permalink) {
+					if(permalink.attachmentType == 'SpudPage' && permalink.attachmentId == this.id) {
+						permalink.delete()
+						permalink = null
+					} else {
+						urlNameNew = urlName + "-${counter}"
+						counter += 1
+						permalink = spudPermalinkService.permalinkForUrl(urlNamePrefix + urlNameNew)
+					}
+				}
+
+				if(originalUrlName != null && (urlNamePrefix + urlNameNew) != originalUrlName) {
+					spudPermalinkService.createPermalink(originalUrlName,this, urlNamePrefix + urlNameNew, this.siteId)
+				}
+
+				urlName = urlNamePrefix + urlNameNew
+			}
+
 
 		}
 
 	}
+
 }
 

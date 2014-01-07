@@ -3,6 +3,10 @@ package spud.core
 class DefaultSpudTemplateService {
 	def grailsApplication
 
+	def currentSiteId() {
+		return 0
+	}
+
 	def layoutsForSite(siteId=0) {
 		def layouts = grailsApplication.config.spud.core.layouts?.findAll{ !it.containsKey('siteId') || it.siteId == siteId}
 		return layouts

@@ -1,20 +1,23 @@
 package spud.admin
 import  spud.cms.*
 import  spud.core.*
+import grails.transaction.Transactional
+import grails.artefact.Artefact
 
 @SpudApp(name="Pages", thumbnail="spud/admin/pages_thumb.png")
 @SpudSecure(['PAGES'])
+@Artefact("Controller")
 class PagesController {
 	static namespace = 'spud_admin'
 	def grailsApplication
   def spudTemplateService
 
-  def index = {
+  def index() {
   	def pages = SpudPage.list([sort: 'pageOrder', spudPage: null] + params)
 		render view: '/spud/admin/pages/index', model:[pages: pages, pageCount: SpudPage.count()]
   }
 
-  def create = {
+  def create() {
   	def page            = new SpudPage()
     def templateService = spudTemplateService.activeTemplateService()
   	def partials        = newPartialsForLayout(grailsApplication.config.spud.cms.defaultLayout ?: 'application')
@@ -22,7 +25,7 @@ class PagesController {
   	render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials]
   }
 
-  def save = {
+  def save() {
     if(!params.page) {
       flash.error = "Page submission not specified"
       redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
@@ -50,7 +53,7 @@ class PagesController {
 
 
 
-  def edit = {
+  def edit() {
   	def page = loadPage()
     if(!page) {
       return
@@ -58,14 +61,24 @@ class PagesController {
     render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
   }
 
-  def update = {
+  def update() {
+    println "Updating Page"
   	def page = loadPage()
     if(!page) {
       return
     }
+    println "Assigning ${params.page}"
     page.properties += params.page
-    params.partial.each { partial ->
+    // params.partial.each { partial ->
+    // }
+
+    if(page.save(flush:true)) {
+      redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+    } else {
+      render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
     }
+
+
   }
 
   def delete = {
@@ -101,7 +114,7 @@ class PagesController {
 			return null
 		}
 
-		def page = SpudPage.get(params.id)
+		def page = SpudPage.read(params.id)
 		if(!page) {
 			flash.error = "Page not found!"
 			redirect controller: 'pages', action: 'index', namespace: 'spud_admin'

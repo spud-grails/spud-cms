@@ -1,5 +1,6 @@
 //= require spud/admin/preinit
 //= require jquery/jquery-1.9.1.min.js
+//= require grails_ujs
 //= require tiny_mce/jquery.tinymce.js
 //= require tiny_mce/tiny_mce_src.js
 //= require spud/admin/jquery.dataTables.min

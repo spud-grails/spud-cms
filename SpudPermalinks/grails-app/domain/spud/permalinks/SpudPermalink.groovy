@@ -1,6 +1,8 @@
 package spud.permalinks
 
 class SpudPermalink {
+
+	Integer siteId = 0
 	String urlName
 	String attachmentType
 	Long attachmentId
