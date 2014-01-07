@@ -47,4 +47,6 @@ grails.project.dependency.resolution = {
         }
     }
 }
+
+grails.plugin.location."spud-core" = "../SpudCore"
 grails.plugin.location."spud-permalinks" = "../SpudPermalinks"

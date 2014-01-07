@@ -69,3 +69,4 @@ grails.project.dependency.resolution = {
         }
     }
 }
+
