@@ -28,7 +28,12 @@ class SpudPermalinksFilters {
                 if(permalinks) {
                     def permalink = permalinks[0]
                     if(!permalink.destinationUrl.startsWith("/")) {
-                        redirect uri: "/" + permalinks[0].destinationUrl, permanent: true
+                        if(permalink.destinationUrl ==~ /(http|https|ftp)\:\/\/.*/) {
+                            redirect url: permalinks[0].destinationUrl, permanent: true
+                        } else {
+                            redirect uri: "/" + permalinks[0].destinationUrl, permanent: true
+                        }
+
                     } else {
                         redirect uri: permalinks[0].destinationUrl, permanent: true
                     }
