@@ -63,13 +63,12 @@ class SpudPermalinkService {
   def deletePermalinksForAttachment(attachment,siteId=0) {
     def objectType =  GrailsNameUtils.getShortName(attachment.class)
     def objectId   = attachment.id
-    def criteria = SpudPermalink.createCriteria() {
+    def deletions = SpudPermalink.createCriteria().list {
       eq('siteId', siteId)
       eq('attachmentType', objectType)
       eq('attachmentId', objectId)
     }
-
-    criteria.delete()
+    deletions*.delete()
   }
 
 }

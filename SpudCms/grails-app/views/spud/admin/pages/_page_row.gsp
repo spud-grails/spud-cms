@@ -7,7 +7,7 @@
 	<span class="edit_controls">
 		<spud:adminLink action="preview" id="${page.id}" title="Preview" class="btn">Preview</spud:adminLink>
 		&nbsp;&nbsp;
-		<spud:adminLink action="delete" id="${page.id}" title="Remove" data-confirm="Are you sure you want to remove this page?" class="btn btn-danger">Remove</spud:adminLink>
+		<spud:adminLink controller="pages" method="POST" data-method="post" action="delete" id="${page.id}" title="Remove" data-confirm="Are you sure you want to remove this page?" class="btn btn-danger">Remove</spud:adminLink>
 	</span>
 	<br style="clear:both;"/>
 </div>

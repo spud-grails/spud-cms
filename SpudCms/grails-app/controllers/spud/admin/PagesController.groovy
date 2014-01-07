@@ -28,7 +28,7 @@ class PagesController {
   def save() {
     if(!params.page) {
       flash.error = "Page submission not specified"
-      redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+      redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
       return
     }
 
@@ -40,7 +40,7 @@ class PagesController {
     }
 
     if(page.save(flush:true)) {
-      redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+      redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
       flash.error = "Error Saving Page"
 
@@ -73,7 +73,7 @@ class PagesController {
     // }
 
     if(page.save(flush:true)) {
-      redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+      redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
       render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
     }
@@ -83,6 +83,12 @@ class PagesController {
 
   def delete = {
   	def page = loadPage()
+    if(!page) {
+      return
+    }
+    page.delete()
+    redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
+
   }
 
   private layoutsForSite() {
@@ -110,14 +116,14 @@ class PagesController {
   private loadPage() {
   	if(!params.id) {
 			flash.error = "Page Submission not specified"
-			redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+			redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
 			return null
 		}
 
 		def page = SpudPage.read(params.id)
 		if(!page) {
 			flash.error = "Page not found!"
-			redirect controller: 'pages', action: 'index', namespace: 'spud_admin'
+			redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
 			return null
 		}
 		return page

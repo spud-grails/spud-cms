@@ -2,7 +2,6 @@ package spud.cms
 import spud.permalinks.*
 
 class SpudPage {
-
 	static hasMany = [pages: SpudPage, partials:SpudPagePartial ]
 	def spudPermalinkService
 
@@ -41,7 +40,7 @@ class SpudPage {
 
 	static constraints = {
 		name blank:false
-		urlName blank:false
+		urlName nullable:true
 		notes nullable: true
 		layout nullable: true
 		metaDescription nullable:true
@@ -64,6 +63,30 @@ class SpudPage {
 		}
 	}
 
+	private uniqueUrlName() {
+			def urlNamePrefix = ""
+			def urlName = name.replaceAll(" ", "-").replaceAll(":","-").replaceAll("-","-").replaceAll(",","-").toLowerCase()
+			if(spudPage) {
+				urlNamePrefix += spudPage.urlName + "/"
+			}
+			def urlNames = SpudPage.createCriteria().list {
+				ne('id', this.id)
+				eq('siteId', this.siteId)
+				projections {
+					property('urlName')
+				}
+			}
+
+			def counter = 1
+			def currentCounter = 0
+			def urlNameNew = urlName
+			while(urlNames.contains(urlNamePrefix + urlNameNew)) {
+				urlNameNew = urlName + "-${counter}"
+				currentCounter = counter
+				counter += 1
+			}
+			return [urlName: urlName, counter: currentCounter]
+	}
 	private generateUrlName() {
 		def original
 		if(!name) {
@@ -75,21 +98,14 @@ class SpudPage {
 		}
 
 		if(!this.userCustomUrlName || !this.urlName) { //If we need to generate a url name
-			urlName = name.replaceAll(" ", "-").replaceAll(":","-").replaceAll("-","-").replaceAll(",","-").toLowerCase()
-			def urlNames = SpudPage.createCriteria().list {
-				ne('id', this.id)
-				eq('siteId', this.siteId)
-				projections {
-					property('urlName')
-				}
+			def uniqueName = uniqueUrlName()
+			urlName = uniqueName.urlName
+			def urlNameNew = urlName
+			if(uniqueName.counter > 0 ) {
+				urlNameNew = uniqueName.urlName + "-${uniqueName.counter}"
 			}
 
-			def counter = 1
-			def urlNameNew = urlName
-			while(urlNames.contains(urlNamePrefix + urlNameNew)) {
-				urlNameNew = urlName + "-${counter}"
-				counter += 1
-			}
+
 
 			def originalUrlName = getPersistentValue('urlName')
 

@@ -18,7 +18,8 @@ class PageController {
 		if(!urlName) {
 			urlName = grailsApplication.config.spud.cms.defaultPage ?: 'home'
 		}
-		def page = SpudPage.findBySiteIdAndUrlName(siteId,urlName)
+		def page = request.getAttribute('spudPage') ?: SpudPage.findBySiteIdAndUrlName(siteId,urlName)
+
 		if(!page) {
 			println "Page Not Found"
 			// def permalink = spudPermalinkService.permalinkForUrl(params.id, siteId)
