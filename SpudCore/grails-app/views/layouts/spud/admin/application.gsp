@@ -5,8 +5,6 @@
   <asset:javascript src="spud/admin/application.js"/>
   <asset:stylesheet href="spud/admin/application.css"/>
 
-
-
   <g:layoutHead/>
 </head>
 <body>
@@ -22,29 +20,26 @@
 </div>
 <div id="breadcrumbs">
   <spud:breadcrumbs breadCrumbs="${breadCrumbs}"/>
-
-%{-- Add Breadcrumbs Here --}%
 </div>
 <div id="content">
-<% if (flash.notice) {%>
-  <div class="alert alert-success">
-    <a class="close" data-dismiss="alert">×</a>
-    <%= flash.notice %>
-  </div>
-<% } %>
-<% if(flash.warning) {%>
-  <div class="alert alert-warning">
-    <a class="close" data-dismiss="alert">×</a>
-    <%= flash.warning %>
-  </div>
-<% } %>
-<% if(flash.error) {%>
-
-<div class="alert alert-error">
-    <a class="close" data-dismiss="alert">×</a>
-	  <%= flash.error %>
-</div>
-<% } %>
+  <g:if test="${flash.notice}">
+    <div class="alert alert-success">
+      <a class="close" data-dismiss="alert">×</a>
+      ${flash.notice}
+    </div>
+  </g:if>
+  <g:if test="${flash.warning}">
+    <div class="alert alert-warning">
+      <a class="close" data-dismiss="alert">×</a>
+      ${flash.warning}
+    </div>
+  </g:if>
+  <g:if test="${flash.error}">
+    <div class="alert alert-error">
+        <a class="close" data-dismiss="alert">×</a>
+    	  ${flash.error}
+    </div>
+  </g:if>
   <g:layoutBody/>
 </div>
 

@@ -1,13 +1,18 @@
 package spud.security
 
 import grails.transaction.Transactional
-
+import org.springframework.security.web.savedrequest.GrailsSavedRequest
+import org.springframework.security.web.WebAttributes
 @Transactional
 class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 	def springSecurityService
 
 	def storeLocation(request) {
-		request.session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", request);
+		request.session.setAttribute('spudSecurityAuthSuccessTargetUrl', request.forwardURI)
+		// request.requestURI = request.forwardURI
+		// def savedRequest = new GrailsSavedRequest(request,new org.springframework.security.web.PortResolverImpl())
+		// println savedRequest.getRedirectUrl()
+		// request.session.setAttribute(WebAttributes.SAVED_REQUEST, savedRequest);
 	}
 
 	def getCurrentUser() {
