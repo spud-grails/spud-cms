@@ -1,15 +1,24 @@
 package spud.security
 
+import org.springframework.security.web.savedrequest.DefaultSavedRequest
+import org.springframework.security.web.WebAttributes
+import java.lang.reflect.Field
+
 class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 	static transactional = false
 	def springSecurityService
 
 	def storeLocation(request) {
-		request.session.setAttribute('spudSecurityAuthSuccessTargetUrl', request.forwardURI)
-		// request.requestURI = request.forwardURI
-		// def savedRequest = new GrailsSavedRequest(request,new org.springframework.security.web.PortResolverImpl())
-		// println savedRequest.getRedirectUrl()
-		// request.session.setAttribute(WebAttributes.SAVED_REQUEST, savedRequest);
+		def savedRequest = new DefaultSavedRequest(request,new org.springframework.security.web.PortResolverImpl())
+    try {
+       Field f = DefaultSavedRequest.getDeclaredField('requestURI')
+       f.accessible = true
+       f.set savedRequest, request.getForwardURI()
+    }
+    catch (ex) {
+       log.error "Error assigning request to spring security for auth success!"
+    }
+		request.session.setAttribute(WebAttributes.SAVED_REQUEST, savedRequest);
 	}
 
 	def getCurrentUser() {
