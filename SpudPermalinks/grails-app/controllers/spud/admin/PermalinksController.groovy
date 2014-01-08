@@ -29,7 +29,7 @@ class PermalinksController {
 			permalink.siteId = params.int('siteId')
 		}
 		if(permalink.save(flush:true)) {
-			redirect(controller: 'permalinks', action: 'index', namespace: 'spud_admin')
+			redirect(resource: 'permalinks', action: 'index', namespace: 'spud_admin')
 		} else {
 			flash.error = "Error saving permalink"
 			render view: '/spud/admin/permalinks/create', model:[permalink: permalink]
@@ -88,7 +88,7 @@ class PermalinksController {
 
 		if(!params.id) {
 			flash.error = "Permalink Submission not specified"
-			redirect controller: 'permalink', action: 'index', namespace: 'spud_admin'
+			redirect resource: 'permalink', action: 'index', namespace: 'spud_admin'
 			return null
 		}
 

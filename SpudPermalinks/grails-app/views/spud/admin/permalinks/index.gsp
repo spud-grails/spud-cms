@@ -1,7 +1,7 @@
 <g:applyLayout name="spud/admin/detail" >
 
 <content tag="data_controls">
-  <g:link action="create" namespace="spud_admin" title="New Permalink" class="btn btn-primary">New Permalink</g:link>
+  <spAdmin:link action="create" title="New Permalink" class="btn btn-primary">New Permalink</spAdmin:link>
 </content>
 <content tag="detail">
     <table class="admin-table data-table" id="usertable">
@@ -23,8 +23,8 @@
           <td>${permalink.attachmentType ?: 'N/A'}</td>
           <td>${permalink.dateCreated}</td>
           <td align="right">
-            <g:link action="edit" id="${permalink.id}" title="Edit ${permalink.urlName}" namespace="spud_admin" class="btn">Edit</g:link>
-            <g:link controller="permalinks" action="delete" namespace="spud_admin" method="POST" data-method="post" id="${permalink.id}" data-confirm="Are you sure you want to remove this permalink?" class="btn btn-danger">Remove</g:link>
+            <spAdmin:link action="edit" id="${permalink.id}" title="Edit ${permalink.urlName}" class="btn">Edit</spAdmin:link>
+            <spAdmin:link resource="permalinks" action="delete" data-method="DELETE" id="${permalink.id}" data-confirm="Are you sure you want to remove this permalink?" class="btn btn-danger">Remove</spAdmin:link>
           </td>
         </tr>
       </g:each>

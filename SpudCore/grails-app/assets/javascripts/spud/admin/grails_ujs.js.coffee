@@ -40,12 +40,12 @@ handleMethod = (link) ->
   target = link.attr('target')
 
   form   = $('<form method="post" action="' + href + '"></form>')
-  form   = $('<form method="' + method + '" action="' + href + '"></form>')
-  # metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
+  form   = $('<form method="' + "post" + '" action="' + href + '"></form>')
+  metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
 
   if target
     form.attr('target',target)
-    # append(metadataInput)
+  form.append(metadataInput)
   form.hide().appendTo('body');
   form.submit()
 

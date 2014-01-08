@@ -1,7 +1,7 @@
 <g:applyLayout name="spud/admin/detail" >
 
 <content tag="data_controls">
-  <spud:adminLink action="create" title="New Page" class="btn btn-primary">New Page</spud:adminLink>
+  <spAdmin:link action="create" title="New Page" class="btn btn-primary">New Page</spAdmin:link>
 </content>
 <content tag="detail">
   <div class="page_list">

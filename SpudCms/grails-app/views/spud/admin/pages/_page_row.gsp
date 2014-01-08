@@ -1,13 +1,13 @@
 <div class="page_row">
 
 	<span class="row_meta">
-		<spud:adminLink resource="pages" action="edit" id="${page.id}">${page.name}</spud:adminLink>
+		<spAdmin:link resource="pages" action="edit" id="${page.id}">${page.name}</spAdmin:link>
 	</span>
 
 	<span class="edit_controls">
-		<spud:adminLink action="preview" id="${page.id}" title="Preview" class="btn">Preview</spud:adminLink>
+		<spAdmin:link action="preview" id="${page.id}" title="Preview" class="btn">Preview</spAdmin:link>
 		&nbsp;&nbsp;
-		<spud:adminLink controller="pages" method="POST" data-method="post" action="delete" id="${page.id}" title="Remove" data-confirm="Are you sure you want to remove this page?" class="btn btn-danger">Remove</spud:adminLink>
+		<spAdmin:link resource="pages" data-method="DELETE" action="delete" id="${page.id}" title="Remove" data-confirm="Are you sure you want to remove this page?" class="btn btn-danger">Remove</spAdmin:link>
 	</span>
 	<br style="clear:both;"/>
 </div>

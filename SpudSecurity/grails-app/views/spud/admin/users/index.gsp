@@ -1,7 +1,7 @@
 <g:applyLayout name="spud/admin/detail" >
 
 <content tag="data_controls">
-  <g:link action="create" namespace="spud_admin" title="New User" class="btn btn-primary">New User</g:link>
+  <spAdmin:link action="create" title="New User" class="btn btn-primary">New User</spAdmin:link>
 </content>
 <content tag="detail">
     <table class="admin-table data-table" id="usertable">
@@ -20,7 +20,7 @@
       <g:each var="user" in="${users}">
 
         <tr id="row_user_<%=user.id%>">
-          <td><g:link action="edit" id="${user.id}" title="Edit ${user.login}" namespace="spud_admin">${user.login}</g:link></td>
+          <td><spAdmin:link action="edit" id="${user.id}" title="Edit ${user.login}">${user.login}</spAdmin:link></td>
 
           <td>${user.email}</td>
           <td>${user.firstName}&nbsp;${user.lastName}</td>
@@ -28,7 +28,7 @@
           <td></td>
           <td>${user.dateCreated}</td>
           <td align="right">
-            <g:link controller="user" namespace="spud_admin" action="delete" id="${user.id}" date-confirm="Are you sure you want to remove this user?" class="btn btn-danger">Remove</g:link>
+            <spAdmin:link controller="user" action="delete" id="${user.id}" date-confirm="Are you sure you want to remove this user?" class="btn btn-danger">Remove</spAdmin:link>
           </td>
         </tr>
       </g:each>

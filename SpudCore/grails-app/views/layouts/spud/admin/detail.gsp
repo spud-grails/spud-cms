@@ -13,10 +13,10 @@
   		<h2>
 
 				<span class="thumb_wrapper">
-          <spud:pageThumbnail/>
+          <spAdmin:pageThumbnail/>
         </span>
 
-  			<spud:pageName/>
+  			<spAdmin:pageName/>
   		</h2>
 
   		<div id="details">

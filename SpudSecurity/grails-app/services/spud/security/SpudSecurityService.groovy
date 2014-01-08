@@ -1,7 +1,7 @@
 package spud.security
 
 import grails.transaction.Transactional
-import org.springframework.security.web.savedrequest.GrailsSavedRequest
+// import org.springframework.security.web.savedrequest.GrailsSavedRequest
 import org.springframework.security.web.WebAttributes
 @Transactional
 class SpudSecurityService extends spud.core.AbstractSpudSecurityService {

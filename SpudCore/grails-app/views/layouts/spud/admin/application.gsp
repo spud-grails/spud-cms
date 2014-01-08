@@ -14,12 +14,12 @@
 
 
 	<div id="user_meta">
-		<span class="greeting">Hello <spud:currentUserDisplayName/></span>&nbsp;|&nbsp;<g:link controller="spudUser" action="settings">Settings</g:link>&nbsp;|&nbsp;<spud:logoutLink>Logout</spud:logoutLink>
+		<span class="greeting">Hello <spAdmin:currentUserDisplayName/></span>&nbsp;|&nbsp;<g:link controller="spudUser" action="settings">Settings</g:link>&nbsp;|&nbsp;<spAdmin:logoutLink>Logout</spAdmin:logoutLink>
 	</div>
 
 </div>
 <div id="breadcrumbs">
-  <spud:breadcrumbs breadCrumbs="${breadCrumbs}"/>
+  <spAdmin:breadcrumbs breadCrumbs="${breadCrumbs}"/>
 </div>
 <div id="content">
   <g:if test="${flash.notice}">

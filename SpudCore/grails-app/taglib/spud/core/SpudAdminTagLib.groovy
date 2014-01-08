@@ -1,9 +1,9 @@
 package spud.core
 
-class SpudCoreTagLib {
+class SpudAdminTagLib {
     static defaultEncodeAs = 'html'
-    static namespace = 'spud'
-    static encodeAsForTags = [logoutLink: 'raw', breadcrumbs: 'raw', pageThumbnail:'raw', adminLink:'raw']
+    static namespace = 'spAdmin'
+    static encodeAsForTags = [logoutLink: 'raw', breadcrumbs: 'raw', pageThumbnail:'raw', link:'raw']
 
     def grailsApplication
     def spudSecurity
@@ -39,9 +39,9 @@ class SpudCoreTagLib {
         def crumbLinks      = []
         def controllerClass = grailsApplication.getArtefactByLogicalPropertyName('Controller', pageScope.controllerName)
         def annotation      = controllerClass.clazz.getAnnotation(spud.core.SpudApp)
-        crumbLinks << adminLink([controller: 'dashboard', action: 'index'],"Dashboard")
+        crumbLinks << link([controller: 'dashboard', action: 'index'],"Dashboard")
         if(annotation) {
-            crumbLinks << adminLink([controller: pageScope.controllerName, action: 'index'], "${annotation.name()}")
+            crumbLinks << link([controller: pageScope.controllerName, action: 'index'], "${annotation.name()}")
         }
         if(pageScope.actionName != 'index') {
             crumbLinks << pageScope.actionName //TODO: Title Case this
@@ -50,7 +50,7 @@ class SpudCoreTagLib {
         out << crumbLinks.join("&nbsp;/&nbsp;")
     }
 
-    def adminLink = { attrs, body ->
+    def link = { attrs, body ->
         out << g.link(attrs + [namespace: 'spud_admin'],body)
     }
 }

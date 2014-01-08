@@ -18,7 +18,7 @@ class SpudPageUrlMappings {
 
 
 		"/spud/admin/pages"(resources: "pages", namespace: "spud_admin")
-		"/spud/admin/pages/$id/delete"(controller: "pages", action: "delete", method: "POST", namespace: "spud_admin")
+		// "/spud/admin/pages/$id/delete"(controller: "pages", action: "delete", method: "POST", namespace: "spud_admin")
 
 		"/$id**" (
 			controller: 'page',
