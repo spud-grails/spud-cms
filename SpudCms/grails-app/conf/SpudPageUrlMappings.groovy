@@ -3,22 +3,12 @@ class SpudPageUrlMappings {
 	static mappings = {
 
 
-		"/spud/admin/pages"(
-			controller: 'pages',
-			namespace: 'spud_admin',
-			action: 'index'
-		)
-
-		"/spud/admin/pages"(
-			controller: 'pages',
-			namespace: 'spud_admin',
-			action: [GET:'index', POST: 'save']
-		)
-
-
 
 		"/spud/admin/pages"(resources: "pages", namespace: "spud_admin")
-		// "/spud/admin/pages/$id/delete"(controller: "pages", action: "delete", method: "POST", namespace: "spud_admin")
+		"/spud/admin/snippets"(resources: "snippets", namespace: "spud_admin")
+		"/spud/admin/menus"(resources: "menus", namespace: "spud_admin") {
+			"menu_items"(resources: "menu_items", namespace: "spud_admin")
+		}
 
 		"/$id**" (
 			controller: 'page',

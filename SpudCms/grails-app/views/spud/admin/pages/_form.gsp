@@ -13,8 +13,8 @@
 	</ul>
 	<g:each var="partial" in="${partials}">
 		<div class="formtab tab-pane">
-			<g:hiddenField name="partialName" value="${partial.name}" class="tab_name"/>
-			<g:textArea name="partial.${partial.name}" class="tinymce" value="${partial.content}"/>
+			<g:hiddenField name="partial.${partial.symbolName}.name" value="${partial.name}" class="tab_name"/>
+			<g:textArea name="partial.${partial.symbolName}.content" class="tinymce" value="${partial.content}"/>
 		</div>
 	</g:each>
 </div>

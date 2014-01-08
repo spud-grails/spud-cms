@@ -33,10 +33,13 @@ class PagesController {
     }
 
     def page = new SpudPage(params.page)
-
+    println "Printing Partials Hash"
+    println params.partial
     params.partial.each { partial ->
-      def partialRecord = new SpudPagePartial(name: partial.key, content: partial.value)
-      page.addToPartials(partialRecord)
+      if(partial.key.indexOf(".") == -1) {
+        def partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content)
+        page.addToPartials(partialRecord)
+      }
     }
 
     if(page.save(flush:true)) {
@@ -67,10 +70,21 @@ class PagesController {
     if(!page) {
       return
     }
-    println "Assigning ${params.page}"
     page.properties += params.page
-    // params.partial.each { partial ->
-    // }
+
+    params.partial.each { partial ->
+      if(partial.key.indexOf(".") == -1) {
+        def partialRecord = page.partials.find { it.symbolName == partial.key}
+        if(!partialRecord) {
+          partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content)
+          page.addToPartials(partialRecord)
+        } else {
+          partialRecord.content = partial.value.content
+          partialRecord.save(flush:true)
+        }
+      }
+    }
+
 
     if(page.save(flush:true)) {
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
@@ -107,7 +121,7 @@ class PagesController {
     def partials = []
     if(layout) {
       layout.partials.each {
-        partials << new SpudPagePartial(name: it.key, content: null)
+        partials << new SpudPagePartial(symbolName: it.key, name: it.key, content: null)
       }
     }
     return partials

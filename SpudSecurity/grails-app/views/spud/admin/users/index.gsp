@@ -36,7 +36,7 @@
     <tfoot>
       <tr>
         <td colspan="6">
-          <g:paginate controller="user" action="index" namespace="spud_admin" total="${userCount}" max="25" />
+          <g:paginate resource="user" action="index" namespace="spud_admin" total="${userCount}" max="25" />
         </td>
       </tr>
     </tfoot>

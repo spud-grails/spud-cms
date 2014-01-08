@@ -20,11 +20,27 @@ class SnippetsController {
 	}
 
 	def create = {
-
+		def snippet = new SpudSnippet()
+  	render view: '/spud/admin/snippets/create', model:[snippet: snippet]
 	}
 
 	def save = {
+    if(!params.snippet) {
+      flash.error = "Snippet submission not specified"
+      redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
+      return
+    }
 
+    def snippet = new SpudSnippet(params.snippet)
+
+
+
+    if(snippet.save(flush:true)) {
+      redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
+    } else {
+      flash.error = "Error Saving Snippet"
+      render view: '/spud/admin/snippets/create', model:[snippet:snippet]
+    }
 	}
 
 	def edit = {
@@ -32,6 +48,8 @@ class SnippetsController {
 		if(!snippet) {
 			return
 		}
+    render view: '/spud/admin/snippets/edit', model: [snippet: snippet]
+
 	}
 
 	def update = {
@@ -39,6 +57,14 @@ class SnippetsController {
 		if(!snippet) {
 			return
 		}
+    snippet.properties += params.snippet
+
+
+    if(snippet.save(flush:true)) {
+      redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
+    } else {
+      render view: '/spud/admin/snippets/edit', model: [snippet: snippet]
+    }
 	}
 
 	def delete = {
@@ -46,6 +72,9 @@ class SnippetsController {
 		if(!snippet) {
 			return
 		}
+		snippet.delete()
+		flash.notice = "Snippet Removed Successfully!"
+    redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
 	}
 
 	private loadSnippet() {
