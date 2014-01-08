@@ -11,27 +11,22 @@ class SpudCoreGrailsPlugin {
 				"grails-app/views/error.gsp"
 		]
 
-		// TODO Fill in these fields
 		def title = "Spud Core Plugin" // Headline display name of the plugin
 		def author = "David Estes"
 		def authorEmail = "destes@bcap.com"
 		def description = '''\
-Brief summary/description of the plugin.
-'''
+Spud Admin is a dependency package that adds a nice looking administrative panel to any project you add it to. It supports easy grails app integration and there are several planned future engines that we plan on designing for the spud suite.
+		'''
 
 		// URL to the plugin's documentation
 		def documentation = "http://grails.org/plugin/spud-core"
-
-		// Extra (optional) plugin metadata
-
-		// License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
+   def license = "APACHE"
 
 		// Details of company behind the plugin (if there is one)
 //    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
 
-		// Any additional developers beyond the author specified above.
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
+	// Any additional developers beyond the author specified above.
+	def developers = [ [ name: "Brian Wheeler", email: "bwheeler@bcap.com" ]]
 
 		// Location of the plugin's issue tracker.
 //    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
