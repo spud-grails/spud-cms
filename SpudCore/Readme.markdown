@@ -17,7 +17,6 @@ Creating a grails plugin that ties into spud admin is fairly straight forward. U
 ```groovy
 package spud.admin
 import  spud.core.*
-import  spud.security.*
 
 @SpudApp(name="Users", thumbnail="spud/admin/users_thumb.png")
 @SpudSecure(['USERS'])
