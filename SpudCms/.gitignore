@@ -1,0 +1,12 @@
+#IDE files
+.idea
+*.iml
+.project
+.classpath
+
+#plugin files
+*.zip
+plugin.xml
+
+#build / work directory
+target
