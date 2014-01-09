@@ -8,7 +8,7 @@ class SnippetsController {
 	static namespace = "spud_admin"
 
 	def index = {
-		def snippets = SpudSnippet.list([sort: 'name'] + params)
+		def snippets = SpudSnippet.list([sort: 'name', max:25] + params)
 		render view: '/spud/admin/snippets/index', model:[snippets: snippets, snippetCount: SpudSnippet.count()]
 	}
 

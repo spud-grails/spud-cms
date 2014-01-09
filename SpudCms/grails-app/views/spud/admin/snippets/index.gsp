@@ -3,7 +3,7 @@
     <spAdmin:link resource="snippets" action="create" class="btn btn-primary" title="New Snippet">New Snippet</spAdmin:link>
   </content>
   <content tag="detail">
-
+    <p class="lead">Snippets are reusable chunks of content that can be injected into your pages and layouts.</p>
     <div class="page_list">
         <g:each var="snippet" in="${snippets}">
           <div class="page_row">

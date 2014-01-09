@@ -3,7 +3,9 @@
 <content tag="data_controls">
   <spAdmin:link action="create" title="New Permalink" class="btn btn-primary">New Permalink</spAdmin:link>
 </content>
+
 <content tag="detail">
+  <p class="lead">Permalinks allow you to define a url that can be redirected to another location. Useful for moving pages and content without sacrificing SEO.</p>
     <table class="admin-table data-table" id="usertable">
     <thead>
       <tr>
@@ -23,7 +25,9 @@
           <td>${permalink.attachmentType ?: 'N/A'}</td>
           <td>${permalink.dateCreated}</td>
           <td align="right">
-            <spAdmin:link action="edit" id="${permalink.id}" title="Edit ${permalink.urlName}" class="btn">Edit</spAdmin:link>
+            <g:if test="${!permalink.attachmentType}">
+              <spAdmin:link action="edit" id="${permalink.id}" title="Edit ${permalink.urlName}" class="btn">Edit</spAdmin:link>
+            </g:if>
             <spAdmin:link resource="permalinks" action="delete" data-method="DELETE" id="${permalink.id}" data-confirm="Are you sure you want to remove this permalink?" class="btn btn-danger">Remove</spAdmin:link>
           </td>
         </tr>

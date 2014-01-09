@@ -15,6 +15,8 @@ class SpudPermalink {
   static constraints = {
   	attachmentType nullable: true
   	attachmentId nullable: true
+  	siteId index: true
+  	// TODO: Create Index Compound on attachmentType, attachmentId
   }
 
 	static mapping = {
