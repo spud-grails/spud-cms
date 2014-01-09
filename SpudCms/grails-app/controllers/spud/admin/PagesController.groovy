@@ -32,8 +32,7 @@ class PagesController {
     }
 
     def page = new SpudPage(params.page)
-    println "Printing Partials Hash"
-    println params.partial
+
     params.partial.each { partial ->
       if(partial.key.indexOf(".") == -1) {
         def partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content)
@@ -58,23 +57,38 @@ class PagesController {
     if(!page) {
       return
     }
-    render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
+    def partials = newPartialsForLayout(page.layout, page.partials)
+
+    render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: partials]
   }
 
   def update() {
-    println "Updating Page"
   	def page = loadPage()
     if(!page) {
       return
     }
     page.properties += params.page
+    def partialsToDelete = []
+    page.partials.each { partial ->
+      def partialParam = params.partial.find { it.key == partial.symbolName }
+      if(!partialParam || !partialParam.value.content) {
+        partialsToDelete << partial
+      }
+    }
+
+    partialsToDelete.each {
+      page.removeFromPartials(it)
+      it.delete()
+    }
 
     params.partial.each { partial ->
       if(partial.key.indexOf(".") == -1) {
         def partialRecord = page.partials.find { it.symbolName == partial.key}
         if(!partialRecord) {
-          partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content)
-          page.addToPartials(partialRecord)
+          if(partial.value.content) {
+            partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content)
+            page.addToPartials(partialRecord)
+          }
         } else {
           partialRecord.content = partial.value.content
           partialRecord.save(flush:true)
@@ -92,7 +106,7 @@ class PagesController {
 
   }
 
-  def delete = {
+  def delete() {
   	def page = loadPage()
     if(!page) {
       return
@@ -102,11 +116,42 @@ class PagesController {
 
   }
 
+
+  def pageParts() {
+    def layoutName = params.template ?: grailsApplication.config.spud.cms.defaultLayout ?: 'application'
+    def layouts = layoutsForSite()
+    def layout = layouts.find { it.layout == layoutName }
+    if(!layout) {
+      layout = layouts[0]
+    }
+    if(layout) {
+      def page = SpudPage.read(params.id)
+      if(!page) {
+        page = new SpudPage()
+      }
+
+      def oldPagePartials = page.partials
+      def newPagePartials = []
+      layout.html.each { partial ->
+        newPagePartials << new SpudPagePartial(symbolName: partial.parameterize(), name: partial)
+      }
+
+      newPagePartials.each { partial ->
+        def oldPartial = oldPagePartials.find { partial.symbolName == it.symbolName}
+        if(oldPartial) {
+          partial.content = oldPartial.content
+          partial.format  = oldPartial.format
+        }
+      }
+        render template: "/spud/admin/pages/page_partials_form", model: [partials: newPagePartials, removePartials: oldPagePartials]
+    }
+  }
+
   private layoutsForSite() {
     return layoutParserService.layoutsForSite(0)
   }
 
-  private newPartialsForLayout(layoutName=null) {
+  private newPartialsForLayout(layoutName=null, existingPartials=null) {
 
     def layoutsForSite  = layoutParserService.layoutsForSite(0)
     def defaultLayoutName = grailsApplication.config.spud.cms.defaultLayout ?: 'application'
@@ -120,9 +165,14 @@ class PagesController {
     }
 
     def partials = []
+    if(existingPartials) {
+      partials += existingPartials
+    }
     if(layout) {
       layout.html.each {
-        partials << new SpudPagePartial(symbolName: it.parameterize(), name: it, content: null)
+        if(!partials.find{ep -> ep.symbolName == it.parameterize()}) {
+          partials << new SpudPagePartial(symbolName: it.parameterize(), name: it, content: null)
+        }
       }
     }
     return partials

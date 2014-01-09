@@ -26,7 +26,7 @@
 			<div class="control-group">
 				<label for="page.layout" class="control-label">Template</label>
 				<div class="controls">
-					<g:select name="page.layout" from="${layouts}" value="${page?.layout}" optionKey="name" optionValue="name"/>
+					<g:select name="page.layout" from="${layouts}" value="${page?.layout}" optionKey="layout" optionValue="name" id="spud_page_layout" data-source="${createLink(controller: 'pages', namespace: 'spud_admin', action:'pageParts', id: page.id)}"/>
 
 					<span class="help-inline">Use this to control the layout template to be used for this page if they are available.</span>
 				</div>

@@ -38,7 +38,7 @@ class SpudCoreGrailsPlugin {
         }
 
         String.metaClass.parameterize = {
-            def output = delegate.replaceAll(/[^A-Za-z0-9\-_]+/,"-")
+            def output = delegate.replaceAll(/[^A-Za-z0-9\-_]+/,"-").toLowerCase()
         }
 
         String.metaClass.titlecase = {
