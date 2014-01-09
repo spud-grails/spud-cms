@@ -2,7 +2,7 @@ package spud.admin
 import  spud.cms.*
 import  spud.core.*
 
-@SpudApp(name="Menus", thumbnail="spud/admin/menus_thumb.png")
+// @SpudApp(name="Menus", thumbnail="spud/admin/menus_thumb.png")
 @SpudSecure(['MENUS'])
 class MenuItemsController {
 	static namespace = "spud_admin"
