@@ -1,4 +1,4 @@
-<plugin name='spud-core' version='0.1-SNAPSHOT' grailsVersion='2.3 &gt; *'>
+<plugin name='spud-core' version='0.1-SNAPSHOT' grailsVersion='2.3.4 &gt; *'>
   <author>David Estes</author>
   <authorEmail>destes@bcap.com</authorEmail>
   <title>Spud Core Plugin</title>
@@ -12,9 +12,9 @@
     <resource>spud.core.admin.DashboardController</resource>
     <resource>spud.core.AbstractSpudSecurityService</resource>
     <resource>spud.core.AdminApplicationService</resource>
+    <resource>spud.core.DefaultSpudLayoutService</resource>
     <resource>spud.core.DefaultSpudRendererService</resource>
-    <resource>spud.core.DefaultSpudTemplateService</resource>
-    <resource>spud.core.SpudTemplateService</resource>
-    <resource>spud.core.SpudCoreTagLib</resource>
+    <resource>spud.core.SpudLayoutService</resource>
+    <resource>spud.core.SpudAdminTagLib</resource>
   </resources>
 </plugin>

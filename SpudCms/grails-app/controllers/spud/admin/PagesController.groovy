@@ -10,7 +10,7 @@ import grails.artefact.Artefact
 class PagesController {
 	static namespace = 'spud_admin'
 	def grailsApplication
-  def spudTemplateService
+  def layoutParserService
 
   def index() {
   	def pages = SpudPage.list([sort: 'pageOrder', spudPage: null] + params)
@@ -18,9 +18,8 @@ class PagesController {
   }
 
   def create() {
-  	def page            = new SpudPage()
-    def templateService = spudTemplateService.activeTemplateService()
-  	def partials        = newPartialsForLayout(grailsApplication.config.spud.cms.defaultLayout ?: 'application')
+  	def page     = new SpudPage()
+  	def partials = newPartialsForLayout(grailsApplication.config.spud.cms.defaultLayout)
 
   	render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials]
   }
@@ -46,9 +45,7 @@ class PagesController {
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
       flash.error = "Error Saving Page"
-
-      def templateService   = spudTemplateService.activeTemplateService()
-      def partials          = page.partials
+      def partials = page.partials
       render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials]
     }
 
@@ -106,22 +103,26 @@ class PagesController {
   }
 
   private layoutsForSite() {
-    def templateService   = spudTemplateService.activeTemplateService()
-    return templateService.layoutsForSite(0)
+    return layoutParserService.layoutsForSite(0)
   }
 
-  private newPartialsForLayout(layoutName) {
-    def templateService = spudTemplateService.activeTemplateService()
-    def layoutsForSite  = templateService.layoutsForSite(0)
+  private newPartialsForLayout(layoutName=null) {
+
+    def layoutsForSite  = layoutParserService.layoutsForSite(0)
     def defaultLayoutName = grailsApplication.config.spud.cms.defaultLayout ?: 'application'
-    def layout   = layoutsForSite.find { it.name == layoutName}
+    if(!layoutName) {
+      layoutName = defaultLayoutName
+    }
+
+    def layout = layoutsForSite.find { it.layout == layoutName}
     if(!layout) {
       layout = layoutsForSite[0]
     }
+
     def partials = []
     if(layout) {
-      layout.partials.each {
-        partials << new SpudPagePartial(symbolName: it.key, name: it.key, content: null)
+      layout.html.each {
+        partials << new SpudPagePartial(symbolName: it.parameterize(), name: it, content: null)
       }
     }
     return partials

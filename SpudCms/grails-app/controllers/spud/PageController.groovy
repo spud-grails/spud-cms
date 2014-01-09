@@ -6,7 +6,7 @@ import spud.permalinks.*
 
 class PageController {
 	def grailsApplication
-	def spudTemplateService
+	def spudLayoutService
 	def spudPermalinkService
 
 	static layout = null
@@ -22,18 +22,14 @@ class PageController {
 
 		if(!page) {
 			println "Page Not Found"
-			// def permalink = spudPermalinkService.permalinkForUrl(params.id, siteId)
-			// if(permalink) {
-			// 	println "Rediecting to ${permalink.destinationUrl}"
-			// 	redirect(url: "/" + permalink.destinationUrl, permanent: true)
-			// } else {
-				render status: 404
-			// }
+			render status: 404
 			return
 		}
 		println "Rendering Page ${urlName}"
-		def templateService = spudTemplateService.activeTemplateService(page.templateEngine)
-		render templateService.render('/spud/page/show', [model: [page:page], layout: page.layout])
+
+		// def layoutService = spudLayoutService.layoutServiceForSite(siteId)
+		// println "Layouts: ${layoutService.layoutsForSite()}"
+		render view: '/spud/page/show', model: [page:page], layout: page.layout
 
 	}
 }

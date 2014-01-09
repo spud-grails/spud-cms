@@ -1,7 +1,6 @@
 <%
-//= template_name Page
+//= template_name Home
 //= html Body
-//= html Sidebar
 %>
 
 <!DOCTYPE html>
@@ -28,10 +27,6 @@
 
 		<g:pageProperty name="page.body"/>
 
-
-		<div id="sidebar">
-			<g:pageProperty name="page.sidebar"/>
-		</div>
 		<div class="footer" role="contentinfo"></div>
 	</body>
 </html>

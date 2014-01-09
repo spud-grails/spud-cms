@@ -20,14 +20,55 @@ class SpudCoreGrailsPlugin {
     def issueManagement = [system: "GITHUB", url: "https://github.com/bertramdev/spud-grails/issues"]
     def scm = [url: "https://github.com/bertramdev/spud-grails"]
 
+
+    def doWithDynamicMethods = {
+        String.metaClass.camelize = {
+          delegate.split("-").inject(""){ before, word ->
+            before += word[0].toUpperCase() + word[1..-1]
+          }
+        }
+
+        String.metaClass.underscore = {
+            def output = delegate.replaceAll("-","_")
+            output.replaceAll(/\B[A-Z]/) { '_' + it }.toLowerCase()
+        }
+
+        String.metaClass.humanize = {
+            def output = delegate.replaceAll(/[\_\-]+/," ")
+        }
+
+        String.metaClass.parameterize = {
+            def output = delegate.replaceAll(/[^A-Za-z0-9\-_]+/,"-")
+        }
+
+        String.metaClass.titlecase = {
+            def output = delegate.replaceAll( /\b[a-z]/, { it.toUpperCase() })
+        }
+
+    }
+
     def doWithSpring = {
         def beanName = application.config.spud.securityService ? application.config.spud.securityService : 'abstractSpudSecurityService'
         springConfig.addAlias "spudSecurity", beanName
 
         application.config.spud.renderers = application.config.spud.renderers ?: [:]
-        application.config.spud.templateEngines = application.config.spud.templateEngines ?: [:]
+        application.config.spud.layoutEngines = application.config.spud.layoutEngines ?: [:]
         application.config.spud.renderers.gsp = 'defaultSpudRendererService'
-        application.config.spud.templateEngines.system = 'defaultSpudTemplateService'
+        application.config.spud.layoutEngines.system = 'defaultSpudLayoutService'
+
+        // Load In Cached Layout List
+        if(application.warDeployed) {
+            application.config.spud.core.layouts = []
+            def layoutList = application.parentContext.getResource("WEB-INF/spudLayouts.txt")
+            if(layoutList.exists()) {
+                def contents = layoutList.inputStream.text
+                if(contents) {
+                    application.config.spud.core.layouts = contents.split("\n")
+                }
+            }
+            println "Spud Layouts Loaded ${application.config.spud.core.layouts}"
+        }
+
     }
 
     def doWithApplicationContext = { ctx ->
