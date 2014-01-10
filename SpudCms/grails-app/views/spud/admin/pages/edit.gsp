@@ -2,7 +2,7 @@
 
 	<content tag="detail">
 		<g:form name="edit_page" url="[action: 'show',controller: 'pages',namespace: 'spud_admin', id: page.id]" method="PUT" class="form-horizontal">
-			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials]" />
+			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials, pageOptions: pageOptions]" />
 
 			<div class="form-actions">
 				<g:submitButton name="_submit" value="Save Page" class="btn btn-primary"/>

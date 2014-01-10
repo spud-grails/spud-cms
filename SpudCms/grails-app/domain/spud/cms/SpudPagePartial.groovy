@@ -33,10 +33,10 @@ class SpudPagePartial {
 
 
 	public String getContentProcessed() {
-		if(this.contentProcessed) {
-			return this.contentProcessed
-		}
-		// TODO : Find out if a renderer / formatter is needed on the content
+		// if(this.contentProcessed) {
+		// 	return this.contentProcessed
+		// }
+		// // TODO : Find out if a renderer / formatter is needed on the content
 		return content
 	}
 }

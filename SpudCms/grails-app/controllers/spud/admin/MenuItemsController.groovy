@@ -1,8 +1,9 @@
 package spud.admin
 import  spud.cms.*
 import  spud.core.*
+import groovy.json.*
 
-// @SpudApp(name="Menus", thumbnail="spud/admin/menus_thumb.png")
+@SpudApp(name="Menus", subsection="Menu Items", thumbnail="spud/admin/menus_thumb.png")
 @SpudSecure(['MENUS'])
 class MenuItemsController {
 	static namespace = "spud_admin"
@@ -12,31 +13,60 @@ class MenuItemsController {
 		if(!menu) {
 			return
 		}
-		def menuItems = SpudMenuItem.findAllByMenu(menu)
-		render view: '/spud/admin/menu_items/index', model:[menuItems: menuItems]
+
+		def menuItems = SpudMenuItem.withCriteria(readOnly:true) {
+			eq('menu',menu)
+			eq('parentType','SpudMenu')
+			order('menuOrder')
+		}
+
+		render view: '/spud/admin/menu_items/index', model:[menuItems: menuItems, menu: menu]
 	}
 
 	def create() {
-		def menu = new SpudMenu()
-  	render view: '/spud/admin/menus/create', model:[menu: menu]
+		def menu = loadMenu()
+		if(!menu) {
+			return
+		}
+		def menuItem = new SpudMenuItem(menu: menu)
+		def menuParentOptions = SpudMenuItem.optionsTreeForItem(menu)
+  	render view: '/spud/admin/menu_items/create', model:[menuItem: menuItem, pageOptions: SpudPage.optionsTreeForPage(), menuParentOptions: menuParentOptions, menu: menu]
 	}
 
 	def save() {
-    if(!params.menu) {
-      flash.error = "Menu submission not specified"
-      redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
+		def menu = loadMenu()
+		if(!menu) {
+			return
+		}
+    if(!params.menuItem) {
+      flash.error = "Menu Item submission not specified"
+      redirect resource: 'menus/menuItems', action: 'index', menusId: menu.id, namespace: 'spud_admin'
       return
     }
+    def menuItemParams = params.menuItem.clone()
+    menuItemParams.remove('parentId')
+		def menuItem = new SpudMenuItem(menuItemParams)
+		menuItem.menu = menu
+		if(!params.menuItem.parentId) {
+			menuItem.parent = menu
+		} else {
+			def parentMenuItem = SpudMenuItem.findByMenuAndId(menu,params.menuItem.parentId)
+			if(parentMenuItem) {
+				menuItem.parent = parentMenuItem
+			}
+		}
 
-    def menu = new SpudMenu(params.menu)
+			def highestSiblings = menuItem.parent.menuItems.sort{ -it.menuOrder }
+			if(highestSiblings && highestSiblings.size() > 0) {
+				menuItem.menuOrder = highestSiblings[0].menuOrder + 1
+			}
 
 
-
-    if(menu.save(flush:true)) {
-      redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
+    if(menuItem.save(flush:true)) {
+      redirect resource: 'menus/menuItems', action: 'index', menusId: menu.id, namespace: 'spud_admin'
     } else {
-      flash.error = "Error Saving Menu"
-      render view: '/spud/admin/menus/create', model:[menu:menu]
+      flash.error = "Error Saving Menu Item"
+      render view: '/spud/admin/menu_items/create', model:[menuItem:menuItem, pageOptions: SpudPage.optionsTreeForPage(), menuParentOptions: SpudMenuItem.optionsTreeForItem(menu), menu: menu]
     }
 	}
 
@@ -45,7 +75,11 @@ class MenuItemsController {
 		if(!menu) {
 			return
 		}
-    render view: '/spud/admin/menus/edit', model: [menu: menu]
+		def menuItem = loadMenuItem(menu)
+		if(!menuItem) {
+			return
+		}
+    render view: '/spud/admin/menu_items/edit', model: [menu: menu, menuItem: menuItem, pageOptions: SpudPage.optionsTreeForPage(), menu: menu, menuParentOptions: SpudMenuItem.optionsTreeForItem(menu,[filter: menuItem.id])]
 
 	}
 
@@ -54,12 +88,27 @@ class MenuItemsController {
 		if(!menu) {
 			return
 		}
-    menu.properties += params.menu
+		def menuItem = loadMenuItem(menu)
+		if(!menuItem) {
+			return
+		}
 
-    if(menu.save(flush:true)) {
-      redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
+    def menuItemParams = params.menuItem.clone()
+
+    menuItem.properties += menuItemParams
+    if(!params.menuItem.parentId) {
+			menuItem.parent = menu
+		} else {
+			def parentMenuItem = SpudMenuItem.findByMenuAndId(menu,params.menuItem.parentId)
+			if(parentMenuItem) {
+				menuItem.parent = parentMenuItem
+			}
+		}
+
+    if(menuItem.save(flush:true)) {
+      redirect resource: 'menus/menuItems', action: 'index', menusId: menu.id, namespace: 'spud_admin'
     } else {
-      render view: '/spud/admin/menus/edit', model: [menu: menu]
+      render view: '/spud/admin/menu_items/edit', model: [menu: menu, menuItem: menuItem, pageOptions: SpudPage.optionsTreeForPage(), menu: menu, menuParentOptions: SpudMenuItem.optionsTreeForItem(menu,[filter: menuItem.id])]
     }
 	}
 
@@ -68,9 +117,57 @@ class MenuItemsController {
 		if(!menu) {
 			return
 		}
-		menu.delete()
-		flash.notice = "Menu Removed Successfully!"
-    redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
+		def menuItem = loadMenuItem(menu)
+		if(!menuItem) {
+			return
+		}
+
+		menuItem.delete()
+		flash.notice = "Menu Item Removed Successfully!"
+    redirect resource: 'menus/menuItems', action: 'index', menusId: menu.id, namespace: 'spud_admin'
+	}
+
+	def sort() {
+		def menu = loadMenu()
+		if(!menu) {
+			return
+		}
+		def menuOrders = new JsonSlurper().parseText(params.menu_order)
+
+	  sortMenuItemsToParent(menu, menuOrders)
+    render text:'', status:200
+	}
+
+	private sortMenuItemsToParent(parent,menuOrders) {
+		def sortPosition = 0
+		menuOrders.each { menuMeta ->
+			def menuItem = SpudMenuItem.read(menuMeta.id)
+			if(menuItem) {
+				menuItem.menuOrder = sortPosition
+				menuItem.parent = parent
+				menuItem.save(flush:true)
+				if(menuMeta.order != null) {
+					sortMenuItemsToParent(menuItem, menuMeta.order)
+				}
+				sortPosition += 1
+			}
+		}
+	}
+
+	private loadMenuItem(menu) {
+  	if(!params.id) {
+			flash.error = "Menu Item Id Not Specified"
+			redirect controller: 'menus', action: 'index', namespace: 'spud_admin'
+			return null
+		}
+
+		def menuItem = SpudMenuItem.findByMenuAndId(menu,params.id)
+		if(!menuItem) {
+			flash.error = "Menu Item not found"
+			redirect controller: 'menus', action: 'index', namespace: 'spud_admin'
+			return null
+		}
+		return menuItem
 	}
 
 	private loadMenu() {

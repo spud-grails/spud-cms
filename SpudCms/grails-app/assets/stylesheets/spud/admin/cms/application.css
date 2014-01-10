@@ -1,0 +1,32 @@
+/*
+//= require codemirror
+//= require codemirror/themes/night
+*/
+#root_menu_list {
+	padding-bottom: 15px;
+}
+.menu_list {
+  list-style-type:none;
+
+}
+.page_row {
+  background:white;
+}
+.menu_edit .subitem {
+
+  min-height:10px;
+  /*padding-bottom:12px;*/
+}
+
+.subitem .page_row {
+
+  border-left:2px solid #999;
+}
+.left_guide.subitem .page_row {
+  border:none;
+}
+
+.ui-sortable-placeholder {
+  background:#FAE7D9 !important;
+  visibility:visible !important;
+}

@@ -45,9 +45,11 @@ class SpudPage {
 		layout nullable: true
 		metaDescription nullable:true
 		metaKeywords nullable:true
+		spudPage nullable:true
 		createdBy nullable: true
 		updatedBy nullable: true
 		publishAt nullable: true
+		pages cascade: 'evict'
 	}
 
 	def beforeUpdate() {
@@ -58,10 +60,51 @@ class SpudPage {
 	}
 
 	def beforeDelete() {
+		this.pages = []
 		SpudPermalink.withNewSession { session ->
 			spudPermalinkService.deletePermalinksForAttachment(this, this.siteId)
+
+			def page = SpudPage.read(this.id)
+			def menus = SpudMenuItem.findAllByPage(page)
+			menus.each { menu ->
+				menu.page = null
+				menu.save(flush:true)
+			}
+			// def pages = SpudPage.findAllBySpudPage(page)
+
 		}
 	}
+
+	static grouped(siteId=0) {
+		return SpudPage.findAllBySiteId(siteId).groupBy{it.spudPageId}
+	}
+
+
+	// Returns an array of pages in order of heirarchy
+	// 	:filter Filters out a page by ID, and all of its children
+	//  :value Pick an attribute to be used in the value field, defaults to ID
+	static optionsTreeForPage(config=[:]) {
+		def collection = config.collection ?: SpudPage.grouped(config.siteId ?: 0)
+		def level      = config.level ?: 0
+		def parentId   = config.parentId
+		def filter     = config.filter
+		def value      = "id"
+		def list       = []
+
+		collection[parentId]?.each { c ->
+			if(!filter || c.id != filter) {
+				def listName = ""
+				level.times { listName += "- " }
+				listName += c.name
+				list << [name: listName, value: c[value]]
+				list += SpudPage.optionsTreeForPage([collection: collection, parentId: c.id, level: level+1, filter: filter])
+			}
+		}
+		return list
+	}
+
+
+
 
 	private uniqueUrlName() {
 			def urlNamePrefix = ""
@@ -87,6 +130,7 @@ class SpudPage {
 			}
 			return [urlName: urlName, counter: currentCounter]
 	}
+
 	private generateUrlName() {
 		def original
 		if(!name) {

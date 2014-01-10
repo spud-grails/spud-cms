@@ -26,16 +26,17 @@
 			<div class="control-group">
 				<label for="page.layout" class="control-label">Template</label>
 				<div class="controls">
-					<g:select name="page.layout" from="${layouts}" value="${page?.layout}" optionKey="layout" optionValue="name" id="spud_page_layout" data-source="${createLink(controller: 'pages', namespace: 'spud_admin', action:'pageParts', id: page.id)}"/>
+					<g:select name="page.layout" from="${layouts}" value="${page?.layout}" optionKey="layout" optionValue="name" id="spud_page_layout" data-source="${createLink([controller: 'pages', namespace: 'spud_admin', action:'pageParts'] + (page?.id ? [id: page.id] : [:]))}"/>
 
 					<span class="help-inline">Use this to control the layout template to be used for this page if they are available.</span>
 				</div>
 			</div>
 
 		<div class="control-group">
-			<label for="page.spudPage" class="control-label">Parent Page</label>
+			<label for="page.spudPage.id" class="control-label">Parent Page</label>
 
 			<div class="controls">
+				<g:select name="page.spudPage.id" from="${pageOptions}" value="${page?.spudPage?.id}" optionKey="value" optionValue="name" noSelection="['':'']"/>
 				%{-- TODO DROPDOWN BOX TO SELECT A PARENT PAGE GOES HERE --}%
 			</div>
 		</div>

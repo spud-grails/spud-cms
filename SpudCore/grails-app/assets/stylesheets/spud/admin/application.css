@@ -4,6 +4,7 @@
 *= require jquery-ui/css/flick/jquery-ui-1.9.1.custom
 *= require codemirror
 *= require_self
+*= require_full_tree .
 */
 
 body {

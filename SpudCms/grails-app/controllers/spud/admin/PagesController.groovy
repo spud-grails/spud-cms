@@ -13,7 +13,11 @@ class PagesController {
   def layoutParserService
 
   def index() {
-  	def pages = SpudPage.list([sort: 'pageOrder', spudPage: null] + params)
+    def pages = SpudPage.withCriteria(readOnly:true) {
+      isNull('spudPage')
+      order('pageOrder')
+    }
+
 		render view: '/spud/admin/pages/index', model:[pages: pages, pageCount: SpudPage.count()]
   }
 
@@ -21,7 +25,7 @@ class PagesController {
   	def page     = new SpudPage()
   	def partials = newPartialsForLayout(grailsApplication.config.spud.cms.defaultLayout)
 
-  	render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials]
+  	render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials, pageOptions: SpudPage.optionsTreeForPage()]
   }
 
   def save() {
@@ -45,7 +49,7 @@ class PagesController {
     } else {
       flash.error = "Error Saving Page"
       def partials = page.partials
-      render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials]
+      render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials, pageOptions: SpudPage.optionsTreeForPage()]
     }
 
   }
@@ -59,7 +63,7 @@ class PagesController {
     }
     def partials = newPartialsForLayout(page.layout, page.partials)
 
-    render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: partials]
+    render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: partials, pageOptions: SpudPage.optionsTreeForPage(filter: page.id)]
   }
 
   def update() {
@@ -100,7 +104,7 @@ class PagesController {
     if(page.save(flush:true)) {
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
-      render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
+      render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials, pageOptions: SpudPage.optionsTreeForPage(filter: page.id)]
     }
 
 
@@ -125,7 +129,10 @@ class PagesController {
       layout = layouts[0]
     }
     if(layout) {
-      def page = SpudPage.read(params.id)
+      def page
+      if(params.id) {
+        page = SpudPage.read(params.id)
+      }
       if(!page) {
         page = new SpudPage()
       }

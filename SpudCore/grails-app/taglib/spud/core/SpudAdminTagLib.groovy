@@ -26,7 +26,10 @@ class SpudAdminTagLib {
         def controllerClass = grailsApplication.getArtefactByLogicalPropertyName('Controller', pageScope.controllerName)
         def annotation = controllerClass.clazz.getAnnotation(spud.core.SpudApp)
         if(annotation) {
-            out << annotation.name()
+            if(annotation.subsection() != "false") {
+                out << annotation.subsection()
+            }
+
         }
     }
 
@@ -39,12 +42,34 @@ class SpudAdminTagLib {
         def crumbLinks      = []
         def controllerClass = grailsApplication.getArtefactByLogicalPropertyName('Controller', pageScope.controllerName)
         def annotation      = controllerClass.clazz.getAnnotation(spud.core.SpudApp)
+        def parentController
         crumbLinks << link([controller: 'dashboard', action: 'index'],"Dashboard")
+        if(annotation && annotation.subsection() != "false") {
+            parentController = grailsApplication.controllerClasses.find { controllerArtefact ->
+                def parentAnno = controllerArtefact.clazz.getAnnotation(spud.core.SpudApp)
+                if(parentAnno && parentAnno.name() == annotation.name() && parentAnno.subsection() == "false") {
+                    def linkOptions = [resource: controllerArtefact.logicalPropertyName, action: 'index']
+
+                    crumbLinks << link(linkOptions, "${parentAnno.name()}")
+                    return true
+                }
+            }
+            // Todo Find Root Controller
+        }
         if(annotation) {
-            crumbLinks << link([controller: pageScope.controllerName, action: 'index'], "${annotation.name()}")
+            if(pageScope.actionName == 'index') {
+                crumbLinks << "${annotation.subsection() != 'false' ? annotation.subsection(): annotation.name()}"
+            } else {
+                def linkOptions = [resource: pageScope.controllerName, action: 'index', namespace: 'spud_admin']
+                if(parentController && params[parentController.logicalPropertyName + "Id"]) {
+                    linkOptions[parentController.logicalPropertyName + "Id"] = params[parentController.logicalPropertyName + "Id"]
+                    linkOptions.resource = parentController.logicalPropertyName + "/" + pageScope.controllerName
+                }
+                crumbLinks << link(linkOptions, "${annotation.subsection() != 'false' ? annotation.subsection(): annotation.name()}")
+            }
         }
         if(pageScope.actionName != 'index') {
-            crumbLinks << pageScope.actionName //TODO: Title Case this
+            crumbLinks << pageScope.actionName.titlecase() //TODO: Title Case this
         }
 
         out << crumbLinks.join("&nbsp;/&nbsp;")

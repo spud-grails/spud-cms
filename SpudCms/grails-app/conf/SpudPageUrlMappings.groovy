@@ -5,14 +5,17 @@ class SpudPageUrlMappings {
 
 
 		"/spud/admin/pages"(resources: "pages", namespace: "spud_admin")
+		"/spud/admin/pages/page_parts"(controller: "pages", namespace: "spud_admin", action: 'pageParts')
 		"/spud/admin/pages/page_parts/$id"(controller: "pages", namespace: "spud_admin", action: 'pageParts')
 		"/spud/admin/snippets"(resources: "snippets", namespace: "spud_admin")
 		"/spud/admin/menus"(resources: "menus", namespace: "spud_admin")
+		"/spud/admin/menus/$menusId/menu_items/sort"(controller: 'menuItems', namespace: "spud_admin", action: 'sort', method:"PUT")
 		"/spud/admin/menus"(resources: "menus", namespace: "spud_admin") {
 			"/menu_items"(resources: "menuItems", namespace: "spud_admin")
 		}
 
-		"/$id**" (
+
+		"/$id**?" (
 			controller: 'page',
 			action: 'show',
 			format: 'html'
