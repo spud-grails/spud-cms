@@ -3,7 +3,7 @@ import grails.util.GrailsNameUtils
 
 
 class SpudMenuItem {
-	static transients = ['menuItems','parent']
+	static transients = ['menuItems','parent', 'urlName']
 	static belongsTo = [menu: SpudMenu]
 	String name
 	String parentType
@@ -59,6 +59,14 @@ class SpudMenuItem {
 
   	}
   	return null
+  }
+
+  String getUrlName() {
+    if(this.page) {
+      return page.urlName
+    } else {
+      return null
+    }
   }
 
   public setParent(parent) {

@@ -36,10 +36,11 @@
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
+        <sp:menu name="Main" class="nav navbar-nav" activeClass="active"/>
+        %{-- <ul class="nav navbar-nav">
           <li><g:link controller="page" action="show" format="html" id="about-us">About Us</g:link></li>
 
-        </ul>
+        </ul> --}%
 
       </div><!-- /.navbar-collapse -->
       </div>
