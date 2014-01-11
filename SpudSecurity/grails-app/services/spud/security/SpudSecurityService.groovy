@@ -59,6 +59,10 @@ class SpudSecurityService extends spud.core.AbstractSpudSecurityService {
 	}
 
 	def getLoginUrl() {
+		def userCount = SpudUser.count()
+		if(userCount == 0) {
+			return [controller: "setup", namespace: "spud_admin", action: "create"]
+		}
 		return [controller: 'login', action: 'auth']
 	}
 

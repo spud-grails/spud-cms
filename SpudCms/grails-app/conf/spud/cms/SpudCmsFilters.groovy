@@ -1,6 +1,7 @@
 package spud.cms
 import org.codehaus.groovy.grails.web.mapping.*;
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest;
+import org.hibernate.FetchMode
 class SpudCmsFilters {
     def grailsApplication
     def servletContext
@@ -25,7 +26,11 @@ class SpudCmsFilters {
                 }
                 def siteId = 0
                 // TODO Determine Site id for Multisite
-                def page = SpudPage.findBySiteIdAndUrlName(siteId,pageUri)
+                def page = SpudPage.withCriteria(readOnly:true, uniqueResult: true) {
+                    eq('siteId', siteId)
+                    eq('urlName',pageUri)
+                    fetchMode 'partials', FetchMode.JOIN
+                }
                 if(page) {
                     request.setAttribute('spudPage',page)
                 } else {

@@ -15,7 +15,9 @@ class SpudPermalink {
   static constraints = {
   	attachmentType nullable: true
   	attachmentId nullable: true
-  	siteId index: true
+
+
+
   	// TODO: Create Index Compound on attachmentType, attachmentId
   }
 
@@ -24,6 +26,8 @@ class SpudPermalink {
 		autoTimestamp true
 		dateCreated column: 'created_at'
 		lastUpdated column: 'updated_at'
+		siteId index: 'idx_permalink_url'
+  	urlName index: 'idx_permalink_url'
 
 		// TODO: Add Compound index for attachmentType, attachmentId
 	}

@@ -36,6 +36,9 @@ class SpudPage {
 		notes type: 'text'
 		dateCreated column: 'created_at'
 		lastUpdated column: 'updated_at'
+
+		siteId index: 'idx_page_url'
+		urlName index: 'idx_page_url'
 	}
 
 	static constraints = {

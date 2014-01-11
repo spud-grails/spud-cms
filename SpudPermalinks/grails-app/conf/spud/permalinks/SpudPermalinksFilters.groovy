@@ -1,10 +1,14 @@
 package spud.permalinks
 
 class SpudPermalinksFilters {
+    def grailsapplication
 
     def filters = {
         all(uri: '/**') {
             before = {
+                if(controllerName == 'assets') {
+                    return
+                }
                 // Prefer whats in web-app/assets instead of the other
                 def permalinkUri = request.forwardURI
                 if(request.contextPath && request.contextPath != "/") {
@@ -16,7 +20,7 @@ class SpudPermalinksFilters {
                 // TODO: Determine SiteId
                 def siteId = 0
 
-                def permalinks = SpudPermalink.createCriteria().list {
+                def permalinks = SpudPermalink.withCriteria(readOnly:true) {
                     eq('siteId', siteId)
                     or {
                         eq('urlName', permalinkUri)

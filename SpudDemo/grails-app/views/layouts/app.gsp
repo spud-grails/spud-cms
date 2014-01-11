@@ -1,8 +1,3 @@
-<%
-//= template_name Home
-//= html Body
-%>
-
 <!DOCTYPE html>
 <!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
@@ -12,10 +7,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title><g:layoutTitle default="Spud Demo"/></title>
+    <g:if test="${page}">
+    <title>${page.name} | Spud Demo</title>
+    </g:if>
+    <g:else>
+      <title><g:layoutTitle default="Spud Demo"/></title>
+    </g:else>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <asset:stylesheet src="application.css"/>
-    <asset:javascript src="application.js"/>
+
     <g:layoutHead/>
 
   </head>
@@ -50,7 +51,13 @@
 
 
 
-    <div class="footer" role="contentinfo"></div>
+    <div class="footer" role="contentinfo">
+        <div class="container">
+          <sp:snippet name="Footer"/>
+        </div>
+    </div>
+
+    <asset:javascript src="application.js"/>
   </body>
 </html>
 

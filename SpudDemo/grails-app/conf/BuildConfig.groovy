@@ -66,18 +66,20 @@ grails.project.dependency.resolution = {
         compile ':cache:1.1.1'
 
         // compile ":jms:1.2"
+        compile ":profiler:0.5"
 
         // plugins needed at runtime but not for compilation
         runtime ":hibernate:3.6.10.6" // or ":hibernate4:4.1.11.1"
         runtime ":database-migration:1.3.5"
         runtime ":jquery:1.10.2"
-        runtime ":asset-pipeline:1.2.1"
-        runtime ":less-asset-pipeline:1.2.0"
+        runtime ":asset-pipeline:1.2.3"
+        runtime ":less-asset-pipeline:1.2.1"
         compile ":twitter-bootstrap:3.0.3"
     }
 }
 
-// grails.plugin.location."asset-pipeline" = "../../asset-pipeline"
+// grails.plugin.location."less-asset-pipeline" = "../../less-grails-asset-pipeline"
+grails.plugin.location."asset-pipeline" = "../../asset-pipeline"
 grails.plugin.location."spud-core" = "../SpudCore"
 grails.plugin.location."spud-security" = "../SpudSecurity"
 grails.plugin.location."spud-cms" = "../SpudCms"

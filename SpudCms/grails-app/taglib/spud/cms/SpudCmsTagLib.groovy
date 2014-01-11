@@ -2,7 +2,7 @@ package spud.cms
 import org.hibernate.FetchMode
 class SpudCmsTagLib {
   static defaultEncodeAs = 'html'
-    static encodeAsForTags = [menu: 'raw']
+    static encodeAsForTags = [menu: 'raw', pages: 'raw', snippet: 'raw', applyLayout: 'raw']
 	static namespace = 'sp'
 
 	def grailsApplication
@@ -70,6 +70,23 @@ class SpudCmsTagLib {
 	}
 
 	def pages = {attrs, body ->
+	}
+
+
+
+	def snippet = { attrs ->
+		if(!attrs.name) {
+			 throw new IllegalStateException("Property [name] must be set!")
+		}
+		def siteId = 0
+		def snippet = SpudSnippet.findBySiteIdAndName(siteId,attrs.name)
+		if(snippet) {
+			out << snippet.contentProcessed
+		}
+	}
+
+	def applyLayout = { attrs,body ->
+		out << g.applyLayout(attrs,body)
 	}
 
 	private listMenuItem(childItems, itemId, depth, attrs) {

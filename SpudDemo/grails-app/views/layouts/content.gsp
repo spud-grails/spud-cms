@@ -3,7 +3,7 @@
 //= html Body
 //= html Sidebar
 %>
-<g:applyLayout name="app">
+<sp:applyLayout name="app">
 	<content tag="appContent">
 		<div class="container">
 			<div class="row">
@@ -22,4 +22,4 @@
 			</div>
 		</div>
 	</content>
-</g:applyLayout>
+</sp:applyLayout>

@@ -85,6 +85,7 @@ grails.hibernate.cache.queries = false
 
 environments {
     development {
+        grails.cache.enabled = true
         grails.logging.jul.usebridge = true
     }
     production {
@@ -101,6 +102,7 @@ log4j = {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
     // debug 'org.springframework.security'
+
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
            'org.codehaus.groovy.grails.web.sitemesh',       // layouts

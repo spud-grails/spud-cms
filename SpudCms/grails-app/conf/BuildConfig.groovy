@@ -41,6 +41,7 @@ grails.project.dependency.resolution = {
 
     plugins {
         // runtime ":spud-permalinks:0.1"
+        // runtime ':cache:1.1.1'
         build(":release:3.0.0",
               ":rest-client-builder:1.0.3") {
             export = false

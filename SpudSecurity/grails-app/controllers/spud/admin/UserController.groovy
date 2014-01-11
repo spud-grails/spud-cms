@@ -38,7 +38,7 @@ class UserController {
 		def user = new SpudUser(params.user)
 
 		if(user.save(flush:true)) {
-			redirect(controller: 'user', action: 'index', namespace: 'spud_admin')
+			redirect(resource: 'user', action: 'index', namespace: 'spud_admin')
 		} else {
 			flash.error = "Error saving user"
 			render view: '/spud/admin/users/create', model:[user: user]
@@ -59,7 +59,7 @@ class UserController {
 	def update = {
 		if(!params.user) {
 			flash.error = "User Submission not specified"
-			redirect controller: 'user', action: 'index', namespace: 'spud_admin'
+			redirect resource: 'user', action: 'index', namespace: 'spud_admin'
 			return
 		}
 
@@ -76,7 +76,7 @@ class UserController {
 			render view: '/spud/admin/users/edit', model: [user: user]
 			return
 		}
-		redirect controller: 'user', action: 'index', namespace: 'spud_admin'
+		redirect resource: 'user', action: 'index', namespace: 'spud_admin'
 	}
 
 	def delete = {
@@ -91,7 +91,7 @@ class UserController {
 		} else {
 			flash.error = "Unable to remove user"
 		}
-		redirect controller: 'user', action: 'index', namespace: 'spud_admin'
+		redirect resource: 'user', action: 'index', namespace: 'spud_admin'
 	}
 
 	private loadUser() {

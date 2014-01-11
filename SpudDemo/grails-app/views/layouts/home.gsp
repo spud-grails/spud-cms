@@ -2,7 +2,10 @@
 //= template_name Home
 //= html Body
 %>
-<g:applyLayout name="app">
+<sp:applyLayout name="app">
+	<head>
+		<g:layoutHead/>
+	</head>
 	<content tag="appContent">
 		<div class="container">
 			<div class="row">
@@ -19,4 +22,4 @@
 			</div>
 		</div>
 	</content>
-</g:applyLayout>
+</sp:applyLayout>

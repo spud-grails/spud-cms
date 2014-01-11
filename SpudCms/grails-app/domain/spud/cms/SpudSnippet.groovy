@@ -24,4 +24,9 @@ class SpudSnippet {
   	content nullable:true
   	contentProcessed nullable:true
   }
+
+  public String getContentProcessed() {
+  	// TODO : Precompile Content based on format
+  	return this.content
+  }
 }

@@ -21,6 +21,8 @@ class SpudMenu {
 
 		dateCreated column: 'created_at'
 		lastUpdated column: 'updated_at'
+
+    name index: 'idx_menu_name'
 	}
   static constraints = {
   	name blank:false, unique: 'siteId'
