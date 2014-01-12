@@ -26,7 +26,7 @@ class SpudCmsFilters {
                 }
                 def siteId = 0
                 // TODO Determine Site id for Multisite
-                def page = SpudPage.withCriteria(readOnly:true, uniqueResult: true) {
+                def page = SpudPage.withCriteria(readOnly:true, uniqueResult: true, cache:true) {
                     eq('siteId', siteId)
                     eq('urlName',pageUri)
                     fetchMode 'partials', FetchMode.JOIN
