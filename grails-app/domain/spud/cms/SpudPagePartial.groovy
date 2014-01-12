@@ -12,6 +12,7 @@ class SpudPagePartial {
 	Date lastUpdated
 
 	static mapping = {
+		cache true
 		table 'spud_page_partials'
 		autoTimestamp true
 		content type:'text'

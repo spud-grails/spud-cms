@@ -33,12 +33,13 @@ class SpudPage {
 	Date lastUpdated
 
 	static mapping = {
+		cache true
 		table 'spud_pages'
 		autoTimestamp true
 		notes type: 'text'
 		dateCreated column: 'created_at'
 		lastUpdated column: 'updated_at'
-
+		partials cache: true
 		siteId index: 'idx_page_url'
 		urlName index: 'idx_page_url'
 	}

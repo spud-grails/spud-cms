@@ -31,7 +31,7 @@
 <div class="control-group">
 	<label class="control-label" for="menuItem.parentId">Parent Menu</label>
 	<div class="controls">
-		<g:select name="menuItem.parentId" from="${menuParentOptions}" value="${menuItem?.parentType == 'SpudMenuItem' ? menuItem.parentId : null}" optionKey="value" optionValue="name" noSelection="['':menu.name]"/>
+		<spAdmin:menuItemSelect name="menuItem.parentId" value="${menuItem?.parentType == 'SpudMenuItem' ? menuItem.parentId : null}" menu="${menu}" filter="${menuItem?.id}"/>
 	</div>
 
 </div>
