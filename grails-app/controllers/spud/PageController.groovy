@@ -22,7 +22,7 @@ class PageController {
 		}
 		def page = request.getAttribute('spudPage')
 		if(!page) {
-			page = SpudPage.withCriteria(readOnly:true, uniqueResult:true) {
+			page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 				eq('siteId',siteId)
 				eq('urlName', urlName)
 				fetchMode 'partials', FetchMode.JOIN

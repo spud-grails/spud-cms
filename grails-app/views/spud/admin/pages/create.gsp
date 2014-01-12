@@ -2,7 +2,7 @@
 
 	<content tag="detail">
 		<g:form name="new_page" url="[action: 'index',controller: 'pages',namespace: 'spud_admin']" method="POST" class="form-horizontal">
-			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials, pageOptions: pageOptions]" />
+			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials]" />
 
 			<div class="form-actions">
 				<g:submitButton name="_submit" value="Create Page" class="btn btn-primary"/>

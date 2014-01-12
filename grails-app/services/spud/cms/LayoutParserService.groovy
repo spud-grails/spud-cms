@@ -3,6 +3,8 @@ package spud.cms
 import spud.core.*
 
 class LayoutParserService {
+	static transactional = false
+
 	def grailsApplication
 	def spudLayoutService
 
@@ -90,18 +92,3 @@ class LayoutParserService {
 		return null
 	}
 }
-
-
-// spud.core.layouts = [
-//     [name: 'page',partials:
-//         [
-//             body: [formats: ['html']],
-//             sidebar: [formats: ['html']]
-//         ]
-//     ],
-//     [name: 'home', partials:
-//         [
-//             body: [formats: ['html']]
-//         ]
-//     , siteId: 0]
-// ]

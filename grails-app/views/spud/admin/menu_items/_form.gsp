@@ -10,14 +10,14 @@
 <div class="control-group">
 	<label for="menuItem.page.id" class="control-label">Page</label>
 	<div class="controls">
-		<g:select name="menuItem.page.id" from="${pageOptions}" value="${menuItem?.page?.id}" optionKey="value" optionValue="name" noSelection="['':'Use URL instead']" onchange="if(\$(this).val() != '') {\$('#spud_menu_item_url').val('');}"/>
+		<spAdmin:pageSelect name="menuItem.page.id" value="${menuItem?.page?.id}" onchange="if(\$(this).val() != '') {\$('#spud_menu_item_url').val('');}" noSelection="['':'Use URL instead']"/>
 	</div>
 </div>
 
 <div class="control-group">
 	<label for="menuItem.url" class="control-label">Url</label>
 	<div class="controls">
-	  <g:textField name="menuItem.url" value="${menuItem?.url}"/>
+	  <g:textField name="menuItem.url" id="spud_menu_item_url" value="${menuItem?.url}"/>
 	</div>
 </div>
 

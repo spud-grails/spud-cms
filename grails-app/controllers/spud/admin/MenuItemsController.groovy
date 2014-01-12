@@ -30,7 +30,7 @@ class MenuItemsController {
 		}
 		def menuItem = new SpudMenuItem(menu: menu)
 		def menuParentOptions = SpudMenuItem.optionsTreeForItem(menu)
-  	render view: '/spud/admin/menu_items/create', model:[menuItem: menuItem, pageOptions: SpudPage.optionsTreeForPage(), menuParentOptions: menuParentOptions, menu: menu]
+  	render view: '/spud/admin/menu_items/create', model:[menuItem: menuItem, menuParentOptions: menuParentOptions, menu: menu]
 	}
 
 	def save() {
@@ -66,7 +66,7 @@ class MenuItemsController {
       redirect resource: 'menus/menuItems', action: 'index', menusId: menu.id, namespace: 'spud_admin'
     } else {
       flash.error = "Error Saving Menu Item"
-      render view: '/spud/admin/menu_items/create', model:[menuItem:menuItem, pageOptions: SpudPage.optionsTreeForPage(), menuParentOptions: SpudMenuItem.optionsTreeForItem(menu), menu: menu]
+      render view: '/spud/admin/menu_items/create', model:[menuItem:menuItem, menuParentOptions: SpudMenuItem.optionsTreeForItem(menu), menu: menu]
     }
 	}
 
@@ -79,7 +79,7 @@ class MenuItemsController {
 		if(!menuItem) {
 			return
 		}
-    render view: '/spud/admin/menu_items/edit', model: [menu: menu, menuItem: menuItem, pageOptions: SpudPage.optionsTreeForPage(), menu: menu, menuParentOptions: SpudMenuItem.optionsTreeForItem(menu,[filter: menuItem.id])]
+    render view: '/spud/admin/menu_items/edit', model: [menu: menu, menuItem: menuItem, menu: menu, menuParentOptions: SpudMenuItem.optionsTreeForItem(menu,[filter: menuItem.id])]
 
 	}
 
@@ -108,7 +108,7 @@ class MenuItemsController {
     if(menuItem.save(flush:true)) {
       redirect resource: 'menus/menuItems', action: 'index', menusId: menu.id, namespace: 'spud_admin'
     } else {
-      render view: '/spud/admin/menu_items/edit', model: [menu: menu, menuItem: menuItem, pageOptions: SpudPage.optionsTreeForPage(), menu: menu, menuParentOptions: SpudMenuItem.optionsTreeForItem(menu,[filter: menuItem.id])]
+      render view: '/spud/admin/menu_items/edit', model: [menu: menu, menuItem: menuItem, menu: menu, menuParentOptions: SpudMenuItem.optionsTreeForItem(menu,[filter: menuItem.id])]
     }
 	}
 

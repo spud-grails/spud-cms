@@ -11,6 +11,7 @@ class PagesController {
 	static namespace = 'spud_admin'
 	def grailsApplication
   def layoutParserService
+  def spudPageService
 
   def index() {
     def pages = SpudPage.withCriteria(readOnly:true) {
@@ -25,7 +26,7 @@ class PagesController {
   	def page     = new SpudPage()
   	def partials = newPartialsForLayout(grailsApplication.config.spud.cms.defaultLayout)
 
-  	render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials, pageOptions: SpudPage.optionsTreeForPage()]
+  	render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials]
   }
 
   def save() {
@@ -36,6 +37,7 @@ class PagesController {
     }
 
     def page = new SpudPage(params.page)
+    spudPageService.generateUrlName(page)
 
     params.partial.each { partial ->
       if(partial.key.indexOf(".") == -1) {
@@ -49,7 +51,7 @@ class PagesController {
     } else {
       flash.error = "Error Saving Page"
       def partials = page.partials
-      render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials, pageOptions: SpudPage.optionsTreeForPage()]
+      render view: '/spud/admin/pages/create', model:[page: page, layouts: this.layoutsForSite(), partials: partials]
     }
 
   }
@@ -63,7 +65,7 @@ class PagesController {
     }
     def partials = newPartialsForLayout(page.layout, page.partials)
 
-    render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: partials, pageOptions: SpudPage.optionsTreeForPage(filter: page.id)]
+    render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: partials]
   }
 
   def update() {
@@ -72,6 +74,7 @@ class PagesController {
       return
     }
     page.properties += params.page
+    spudPageService.generateUrlName(page)
     def partialsToDelete = []
     page.partials.each { partial ->
       def partialParam = params.partial.find { it.key == partial.symbolName }
@@ -104,7 +107,7 @@ class PagesController {
     if(page.save(flush:true)) {
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
-      render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials, pageOptions: SpudPage.optionsTreeForPage(filter: page.id)]
+      render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
     }
 
 
@@ -115,7 +118,7 @@ class PagesController {
     if(!page) {
       return
     }
-    page.delete()
+    spudPageService.remove(page)
     redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
 
   }

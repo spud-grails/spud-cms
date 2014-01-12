@@ -36,7 +36,7 @@
 			<label for="page.spudPage.id" class="control-label">Parent Page</label>
 
 			<div class="controls">
-				<g:select name="page.spudPage.id" from="${pageOptions}" value="${page?.spudPage?.id}" optionKey="value" optionValue="name" noSelection="['':'']"/>
+				<spAdmin:pageSelect name="page.spudPage.id" filter="${page?.id}" value="${page?.spudPageId}" noSelection="['':'']"/>
 				%{-- TODO DROPDOWN BOX TO SELECT A PARENT PAGE GOES HERE --}%
 			</div>
 		</div>

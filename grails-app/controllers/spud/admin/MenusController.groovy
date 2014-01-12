@@ -29,7 +29,7 @@ class MenusController {
 
 
     if(menu.save(flush:true)) {
-      redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
+      redirect resource: 'menus/menuItems', menusId: menu.id, action: 'index', namespace: 'spud_admin'
     } else {
       flash.error = "Error Saving Menu"
       render view: '/spud/admin/menus/create', model:[menu:menu]
