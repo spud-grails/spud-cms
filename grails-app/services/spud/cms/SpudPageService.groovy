@@ -2,6 +2,8 @@ package spud.cms
 
 import spud.core.*
 import spud.permalinks.*
+import grails.plugin.cache.CacheEvict
+import grails.plugin.cache.Cacheable
 
 class SpudPageService {
 	def grailsApplication
@@ -56,7 +58,7 @@ class SpudPageService {
 		if(!page.name) {
 			return
 		}
-		def originalUrlName = page.getPersistentValue('urlName')
+		def originalUrlName = page.getPersistentValue('urlName') ?: page.urlName
 		def urlNamePrefix   = ""
 
 		if(page.spudPage) {
@@ -64,6 +66,7 @@ class SpudPageService {
 		}
 
 		if(!page.useCustomUrlName || !page.urlName) { //If we need to generate a url name
+			println "Generating New URLNAME ${originalUrlName}"
 			def uniqueName = uniqueUrlName(page)
 			def urlName    = uniqueName.urlName
 			def urlNameNew = urlName
@@ -75,7 +78,7 @@ class SpudPageService {
 			SpudPermalink.withNewSession {
 				def permalink = spudPermalinkService.permalinkForUrl(urlNamePrefix + urlNameNew)
 				while(permalink) {
-					if(permalink.attachmentType == 'SpudPage' && permalink.attachmentId == this.id) {
+					if(permalink.attachmentType == 'SpudPage' && permalink.attachmentId == page.id) {
 						permalink.delete()
 						permalink = null
 					} else {
@@ -86,13 +89,20 @@ class SpudPageService {
 				}
 
 				if(originalUrlName != null && (urlNamePrefix + urlNameNew) != originalUrlName) {
-					spudPermalinkService.createPermalink(originalUrlName,this, urlNamePrefix + urlNameNew, this.siteId)
+					println "Creating permalink"
+					spudPermalinkService.createPermalink(originalUrlName,page, urlNamePrefix + urlNameNew, page.siteId)
 				}
 
 				page.urlName = urlNamePrefix + urlNameNew
 			}
 		}
 	}
+
+
+    @CacheEvict(value='spud.cms.page', allEntries=true)
+    def evictCache() {
+        log.info("Evicting Sitemap Cache")
+    }
 
 	private uniqueUrlName(page) {
 			def urlNamePrefix = ""

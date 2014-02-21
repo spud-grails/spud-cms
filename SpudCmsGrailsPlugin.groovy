@@ -1,6 +1,5 @@
 class SpudCmsGrailsPlugin {
-    def groupId = "com.bertramlabs"
-    def version = "0.1"
+    def version = "0.1.0"
     def grailsVersion = "2.3 > *"
     def pluginExcludes = [
         "grails-app/views/error.gsp"
@@ -9,13 +8,11 @@ class SpudCmsGrailsPlugin {
     def title = "Spud Cms Plugin" // Headline display name of the plugin
     def author = "David Estes"
     def authorEmail = "destes@bcap.com"
-    def description = '''\
-Provides CMS functionality for spud
-'''
+    def description = 'Provides CMS functionality for spud'
 
-    def documentation = "http://grails.org/plugin/spud-cms"
+    def documentation = "https://github.com/spud-grails/spud-cms"
     def license = "APACHE"
     def organization = [name: "Bertram Labs", url: "http://www.bertramlabs.com/"]
-    def issueManagement = [system: "GITHUB", url: "https://github.com/bertramdev/spud-grails/issues"]
-    def scm = [url: "https://github.com/bertramdev/spud-grails"]
+    def issueManagement = [system: "GITHUB", url: "https://github.com/spud-grails/spud-cms/issues"]
+    def scm = [url: "https://github.com/spud-grails/spud-cms"]
 }

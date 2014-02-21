@@ -1,6 +1,6 @@
-grails.project.class.dir = "target/classes"
-grails.project.test.class.dir = "target/test-classes"
-grails.project.test.reports.dir = "target/test-reports"
+grails.project.work.dir = 'target'
+grails.project.target.level = 1.6
+grails.project.source.level = 1.6
 
 grails.project.fork = [
     // configure settings for compilation JVM, note that if you alter the Groovy version forked compilation is required
@@ -18,30 +18,20 @@ grails.project.fork = [
 
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
-    // inherit Grails' default dependencies
-    inherits("global") {
-        // uncomment to disable ehcache
-        // excludes 'ehcache'
-    }
-    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    inherits 'global'
+    log "warn"
     repositories {
         grailsCentral()
-        mavenLocal()
-        mavenCentral()
-        // uncomment the below to enable remote dependency resolution
-        // from public Maven repositories
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
-    }
-    dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-        // runtime 'mysql:mysql-connector-java:5.1.24'
+        grailsPlugins()
+        mavenCentral()   
     }
 
     plugins {
-        // runtime ":spud-permalinks:0.1"
-        // runtime ':cache:1.1.1'
+        runtime ":spud-core:0.1.1"
+        runtime ":spud-permalinks:0.1.0"
+        runtime ':cache:1.1.1'
+        runtime ':sitemaps:0.2.0'
+
         build(":release:3.0.0",
               ":rest-client-builder:1.0.3") {
             export = false
@@ -49,5 +39,5 @@ grails.project.dependency.resolution = {
     }
 }
 
-grails.plugin.location."spud-core" = "../SpudCore"
-grails.plugin.location."spud-permalinks" = "../SpudPermalinks"
+// grails.plugin.location."spud-core" = "../spud-core"
+// grails.plugin.location."spud-permalinks" = "../spud-permalinks"

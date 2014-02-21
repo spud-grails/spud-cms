@@ -4,7 +4,8 @@ import  spud.core.*
 import grails.transaction.Transactional
 import grails.artefact.Artefact
 
-@SpudApp(name="Pages", thumbnail="spud/admin/pages_thumb.png")
+
+@SpudApp(name="Pages", thumbnail="spud/admin/pages_thumb.png", order="0")
 @SpudSecure(['PAGES'])
 @Artefact("Controller")
 class PagesController {
@@ -12,6 +13,7 @@ class PagesController {
 	def grailsApplication
   def layoutParserService
   def spudPageService
+  def sitemapService
 
   def index() {
     def pages = SpudPage.withCriteria(readOnly:true) {
@@ -47,6 +49,7 @@ class PagesController {
     }
 
     if(page.save(flush:true)) {
+      sitemapService.evictCache()
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
       flash.error = "Error Saving Page"
@@ -105,12 +108,11 @@ class PagesController {
 
 
     if(page.save(flush:true)) {
+      sitemapService.evictCache()
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
       render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
     }
-
-
   }
 
   def delete() {
@@ -119,6 +121,7 @@ class PagesController {
       return
     }
     spudPageService.remove(page)
+    sitemapService.evictCache()
     redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
 
   }

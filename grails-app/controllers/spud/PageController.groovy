@@ -14,6 +14,7 @@ class PageController {
 
 	static layout = null
 
+	// @Cacheable('spud.cms.page')
 	def show() {
 		def urlName = params.id
 		def siteId = params.int('siteId') ?: 0

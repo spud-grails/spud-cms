@@ -44,6 +44,15 @@ Example:
 
 Optionally a description can be passed as well as a `site_name default` for multisite mode.
 
+Within your layout you will want to render these content blocks via a pageProperty taglib (sitemesh)
+
+```
+<g:pageProperty name="page.left"/>
+<g:pageProperty name="page.right"/>
+```
+
+For more information checkout the Wiki section of this repository.
+
 
 Using Liquid Template Engine
 ----------------------------

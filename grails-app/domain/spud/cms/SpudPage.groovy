@@ -4,7 +4,7 @@ import spud.permalinks.*
 class SpudPage {
 	static hasMany = [ partials:SpudPagePartial ]
 	static transients = ['pages']
-
+	
 	def spudPermalinkService
 
 	Integer siteId = 0
