@@ -11,7 +11,7 @@ class LayoutParserService {
 	def layoutsForSite(siteId=0,parentLayout=null) {
 		def layoutService  = spudLayoutService.layoutServiceForSite(siteId)
 		def layouts        = layoutService.layoutsForSite(siteId)
-		def defaultLayout  = grailsApplication.config.spud.cms.defaultLayout ?: 'application'
+		def defaultLayout  = grailsApplication.config.spud.cms.defaultLayout ?: 'page'
 		def layoutMetaList = []
 
 		if(grailsApplication.warDeployed && layoutService.dynamicOnWarDeploy != true) {

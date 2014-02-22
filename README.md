@@ -19,7 +19,7 @@ grails {
   spud {
     cms {
       rootPageName = "home"
-      defaultLayout = "application"
+      defaultLayout = "page"
     }
   }
 }
@@ -28,7 +28,7 @@ grails {
 
 Where "home" is the page name you wish to use.
 
-Pages will default render to the 'application' layout of your application. You can change this by using templates to specify base layouts.
+Pages will default render to the 'page' layout of your application. You can change this by using templates to specify base layouts.
 
 Defining Templates / Layouts
 ----------------------------
