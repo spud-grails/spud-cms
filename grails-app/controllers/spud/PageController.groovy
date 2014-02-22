@@ -36,9 +36,6 @@ class PageController {
 			return
 		}
 
-		page.partials.each { partial ->
-			println "Rendering partial ${partial.symbolName}"
-		}
 		// def layoutService = spudLayoutService.layoutServiceForSite(siteId)
 		// println "Layouts: ${layoutService.layoutsForSite()}"
 		render template: '/spud/page/show', model: [page:page], layout: null

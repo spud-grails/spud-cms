@@ -66,7 +66,6 @@ class SpudPageService {
 		}
 
 		if(!page.useCustomUrlName || !page.urlName) { //If we need to generate a url name
-			println "Generating New URLNAME ${originalUrlName}"
 			def uniqueName = uniqueUrlName(page)
 			def urlName    = uniqueName.urlName
 			def urlNameNew = urlName
@@ -89,7 +88,6 @@ class SpudPageService {
 				}
 
 				if(originalUrlName != null && (urlNamePrefix + urlNameNew) != originalUrlName) {
-					println "Creating permalink"
 					spudPermalinkService.createPermalink(originalUrlName,page, urlNamePrefix + urlNameNew, page.siteId)
 				}
 

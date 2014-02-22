@@ -29,7 +29,6 @@ class SpudMenuService {
 	// :value Pick an attribute to be used in the value field, defaults to ID
   def optionsTreeForItem(menu, config=[:]) {
   	def collection = config.collection ?: SpudMenuItem.grouped(menu)
-  	println collection
   	def level      = config.level ?: 1
   	def parentId   = config.parentId
   	def parentType = config.parentType ?: 'SpudMenu'
