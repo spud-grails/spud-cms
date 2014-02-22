@@ -35,9 +35,13 @@ class PageController {
 			render status: 404
 			return
 		}
+
+		page.partials.each { partial ->
+			println "Rendering partial ${partial.symbolName}"
+		}
 		// def layoutService = spudLayoutService.layoutServiceForSite(siteId)
 		// println "Layouts: ${layoutService.layoutsForSite()}"
-		render view: '/spud/page/show', model: [page:page]
+		render template: '/spud/page/show', model: [page:page], layout: null
 
 	}
 }

@@ -65,7 +65,7 @@ Using Menus
 A lot of cms engines allow you to render your navigation links in a ul block by using your page tree structure. In a lot of cases this is insufficient as some sites have urls that redirect to pages outside of your cms. This is where menus come in. They can be built in the spud admin control panel.
 In your application layout file or any erb template you can render a ul block like so
 
-    <g:menu name="Main" id="navigation"/>
+    <sp:menu name="Main" id="navigation"/>
 
 This will output a <ul id="navigation"></ul> block for the menu you created in admin named "Main"
 
