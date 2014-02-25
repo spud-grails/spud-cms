@@ -5,6 +5,8 @@ import  spud.core.*
 @SpudApp(name="Menus", thumbnail="spud/admin/menus_thumb.png", order="2")
 @SpudSecure(['MENUS'])
 class MenusController {
+    def spudPageService
+
     static namespace = "spud_admin"
 
     def index() {
@@ -27,6 +29,7 @@ class MenusController {
         def menu = new SpudMenu(params.menu)
 
         if(menu.save(flush:true)) {
+            spudPageService.evictCache()
             redirect resource: 'menus/menuItems', menusId: menu.id, action: 'index', namespace: 'spud_admin'
         } else {
             flash.error = "Error Saving Menu"
@@ -50,7 +53,8 @@ class MenusController {
         menu.properties += params.menu
 
         if(menu.save(flush:true)) {
-          redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
+            spudPageService.evictCache()
+            redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
         } else {
           render view: '/spud/admin/menus/edit', model: [menu: menu]
         }
@@ -62,6 +66,7 @@ class MenusController {
             return
         }
         menu.delete()
+        spudPageService.evictCache()
         flash.notice = "Menu Removed Successfully!"
         redirect resource: 'menus', action: 'index', namespace: 'spud_admin'
     }

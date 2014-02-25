@@ -14,5 +14,5 @@ class SpudCmsGrailsPlugin {
     def license = "APACHE"
     def organization = [name: "Bertram Labs", url: "http://www.bertramlabs.com/"]
     def issueManagement = [system: "GITHUB", url: "https://github.com/spud-grails/spud-cms/issues"]
-    def scm = [url: "https://github.com/spud-grails/spud-cms"]
+
 }

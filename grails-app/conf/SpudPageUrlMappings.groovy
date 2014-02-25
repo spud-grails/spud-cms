@@ -1,10 +1,17 @@
 class SpudPageUrlMappings {
 
 	static mappings = {
-
+		def FORBIDDEN = [
+			'plugins',
+			'WEB-INF',
+			'assets',
+			'is-tomcat-running',
+			'spud/admin'
+		]
 
 
 		"/spud/admin/pages"(resources: "pages", namespace: "spud_admin")
+		"/spud/admin/pages/clear"(controller: "pages", namespace: "spud_admin", action: 'clear')
 		"/spud/admin/pages/page_parts"(controller: "pages", namespace: "spud_admin", action: 'pageParts')
 		"/spud/admin/pages/page_parts/$id"(controller: "pages", namespace: "spud_admin", action: 'pageParts')
 		"/spud/admin/snippets"(resources: "snippets", namespace: "spud_admin")
@@ -15,10 +22,17 @@ class SpudPageUrlMappings {
 		}
 
 
-		"/$id**?" (
-			controller: 'page',
-			action: 'show',
-			format: 'html'
-		)
+		"/$id**?" {
+			controller = 'spudPage'
+			namespace = 'spud'
+			action = 'show'
+			// format = 'html'
+			constraints {
+				id(validator: { id ->
+					return !FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}
+				})	
+			}
+		}
+
 	}
 }

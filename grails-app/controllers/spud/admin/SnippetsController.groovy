@@ -6,7 +6,7 @@ import  spud.core.*
 @SpudSecure(['SNIPPETS'])
 class SnippetsController {
 	static namespace = "spud_admin"
-
+	def spudPageService
 	def index = {
 		def snippets = SpudSnippet.list([sort: 'name', max:25] + params)
 		render view: '/spud/admin/snippets/index', model:[snippets: snippets, snippetCount: SpudSnippet.count()]
@@ -21,7 +21,7 @@ class SnippetsController {
 
 	def create = {
 		def snippet = new SpudSnippet()
-  	render view: '/spud/admin/snippets/create', model:[snippet: snippet]
+		render view: '/spud/admin/snippets/create', model:[snippet: snippet]
 	}
 
 	def save = {
@@ -36,7 +36,8 @@ class SnippetsController {
 
 
     if(snippet.save(flush:true)) {
-      redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
+		spudPageService.evictCache()
+		redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
     } else {
       flash.error = "Error Saving Snippet"
       render view: '/spud/admin/snippets/create', model:[snippet:snippet]
@@ -57,14 +58,15 @@ class SnippetsController {
 		if(!snippet) {
 			return
 		}
-    snippet.properties += params.snippet
+		snippet.properties += params.snippet
 
 
-    if(snippet.save(flush:true)) {
-      redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
-    } else {
-      render view: '/spud/admin/snippets/edit', model: [snippet: snippet]
-    }
+		if(snippet.save(flush:true)) {
+			spudPageService.evictCache()
+			redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
+		} else {
+			render view: '/spud/admin/snippets/edit', model: [snippet: snippet]
+		}
 	}
 
 	def delete = {
@@ -73,8 +75,9 @@ class SnippetsController {
 			return
 		}
 		snippet.delete()
+		spudPageService.evictCache()
 		flash.notice = "Snippet Removed Successfully!"
-    redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
+		redirect resource: 'snippets', action: 'index', namespace: 'spud_admin'
 	}
 
 	private loadSnippet() {

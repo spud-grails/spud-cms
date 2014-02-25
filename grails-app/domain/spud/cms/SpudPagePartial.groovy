@@ -1,12 +1,17 @@
 package spud.cms
 
 class SpudPagePartial {
+	def spudTemplateService
+
 	static belongsTo = [page: SpudPage]
+	static transients = ['cachedContent']
 	String name
 	String symbolName
 	String content
 	String contentProcessed
 	String format="html"
+
+	String cachedContent
 
 	Date dateCreated
 	Date lastUpdated
@@ -33,12 +38,25 @@ class SpudPagePartial {
 	}
 
 
-	public String getContentProcessed() {
-		// if(this.contentProcessed) {
-		// 	return this.contentProcessed
-		// }
-		// // TODO : Find out if a renderer / formatter is needed on the content
-		return content
+	// public String getContentProcessed() {
+	// 	if(cachedContent) {
+	// 		return cachedContent
+	// 	}
+	// 	println "Generating Template check"
+		
+	// 	return cachedContent
+	// 	// if(this.contentProcessed) {
+	// 	// 	return this.contentProcessed
+	// 	// }
+	// 	// // TODO : Find out if a renderer / formatter is needed on the content
+		
+	// }
+
+	public String render() {
+		if(cachedContent) {
+			return cachedContent
+		}	
+		cachedContent = spudTemplateService.render("${page.name}.${name}",content,[model: [page:page]])
 	}
 }
 

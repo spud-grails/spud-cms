@@ -50,6 +50,7 @@ class PagesController {
 
     if(page.save(flush:true)) {
       sitemapService.evictCache()
+      spudPageService.evictCache()
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
       flash.error = "Error Saving Page"
@@ -109,6 +110,7 @@ class PagesController {
 
     if(page.save(flush:true)) {
       sitemapService.evictCache()
+      spudPageService.evictCache()
       redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
     } else {
       render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
@@ -121,9 +123,17 @@ class PagesController {
       return
     }
     spudPageService.remove(page)
+    spudPageService.evictCache()
     sitemapService.evictCache()
     redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
 
+  }
+
+  def clear() {
+    spudPageService.evictCache()
+    sitemapService.evictCache()
+    flash.notice = "Page Cache Cleared Successfully!"
+    redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
   }
 
 

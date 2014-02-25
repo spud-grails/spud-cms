@@ -27,10 +27,10 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":spud-core:0.1.2"
-        runtime ":spud-permalinks:0.1.0"
-        runtime ':cache:1.1.1'
-        runtime ':sitemaps:0.2.0'
+        // runtime ":spud-core:0.1.2"
+        // runtime ":spud-permalinks:0.1.0"
+        // runtime ':cache:1.1.1'
+        // runtime ':sitemaps:0.2.0'
 
         build(":release:3.0.0",
               ":rest-client-builder:1.0.3") {

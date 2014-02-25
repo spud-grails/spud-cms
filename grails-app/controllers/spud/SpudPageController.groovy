@@ -4,15 +4,16 @@ import spud.core.*
 import spud.cms.*
 import spud.permalinks.*
 import org.hibernate.FetchMode
-import grails.plugin.cache.CacheEvict
-import grails.plugin.cache.Cacheable
+// import grails.plugin.cache.CacheEvict
+// import grails.plugin.cache.Cacheable
 
-class PageController {
+class SpudPageController {
 	def grailsApplication
 	def spudLayoutService
 	def spudPermalinkService
 
 	static layout = null
+	static namespace = 'spud'
 
 	// @Cacheable('spud.cms.page')
 	def show() {
@@ -36,8 +37,6 @@ class PageController {
 			return
 		}
 
-		// def layoutService = spudLayoutService.layoutServiceForSite(siteId)
-		// println "Layouts: ${layoutService.layoutsForSite()}"
 		render template: '/spud/page/show', model: [page:page], layout: null
 
 	}

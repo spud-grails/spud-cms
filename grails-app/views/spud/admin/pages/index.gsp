@@ -2,6 +2,7 @@
 
 <content tag="data_controls">
   <spAdmin:link action="create" title="New Page" class="btn btn-primary">New Page</spAdmin:link>
+  <spAdmin:link action="clear" title="Clear Page Cache" class="btn btn-warning">Clear Cache</spAdmin:link>
 </content>
 <content tag="detail">
   <div class="page_list">

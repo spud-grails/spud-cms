@@ -10,7 +10,7 @@
 	<body>
 	<g:each var="partial" in="${page.partials}">
 		<content tag="${partial.symbolName}">
-			${raw(partial.contentProcessed)}
+			${raw(partial.render())}
 		</content>
 	</g:each>
 	</body>
