@@ -2,8 +2,8 @@ package spud.cms
 
 import spud.core.*
 import spud.permalinks.*
-// import grails.plugin.cache.CacheEvict
-// import grails.plugin.cache.Cacheable
+import grails.plugin.cache.CacheEvict
+import grails.plugin.cache.Cacheable
 
 class SpudPageService {
 	def grailsApplication
@@ -97,7 +97,7 @@ class SpudPageService {
 	}
 
 
-    // @CacheEvict(value='spud.cms.page', allEntries=true)
+    @CacheEvict(value='spud.cms.page', allEntries=true)
     def evictCache() {
         log.info("Evicting Sitemap Cache")
     }

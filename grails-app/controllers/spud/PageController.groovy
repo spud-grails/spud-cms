@@ -4,8 +4,8 @@ import spud.core.*
 import spud.cms.*
 import spud.permalinks.*
 import org.hibernate.FetchMode
-// import grails.plugin.cache.CacheEvict
-// import grails.plugin.cache.Cacheable
+import grails.plugin.cache.CacheEvict
+import grails.plugin.cache.Cacheable
 
 class PageController {
 	def grailsApplication
@@ -15,7 +15,7 @@ class PageController {
 	static layout = null
 	static namespace = 'spud'
 
-	// @Cacheable('spud.cms.page')
+	@Cacheable('spud.cms.page')
 	def show() {
 		def urlName = params.id
 		def siteId = params.int('siteId') ?: 0
