@@ -7,7 +7,7 @@ import org.hibernate.FetchMode
 // import grails.plugin.cache.CacheEvict
 // import grails.plugin.cache.Cacheable
 
-class SpudPageController {
+class PageController {
 	def grailsApplication
 	def spudLayoutService
 	def spudPermalinkService
