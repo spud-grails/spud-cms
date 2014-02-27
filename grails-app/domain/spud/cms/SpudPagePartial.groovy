@@ -34,7 +34,7 @@ class SpudPagePartial {
 
 	public void setName(String name) {
 		this.name = name
-		this.symbolName = name.replaceAll(" ", "_").replaceAll(":","_").replaceAll("-","_").replaceAll(",","_").toLowerCase()
+		// this.symbolName = name.replaceAll(" ", "_").replaceAll(":","_").replaceAll("-","_").replaceAll(",","_").toLowerCase()
 	}
 
 
