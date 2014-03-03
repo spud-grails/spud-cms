@@ -24,7 +24,7 @@ class SpudPageUrlMappings {
 
 		"/$id**?" {
 			controller = 'page'
-			namespace = 'spud'
+			// namespace = 'spud'
 			action = 'show'
 			// format = 'html'
 			constraints {

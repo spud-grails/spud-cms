@@ -3,10 +3,12 @@
 	<content tag="detail">
 		<g:form name="new_page" url="[action: 'index',controller: 'pages',namespace: 'spud_admin']" method="POST" class="form-horizontal">
 			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials]" />
-
-			<div class="form-actions">
-				<g:submitButton name="_submit" value="Create Page" class="btn btn-primary"/>
-		  </div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-2">
+					<g:submitButton name="_submit" value="Create Page" class="btn btn-primary"/>
+				</div>	
+			</div>
+			
 		</g:form>
 		<script type="text/javascript">
 			$(document).ready(function() {

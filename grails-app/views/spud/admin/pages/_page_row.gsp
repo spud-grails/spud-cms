@@ -5,9 +5,8 @@
 	</span>
 
 	<span class="edit_controls">
-		<spAdmin:link action="preview" id="${page.id}" title="Preview" class="btn">Preview</spAdmin:link>
-		&nbsp;&nbsp;
-		<spAdmin:link resource="pages" data-method="DELETE" action="delete" id="${page.id}" title="Remove" data-confirm="Are you sure you want to remove this page?" class="btn btn-danger">Remove</spAdmin:link>
+		<spAdmin:link action="preview" id="${page.id}" title="Preview" class="btn btn-sm btn-link">Preview</spAdmin:link>
+		<spAdmin:link resource="pages" data-method="DELETE" action="delete" id="${page.id}" title="Remove" data-confirm="Are you sure you want to remove this page?" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></spAdmin:link>
 	</span>
 	<br style="clear:both;"/>
 </div>

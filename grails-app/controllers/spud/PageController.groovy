@@ -13,7 +13,7 @@ class PageController {
 	def spudPermalinkService
 
 	static layout = null
-	static namespace = 'spud'
+	// static namespace = 'spud'
 
 	@Cacheable('spud.cms.page')
 	def show() {

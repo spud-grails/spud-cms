@@ -1,6 +1,6 @@
 <g:applyLayout name="spud/admin/detail" >
   <content tag="data_controls">
-    <spAdmin:link resource="snippets" action="create" class="btn btn-primary" title="New Snippet">New Snippet</spAdmin:link>
+    <spAdmin:link resource="snippets" action="create" class="btn btn-primary btn-sm" title="New Snippet">New Snippet</spAdmin:link>
   </content>
   <content tag="detail">
     <p class="lead">Snippets are reusable chunks of content that can be injected into your pages and layouts.</p>
@@ -9,7 +9,7 @@
           <div class="page_row">
             <span class="row_meta"><spAdmin:link resource="snippets" id="${snippet.id}" action="edit">${snippet.name}</spAdmin:link>
             <span class="edit_controls">
-              <spAdmin:link class="btn btn-danger" resource="snippets" id="${snippet.id}" action="delete" data-method="DELETE" data-confirm="Are you sure you want to remove this snippet?">Remove</spAdmin:link>
+              <spAdmin:link class="btn btn-danger btn-sm" resource="snippets" id="${snippet.id}" action="delete" data-method="DELETE" data-confirm="Are you sure you want to remove this snippet?"><span class="glyphicon glyphicon-trash"></span></spAdmin:link>
             </span>
             <br style="clear:both;"/>
           </div>

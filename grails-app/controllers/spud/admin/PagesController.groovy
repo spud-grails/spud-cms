@@ -5,7 +5,7 @@ import grails.transaction.Transactional
 import grails.artefact.Artefact
 
 
-@SpudApp(name="Pages", thumbnail="spud/admin/pages_thumb.png", order="0")
+@SpudApp(name="Pages", thumbnail="spud/admin/pages_icon.png", order="0")
 @SpudSecure(['PAGES'])
 @Artefact("Controller")
 class PagesController {

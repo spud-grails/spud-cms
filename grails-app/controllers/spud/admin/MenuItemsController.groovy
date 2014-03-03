@@ -3,7 +3,7 @@ import  spud.cms.*
 import  spud.core.*
 import groovy.json.*
 
-@SpudApp(name="Menus", subsection="Menu Items", thumbnail="spud/admin/menus_thumb.png")
+@SpudApp(name="Menus", subsection="Menu Items", thumbnail="spud/admin/menu_icon.png")
 @SpudSecure(['MENUS'])
 class MenuItemsController {
 	static namespace = "spud_admin"

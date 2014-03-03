@@ -2,7 +2,7 @@ package spud.admin
 import  spud.cms.*
 import  spud.core.*
 
-@SpudApp(name="Menus", thumbnail="spud/admin/menus_thumb.png", order="2")
+@SpudApp(name="Menus", thumbnail="spud/admin/menu_icon.png", order="2")
 @SpudSecure(['MENUS'])
 class MenusController {
     def spudPageService
