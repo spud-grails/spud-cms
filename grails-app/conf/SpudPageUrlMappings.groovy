@@ -23,10 +23,8 @@ class SpudPageUrlMappings {
 
 
 		"/$id**?" {
-			controller = 'page'
-			// namespace = 'spud'
+			controller = 'spudPage'
 			action = 'show'
-			// format = 'html'
 			constraints {
 				id(validator: { id ->
 					return !FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}

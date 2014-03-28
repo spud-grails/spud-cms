@@ -4,22 +4,14 @@
 		<div class="form-group">
 		<label for="page.name" style="display:none;" class="control-label">Name</label>
 		<div class="col-sm-12">
-			<g:textField name="page.name" class="form-control full-width" value="${page?.name}"/>	
+			<g:textField name="page.name" class="form-control full-width" value="${page?.name}" autofocus="true"/>	
 		</div>
 		
 	</div>
 </fieldset>
 
-<div id="page_partials_form" class="formtabs tab-content">
-	<ul class="formtab_buttons nav nav-tabs">
-	</ul>
-	<g:each var="partial" in="${partials}">
-		<div class="formtab tab-pane">
-			<g:hiddenField name="partial.${partial.symbolName}.name" value="${partial.name}" class="tab_name"/>
-			<g:textArea name="partial.${partial.symbolName}.content" class="spud-formatted-editor form-control" value="${partial.content}" data-content-css="${assetPath(src: 'spud/content.css')}"/>
-		</div>
-	</g:each>
-</div>
+
+<g:render template="/spud/admin/pages/page_partials_form" model="[partials: partials]"/>
 
 <br />
 <fieldset>

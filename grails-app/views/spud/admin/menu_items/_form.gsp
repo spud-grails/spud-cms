@@ -2,7 +2,7 @@
 <div class="form-group">
 	<label for="menuItem.name" class="control-label col-sm-2">Name</label>
 	<div class="col-sm-8">
-	  <g:textField name="menuItem.name" class="form-control" value="${menuItem?.name}"/>
+	  <g:textField name="menuItem.name" class="form-control" value="${menuItem?.name}" autofocus="true"/>
 	</div>
 
 </div>

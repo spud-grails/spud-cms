@@ -24,6 +24,16 @@ class PagesController {
 		render view: '/spud/admin/pages/index', model:[pages: pages, pageCount: SpudPage.count()]
   }
 
+  def show() {
+    def page = loadPage()
+    if(!page) {
+      return
+    }
+    
+
+    render template: '/spud/page/show', model: [page:page], layout: null
+  }
+
   def create() {
   	def page     = new SpudPage()
   	def partials = newPartialsForLayout(grailsApplication.config.spud.cms.defaultLayout)
@@ -195,6 +205,11 @@ class PagesController {
       layout.html.each {
         if(!partials.find{ep -> ep.symbolName == it.parameterize()}) {
           partials << new SpudPagePartial(symbolName: it.parameterize(), name: it, content: null)
+        }
+
+        // Sort Partials to line up with template
+        partials.sort { a ->
+          layout.html.findIndexOf{ html -> html.parameterize() == a.symbolName}
         }
       }
     }
