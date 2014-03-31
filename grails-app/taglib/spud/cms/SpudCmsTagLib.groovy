@@ -38,7 +38,7 @@ class SpudCmsTagLib {
 			def active = false
 			def linkOptions = attrs.linkOptions ?: [:]
 			if(item.urlName) {
-				linkOptions += [controller: "page", action: "show", namespace: 'spud']
+				linkOptions += [controller: "spudPage", action: "show"]
 				if(item.urlName != defaultPage) {
 					linkOptions.id = item.urlName
 				}
@@ -103,7 +103,7 @@ class SpudCmsTagLib {
 			def active = false
 			def linkOptions = attrs.linkOptions ?: [:]
 			if(item.urlName) {
-				linkOptions += [controller: "page", action: "show", namespace: 'spud']
+				linkOptions += [controller: "spudPage", action: "show"]
 				if(item.urlName != defaultPage) {
 					linkOptions.id = item.urlName
 				}
