@@ -4,7 +4,7 @@ import spud.permalinks.*
 class SpudPage {
 	static hasMany = [ partials:SpudPagePartial ]
 	static transients = ['pages']
-	
+
 	def spudPermalinkService
 
 	Integer siteId = 0
@@ -33,6 +33,9 @@ class SpudPage {
 	Date lastUpdated
 
 	static mapping = {
+        def cfg = it?.getBean('grailsApplication')?.config
+		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')
+
 		cache true
 		table 'spud_pages'
 		autoTimestamp true
@@ -70,4 +73,3 @@ class SpudPage {
 	}
 
 }
-

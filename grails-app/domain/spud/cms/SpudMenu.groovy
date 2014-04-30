@@ -15,6 +15,8 @@ class SpudMenu {
 
 
 	static mapping = {
+		def cfg = it?.getBean('grailsApplication')?.config
+		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')
 		table 'spud_menus'
 		autoTimestamp true
 		description type:'text'

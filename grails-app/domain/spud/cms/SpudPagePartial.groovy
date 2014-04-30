@@ -17,6 +17,9 @@ class SpudPagePartial {
 	Date lastUpdated
 
 	static mapping = {
+		def cfg = it?.getBean('grailsApplication')?.config
+		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')
+		
 		cache true
 		table 'spud_page_partials'
 		autoTimestamp true
@@ -43,20 +46,19 @@ class SpudPagePartial {
 	// 		return cachedContent
 	// 	}
 	// 	println "Generating Template check"
-		
+
 	// 	return cachedContent
 	// 	// if(this.contentProcessed) {
 	// 	// 	return this.contentProcessed
 	// 	// }
 	// 	// // TODO : Find out if a renderer / formatter is needed on the content
-		
+
 	// }
 
 	public String render() {
 		if(cachedContent) {
 			return cachedContent
-		}	
+		}
 		cachedContent = spudTemplateService.render("${page.name}.${name}",content,[model: [page:page]])
 	}
 }
-

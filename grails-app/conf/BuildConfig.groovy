@@ -23,12 +23,12 @@ grails.project.dependency.resolution = {
     repositories {
         grailsCentral()
         grailsPlugins()
-        mavenCentral()   
+        mavenCentral()
     }
 
     plugins {
-        runtime ":spud-core:0.2.1"
-        runtime ":spud-permalinks:0.2.0"
+        runtime ":spud-core:0.3.0"
+        runtime ":spud-permalinks:0.3.0"
         runtime ':cache:1.1.1'
         runtime ':sitemaps:0.2.0'
 
@@ -39,5 +39,5 @@ grails.project.dependency.resolution = {
     }
 }
 
-// grails.plugin.location."spud-core" = "../spud-core"
-// grails.plugin.location."spud-permalinks" = "../spud-permalinks"
+/*grails.plugin.location."spud-core" = "../spud-core"*/
+/*grails.plugin.location."spud-permalinks" = "../spud-permalinks"*/

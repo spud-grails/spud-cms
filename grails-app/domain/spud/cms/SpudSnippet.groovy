@@ -12,6 +12,9 @@ class SpudSnippet {
 	Date lastUpdated
 
 	static mapping = {
+		def cfg = it?.getBean('grailsApplication')?.config
+		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')
+		
 		table 'spud_snippets'
 		autoTimestamp true
 		content type:'text'

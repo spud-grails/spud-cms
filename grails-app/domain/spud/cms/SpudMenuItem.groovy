@@ -17,6 +17,8 @@ class SpudMenuItem {
 	Date lastUpdated
 
 	static mapping = {
+		def cfg = it?.getBean('grailsApplication')?.config
+		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')
 		table 'spud_menu_items'
 		autoTimestamp true
 
