@@ -54,11 +54,19 @@ Within your layout you will want to render these content blocks via a pageProper
 For more information checkout the Wiki section of this repository.
 
 
-Using Liquid Template Engine
+Using Handlebars Template Engine
 ----------------------------
-Spud CMS utilizes the liquid template syntax engine created by Shopify. This allows you to easily inject variables into your pages in the page editor. Example:
+Spud CMS utilizes the [Handlebars.java](http://jknack.github.io/handlebars.java/) template syntax engine. This maps any calls to handlebars helpers to the grails `sp` taglib namespace. Simply add your own taglib in the sp namespace to get access.
 
-    **TODO** Template syntax is still unavailable in the grails version, coming soon!
+```handlebars
+<h1>My Awesome Page</h1>
+<p>This is cool , lets render a snippet.</p>
+{{{snippet name='Test Snippet'}}}
+
+<div id='footer'>
+{{{snippet name='Footer'}}}
+</div>
+```
 
 Using Menus
 -----------
@@ -68,5 +76,3 @@ In your application layout file or any erb template you can render a ul block li
     <sp:menu name="Main" id="navigation"/>
 
 This will output a <ul id="navigation"></ul> block for the menu you created in admin named "Main"
-
-
