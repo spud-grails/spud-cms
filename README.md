@@ -56,7 +56,7 @@ For more information checkout the Wiki section of this repository.
 
 Using Handlebars Template Engine
 ----------------------------
-Spud CMS utilizes the [Handlebars.java](http://jknack.github.io/handlebars.java/) template syntax engine. This maps any calls to handlebars helpers to the grails `sp` taglib namespace. Simply add your own taglib in the sp namespace to get access.
+Spud CMS utilizes the [Handlebars.java](http://jknack.github.io/handlebars.java/) template syntax engine in any content editable area. This maps any calls to handlebars helpers to the grails `sp` taglib namespace. Simply add your own taglib in the sp namespace to get access.
 
 ```handlebars
 <h1>My Awesome Page</h1>
