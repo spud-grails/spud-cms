@@ -29,7 +29,7 @@ class PagesController {
     if(!page) {
       return
     }
-    
+
 
     render template: '/spud/page/show', model: [page:page], layout: null
   }
@@ -107,11 +107,14 @@ class PagesController {
         def partialRecord = page.partials.find { it.symbolName == partial.key}
         if(!partialRecord) {
           if(partial.value.content) {
-            partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content)
+            partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content, format: partial.value.format ?: 'html')
             page.addToPartials(partialRecord)
           }
         } else {
-          partialRecord.content = partial.value.content
+			partialRecord.content = partial.value.content
+			if(partial.value.format) {
+				partialRecord.format = partial.value.format
+			}
           partialRecord.save(flush:true)
         }
       }
