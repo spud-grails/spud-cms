@@ -1,3 +1,4 @@
+import spud.cms.*
 class SpudPageUrlMappings {
 
 	static mappings = {
@@ -27,8 +28,12 @@ class SpudPageUrlMappings {
 			action = 'show'
 			constraints {
 				id(validator: { id ->
-					return !FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}
-				})	
+					if(FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}) {
+						return false
+					}
+					//TODO : Perhaps store this in the request
+					return SpudPage.findByUrlName(id,[cache:true, readOnly:true]) ? true : false
+				})
 			}
 		}
 
