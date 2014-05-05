@@ -27,8 +27,9 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":spud-core:0.3.3"
+        runtime ":spud-core:0.4.0"
         runtime ":spud-permalinks:0.3.0"
+        //runtime ":spud-security:0.2.1" //Optionally Exclude this for your own security
         runtime ':cache:1.1.1'
         runtime ':sitemaps:0.2.0'
 

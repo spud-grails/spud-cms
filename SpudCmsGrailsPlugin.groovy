@@ -1,5 +1,5 @@
 class SpudCmsGrailsPlugin {
-    def version = "0.3.1"
+    def version = "0.4.0"
     def grailsVersion = "2.3 > *"
     def pluginExcludes = [
         "grails-app/views/error.gsp"
@@ -8,7 +8,7 @@ class SpudCmsGrailsPlugin {
     def title = "Spud Cms Plugin" // Headline display name of the plugin
     def author = "David Estes"
     def authorEmail = "destes@bcap.com"
-    def description = 'Provides CMS functionality for spud'
+    def description = 'Provides CMS functionality for Spud'
 
     def documentation = "https://github.com/spud-grails/spud-cms"
     def license = "APACHE"
