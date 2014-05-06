@@ -8,7 +8,7 @@ class SpudCmsGrailsPlugin {
     def title = "Spud Cms Plugin" // Headline display name of the plugin
     def author = "David Estes"
     def authorEmail = "destes@bcap.com"
-    def description = 'Provides CMS functionality for spud'
+    def description = 'Provides CMS functionality for Spud'
 
     def documentation = "https://github.com/spud-grails/spud-cms"
     def license = "APACHE"
