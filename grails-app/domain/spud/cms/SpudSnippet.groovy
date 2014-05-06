@@ -1,6 +1,7 @@
 package spud.cms
 
 class SpudSnippet {
+	def grailsApplication
 	Integer siteId = 0
 	String name
 
@@ -14,7 +15,7 @@ class SpudSnippet {
 	static mapping = {
 		def cfg = it?.getBean('grailsApplication')?.config
 		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')
-		
+
 		table 'spud_snippets'
 		autoTimestamp true
 		content type:'text'
@@ -28,8 +29,20 @@ class SpudSnippet {
   	contentProcessed nullable:true
   }
 
-  public String getContentProcessed() {
-  	// TODO : Precompile Content based on format
-  	return this.content
-  }
+	public void setContent(String _content) {
+		content = _content
+		this.contentProcessed = null
+	}
+
+	def beforeValidate() {
+		if(this.content && !this.contentProcessed) {
+			def formatter = grailsApplication.config.spud.formatters.find{ it.name == this.format}?.formatterClass
+			if(formatter) {
+				def formattedText = formatter.newInstance().compile(this.content)
+				contentProcessed = formattedText
+			} else {
+				contentProcessed = this.content
+			}
+		}
+	}
 }

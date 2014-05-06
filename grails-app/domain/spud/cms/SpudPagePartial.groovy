@@ -2,6 +2,7 @@ package spud.cms
 
 class SpudPagePartial {
 	def spudTemplateService
+	def grailsApplication
 
 	static belongsTo = [page: SpudPage]
 	static transients = ['cachedContent']
@@ -19,7 +20,7 @@ class SpudPagePartial {
 	static mapping = {
 		def cfg = it?.getBean('grailsApplication')?.config
 		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')
-		
+
 		cache true
 		table 'spud_page_partials'
 		autoTimestamp true
@@ -40,25 +41,27 @@ class SpudPagePartial {
 		// this.symbolName = name.replaceAll(" ", "_").replaceAll(":","_").replaceAll("-","_").replaceAll(",","_").toLowerCase()
 	}
 
+	public void setContent(String _content) {
+		content = _content
+		this.contentProcessed = null
+	}
 
-	// public String getContentProcessed() {
-	// 	if(cachedContent) {
-	// 		return cachedContent
-	// 	}
-	// 	println "Generating Template check"
-
-	// 	return cachedContent
-	// 	// if(this.contentProcessed) {
-	// 	// 	return this.contentProcessed
-	// 	// }
-	// 	// // TODO : Find out if a renderer / formatter is needed on the content
-
-	// }
+	def beforeValidate() {
+		if(this.content && !this.contentProcessed) {
+			def formatter = grailsApplication.config.spud.formatters.find{ it.name == this.format}?.formatterClass
+			if(formatter) {
+				def formattedText = formatter.newInstance().compile(this.content)
+				contentProcessed = formattedText
+			} else {
+				contentProcessed = this.content
+			}
+		}
+	}
 
 	public String render() {
 		if(cachedContent) {
 			return cachedContent
 		}
-		cachedContent = spudTemplateService.render("${page.name}.${name}",content,[model: [page:page]])
+		cachedContent = spudTemplateService.render("${page.name}.${name}",contentProcessed ?: content,[model: [page:page]])
 	}
 }
