@@ -31,7 +31,7 @@ class SpudSnippet {
 
 	public void setContent(String _content) {
 		content = _content
-		this.contentProcessed = null
+		contentProcessed = null
 	}
 
 	def beforeValidate() {
