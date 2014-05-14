@@ -1,5 +1,5 @@
 class SpudCmsGrailsPlugin {
-    def version = "0.4.1"
+    def version = "0.4.2"
     def grailsVersion = "2.3 > *"
     def pluginExcludes = [
         "grails-app/views/error.gsp"

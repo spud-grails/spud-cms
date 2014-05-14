@@ -86,3 +86,17 @@ In your application layout file or any erb template you can render a ul block li
     <sp:menu name="Main" id="navigation"/>
 
 This will output a <ul id="navigation"></ul> block for the menu you created in admin named "Main"
+
+Using an Alternative DataSource
+-------------------------------
+
+Spud supports running on a different datasource than your primary. This can be done by adding the following config example:
+
+```groovy
+spud {
+	core {
+		//By default this uses the DEFAULT datasource
+		datasource = 'spud' //Set datasource name here
+	}
+}
+```

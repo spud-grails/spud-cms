@@ -2,6 +2,8 @@ import spud.cms.*
 class SpudPageUrlMappings {
 
 	static mappings = {
+		def grailsApplication = getGrailsApplication()
+		def defaultSpudPage = grailsApplication.config.spud.cms.defaultPage ?: 'home'
 		def FORBIDDEN = [
 			'plugins',
 			'WEB-INF',
@@ -32,7 +34,13 @@ class SpudPageUrlMappings {
 						return false
 					}
 					//TODO : Perhaps store this in the request
-					return SpudPage.findByUrlName(id,[cache:true, readOnly:true]) ? true : false
+					if(!id) {
+						println "Id Not Detected, Looking for ${defaultSpudPage} ${ SpudPage.findByUrlName(defaultSpudPage,[cache:true, readOnly:true]) ? true : false}"
+						return SpudPage.findByUrlName(defaultSpudPage,[cache:true, readOnly:true]) ? true : false
+					} else {
+						return SpudPage.findByUrlName(id,[cache:true, readOnly:true]) ? true : false
+					}
+
 				})
 			}
 		}
