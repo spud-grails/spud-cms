@@ -2,15 +2,21 @@ package spud.cms
 
 class SpudSnippet {
 	def grailsApplication
+	def spudTemplateService
+
+	static transients = ['cachedContent']
+
 	Integer siteId = 0
 	String name
-
 	String content
 	String contentProcessed
 	String format = 'html'
 
 	Date dateCreated
 	Date lastUpdated
+
+	//Transients
+	String cachedContent
 
 	static mapping = {
 		def cfg = it?.getBean('grailsApplication')?.config
@@ -32,6 +38,18 @@ class SpudSnippet {
 	public void setContent(String _content) {
 		content = _content
 		contentProcessed = null
+	}
+
+
+	public String render() {
+		if(cachedContent) {
+			return cachedContent
+		}
+		cachedContent = spudTemplateService.render("_${this.name}",contentProcessed ?: content,[model: [snippet:this]])
+	}
+
+	public String getRender() {
+		this.render()
 	}
 
 	def beforeValidate() {

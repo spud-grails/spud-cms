@@ -35,7 +35,6 @@ class SpudPageUrlMappings {
 					}
 					//TODO : Perhaps store this in the request
 					if(!id) {
-						println "Id Not Detected, Looking for ${defaultSpudPage} ${ SpudPage.findByUrlName(defaultSpudPage,[cache:true, readOnly:true]) ? true : false}"
 						return SpudPage.findByUrlName(defaultSpudPage,[cache:true, readOnly:true]) ? true : false
 					} else {
 						return SpudPage.findByUrlName(id,[cache:true, readOnly:true]) ? true : false

@@ -81,7 +81,7 @@ class SpudCmsTagLib {
 		def siteId = 0
 		def snippet = SpudSnippet.findBySiteIdAndName(siteId,attrs.name)
 		if(snippet) {
-			out << snippet.contentProcessed
+			out << snippet.render()
 		}
 	}
 
