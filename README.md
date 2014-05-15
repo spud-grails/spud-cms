@@ -10,14 +10,22 @@ Installation/Usage
 Add spud-cms to your BuildConfig.groovy
 ```groovy
  plugins {
-    compile ':spud-cms:0.3.1'
-    compile ':spud-security:0.2.1' //Only necessary if you do not have a security bridge
+    compile ':spud-cms:0.4.3'
+    compile ':spud-security:0.4.1' //Only necessary if you do not have a security bridge
  }
 ```
 
 **Security**: By Default Spud CMS Expects to interact with The [Grails Security Bridge](http://grails.org/plugin/security-bridge) interface. If you do not have an existing security implementation than be sure to include the latest spud-security.
 
 **NOTE**: Spud Core is a dependency and looks for hibernate version equivalent to Grails 2.3.8. If necessary add spud-core to your plugins list and exclude hibernate.
+
+**NOTE**: Spud Security uses Spring Security Core RC release and therefore requires a mavenRepo definition if in use:
+
+```groovy
+repositories {
+  mavenRepo "http://repo.spring.io/milestone/"
+}
+```
 
 Routing to the CMS Engine
 --------------------------
