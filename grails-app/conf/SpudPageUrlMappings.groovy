@@ -2,8 +2,8 @@ import spud.cms.*
 class SpudPageUrlMappings {
 
 	static mappings = {
-		def grailsApplication = getGrailsApplication()
-		def defaultSpudPage = grailsApplication.config.spud.cms.defaultPage ?: 'home'
+		def grailsApplication = grails.util.Holders.grailsApplication
+		def defaultSpudPage = grailsApplication?.config?.spud?.cms?.defaultPage ?: 'home'
 		def FORBIDDEN = [
 			'plugins',
 			'WEB-INF',
