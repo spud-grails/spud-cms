@@ -31,6 +31,7 @@ grails {
     cms {
       rootPageName = "home"
       defaultLayout = "page"
+      cacheEnabled = false //Turn on action caching
     }
   }
 }

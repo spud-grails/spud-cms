@@ -15,8 +15,8 @@ class SpudPageController {
 	static layout = null
 	// static namespace = 'spud'
 
-	@Cacheable('spud.cms.page')
-	def show() {
+	@Cacheable(value='spud.cms.page', condition="#cacheEnabled == true")
+	def show(Boolean cacheEnabled) {
 		def urlName = params.id
 		def siteId = params.int('siteId') ?: 0
 		if(!urlName) {
