@@ -15,6 +15,16 @@ class SpudCmsAdminTagLib {
 		out << g.select(attrs + [from: pageOptions, optionKey: 'value', optionValue: 'name'])
 	}
 
+	def cacheBlock = {attrs, body -> 
+		if(grailsApplication.config.spud.cms.cacheEnabled && grailsApplication.config.spud.cms.cacheMode == 'partial') {
+			out << cache.block(attrs,body)	
+		} else {
+			out << body()
+		}
+		
+	}
+
+
 	def menuItemSelect = { attrs, body ->
 		if(!attrs.menu) {
 		 throw new IllegalStateException("Property [menu] must be set!")

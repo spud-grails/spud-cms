@@ -28,7 +28,7 @@ class SpudPageUrlMappings {
 		"/$id**?" {
 			controller = 'spudPage'
 			action = 'show'
-			cacheEnabled = grailsApplication?.config?.spud?.cms?.cacheEnabled
+			cacheEnabled = grailsApplication?.config?.spud?.cms?.cacheEnabled && grailsApplication?.config?.spud?.cms?.cacheMode != 'partial'
 			constraints {
 				id(validator: { id ->
 					if(FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}) {

@@ -14,6 +14,7 @@ class PagesController {
   def layoutParserService
   def spudPageService
   def sitemapService
+  def grailsCacheAdminService
 
   def index() {
     def pages = SpudPage.withCriteria(readOnly:true) {
@@ -145,6 +146,7 @@ class PagesController {
   def clear() {
     spudPageService.evictCache()
     sitemapService.evictCache()
+    grailsCacheAdminService.clearBlocksCache()
     flash.notice = "Page Cache Cleared Successfully!"
     redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
   }

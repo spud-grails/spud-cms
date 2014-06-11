@@ -9,9 +9,11 @@
 	</head>
 	<body>
 	<g:each var="partial" in="${page.partials}">
-		<content tag="${partial.symbolName}">
-			${raw(partial.render())}
-		</content>
+			<content tag="${partial.symbolName}">
+				<spudCms:block key="spud.cms.${page.urlName}.${partial.symbolName}">
+					${raw(partial.render())}
+				</spudCms:block>
+			</content>
 	</g:each>
 	</body>
 </sp:applyLayout>
