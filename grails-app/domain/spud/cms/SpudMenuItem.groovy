@@ -35,8 +35,8 @@ class SpudMenuItem {
   static constraints = {
   	name       blank:false
   	menu       nullable: false
-  	parentType blank: false
-  	parentId   blank: false
+  	parentType nullable: false
+  	parentId   nullable: false
   	url        nullable: true
   	page       nullable: true
   	menuOrder  nullable: true
