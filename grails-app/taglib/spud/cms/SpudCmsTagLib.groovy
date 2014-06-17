@@ -61,7 +61,7 @@ class SpudCmsTagLib {
 			def linkTag = g.link(linkOptions, item.name)
 			out << "<li ${classes ? paramsToHtmlAttr([class: classes.join(" ")]) : ''}>"
 			out << linkTag
-			if(maxDepth == 0 || maxDepth > 1) {
+			if(maxDepth == 0 || maxDepth > 1){
 				out  << listMenuItem(childItems, item.id, 2, attrs)
 			}
 			out << "</li>"
@@ -93,7 +93,7 @@ class SpudCmsTagLib {
 		def maxDepth = attrs.maxDepth ?: 0
 		def defaultPage = grailsApplication.config.spud.cms.defaultPage ?: 'home'
 		def activeClass = attrs.activeClass ?: "menu-active"
-		def menuItems = childItems[itemId.toInteger()]
+		def menuItems = childItems.get(itemId)
 		if(!menuItems) {
 			return ""
 		}
@@ -122,15 +122,15 @@ class SpudCmsTagLib {
 			linkOptions.class = classes.join(" ")
 
 			def linkTag = g.link(linkOptions, item.name)
-			content << "<li ${paramsToHtmlAttr([class: classes.join(" ")])}>"
-			content << linkTag
+			content += "<li ${paramsToHtmlAttr([class: classes.join(" ")])}>"
+			content += linkTag
 			if(maxDepth == 0 || maxDepth > depth) {
 				content  << listMenuItem(childItems, item.id, depth + 1, attrs)
 			}
-			content << "</li>"
+			content += "</li>"
 
 		}
-		content << "</ul>"
+		content += "</ul>"
 		return content
 	}
 
