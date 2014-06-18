@@ -54,7 +54,7 @@ class PagesController {
 
     params.partial.each { partial ->
       if(partial.key.indexOf(".") == -1) {
-        def partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content)
+        def partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content, format: partial.value.format ?: 'html')
         page.addToPartials(partialRecord)
       }
     }
