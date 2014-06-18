@@ -39,10 +39,10 @@
 			<label for="page.urlName" class="control-label col-sm-2">Perma Link</label>
 
 			<div class="col-sm-8">
-				<g:textField name="page.urlName" value="${page?.urlName}" title="" size="20" id="spud_page_url_name" class="form-control" disabled="${page.useCustomUrlName ? null : true}"/>
+				<g:textField name="page.urlName" value="${page?.urlName}" title="" size="20" id="spud_page_url_name" class="form-control" disabled="${page?.useCustomUrlName ? null : true}"/>
 				<div class="checkbox">
 					<label >
-						<g:checkBox name="page.useCustomUrlName" onchange="\$('#spud_page_url_name').attr('disabled',!this.checked);"/>
+						<g:checkBox name="page.useCustomUrlName" onchange="\$('#spud_page_url_name').attr('disabled',!this.checked);" checked="${page?.useCustomUrlName}"/>
 						Customize this pages url
 					</label>
 				</div>
