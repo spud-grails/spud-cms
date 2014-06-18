@@ -32,11 +32,11 @@ class SpudCmsTagLib {
 		}
 		def groupedMenuItems = menuItems.groupBy{it.parentType}
 		def parentItems = groupedMenuItems['SpudMenu']
-		def childItems  = groupedMenuItems['SpudMenuItem'] ? groupedMenuItems['SpudMenuItem'].groupBy{it.parentId} : []
+		def childItems  = groupedMenuItems['SpudMenuItem'] ? groupedMenuItems['SpudMenuItem'].groupBy{it.parentId} : [:]
 
 		parentItems?.sort{ it.menuOrder }?.each { item ->
 			def active = false
-			def linkOptions = attrs.linkOptions ?: [:]
+			def linkOptions = attrs.linkOptions ?: []
 			if(item.urlName) {
 				linkOptions += [controller: "spudPage", action: "show"]
 				if(item.urlName != defaultPage) {
