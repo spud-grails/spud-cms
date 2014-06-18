@@ -50,7 +50,7 @@ class SpudCmsTagLib {
 				active = isCurrentUrl(item.url)
 				linkOptions.url = item.url
 			}
-			def classes = item.classes ? item.classes.split(" ") : []
+			def classes = item.classes ? item.classes.split(" ") : [:]
 			if(active) {
 				classes << activeClass
 			}
@@ -70,6 +70,7 @@ class SpudCmsTagLib {
 	}
 
 	def pages = {attrs, body ->
+		// TODO: Build this soon please
 	}
 
 
