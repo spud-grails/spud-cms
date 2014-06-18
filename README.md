@@ -10,7 +10,7 @@ Installation/Usage
 Add spud-cms to your BuildConfig.groovy
 ```groovy
  plugins {
-    compile ':spud-cms:0.5.3'
+    compile ':spud-cms:0.5.4'
     compile ':spud-security:0.4.2' //Only necessary if you do not have a security bridge
  }
 ```

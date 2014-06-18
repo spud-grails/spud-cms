@@ -36,7 +36,7 @@ class SpudCmsTagLib {
 
 		parentItems?.sort{ it.menuOrder }?.each { item ->
 			def active = false
-			def linkOptions = attrs.linkOptions ?: []
+			def linkOptions = attrs.linkOptions ?: [:]
 			if(item.urlName) {
 				linkOptions += [controller: "spudPage", action: "show"]
 				if(item.urlName != defaultPage) {
@@ -50,7 +50,7 @@ class SpudCmsTagLib {
 				active = isCurrentUrl(item.url)
 				linkOptions.url = item.url
 			}
-			def classes = item.classes ? item.classes.split(" ") : [:]
+			def classes = item.classes ? item.classes.split(" ") : []
 			if(active) {
 				classes << activeClass
 			}
