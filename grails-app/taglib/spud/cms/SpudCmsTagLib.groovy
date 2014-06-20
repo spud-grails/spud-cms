@@ -2,7 +2,7 @@ package spud.cms
 import org.hibernate.FetchMode
 class SpudCmsTagLib {
   static defaultEncodeAs = 'html'
-    static encodeAsForTags = [menu: 'raw', pages: 'raw', snippet: 'raw', applyLayout: 'raw']
+	static encodeAsForTags = [menu: 'raw', pages: 'raw', snippet: 'raw', applyLayout: 'raw']
 	static namespace = 'sp'
 
 	def grailsApplication
@@ -19,22 +19,34 @@ class SpudCmsTagLib {
 		def activeClass = attrs.activeClass ?: 'menu-active'
 		def siteId = 0
 
-		def menu = SpudMenu.findBySiteIdAndName(siteId, attrs.name)
-		if(!menu) {
+		def menuId = SpudMenu.withCriteria(uniqueResult:true, cache:true,readOnly:true) {
+			eq('siteId',siteId)
+			eq('name', attrs.name)
+			projections {
+				property('id')
+			}
+		}
+		// def menu = SpudMenu.findBySiteIdAndName(siteId, attrs.name,[cache:true,readOnly:true])
+		if(!menuId) {
 			return
 		}
 
 
 		out << "<ul ${paramsToHtmlAttr(htmlArgs)}>"
-		def menuItems = SpudMenuItem.createCriteria().list {
-			eq('menu', menu)
-	    fetchMode 'page', FetchMode.JOIN
+
+		def menuItems = SpudMenuItem.withCriteria(readOnly:true, cache:true) {
+			eq('menu.id', menuId)
+			fetchMode 'page', FetchMode.JOIN
+			order('parentType','asc')
+			order('parentId','asc')
+			order('menuOrder','asc')
 		}
+
 		def groupedMenuItems = menuItems.groupBy{it.parentType}
 		def parentItems = groupedMenuItems['SpudMenu']
 		def childItems  = groupedMenuItems['SpudMenuItem'] ? groupedMenuItems['SpudMenuItem'].groupBy{it.parentId} : [:]
-
-		parentItems?.sort{ it.menuOrder }?.each { item ->
+		// println parentItems
+		parentItems?.each { item ->
 			def active = false
 			def linkOptions = attrs.linkOptions ?: [:]
 			if(item.urlName) {
