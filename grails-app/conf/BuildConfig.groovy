@@ -27,12 +27,12 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":spud-core:0.5.0"
-        runtime ":spud-permalinks:0.4.1"
-        runtime ':cache:1.1.1'
-        runtime ':sitemaps:0.2.0'
+        runtime ":spud-core:0.5.1"
+        runtime ":spud-permalinks:0.5.0"
+        runtime ':cache:1.1.7'
+        runtime ':sitemaps:1.0.0'
 
-        runtime(':hibernate:3.6.10.13') {
+        runtime(':hibernate4:4.3.5.4') {
             export = false
         }
         build(":release:3.0.1",
@@ -42,5 +42,5 @@ grails.project.dependency.resolution = {
     }
 }
 
-/*grails.plugin.location."spud-core" = "../spud-core"*/
-/*grails.plugin.location."spud-permalinks" = "../spud-permalinks"*/
+// grails.plugin.location."spud-core" = "../spud-core"
+// grails.plugin.location."spud-permalinks" = "../spud-permalinks"
