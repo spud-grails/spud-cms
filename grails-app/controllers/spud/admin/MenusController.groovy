@@ -6,11 +6,14 @@ import  spud.core.*
 @SpudSecure(['MENUS'])
 class MenusController {
     def spudPageService
+    def spudMultiSiteService
 
     static namespace = "spud_admin"
 
     def index() {
-        def menus = SpudMenu.list([sort: 'name', max: 25] + params)
+        def menus = SpudMenu.createCriteria().list([sort: 'name', max: 25] + params) {
+            eq('siteId',spudMultiSiteService.activeSite.siteId)
+        }
         render view: '/spud/admin/menus/index', model:[menus: menus, menuCount: SpudMenu.count()]
     }
 
@@ -27,6 +30,7 @@ class MenusController {
         }
 
         def menu = new SpudMenu(params.menu)
+        menu.siteId = spudMultiSiteService.activeSite.siteId
 
         if(menu.save(flush:true)) {
             spudPageService.evictCache()
@@ -51,6 +55,7 @@ class MenusController {
             return
         }
         menu.properties += params.menu
+        menu.siteId = spudMultiSiteService.activeSite.siteId
 
         if(menu.save(flush:true)) {
             spudPageService.evictCache()
@@ -78,7 +83,7 @@ class MenusController {
             return null
         }
 
-        def menu = SpudMenu.get(params.id)
+        def menu = SpudMenu.findBySiteIdAndId(spudMultiSiteService.activeSite.siteId, params.long('id'))
         if(!menu) {
             flash.error = "Menu not found!"
             redirect controller: 'menus', action: 'index', namespace: 'spud_admin'

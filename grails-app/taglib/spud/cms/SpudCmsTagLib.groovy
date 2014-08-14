@@ -7,6 +7,7 @@ class SpudCmsTagLib {
 
 	def grailsApplication
 	def spudTemplateService
+    def spudMultiSiteService
 
 	def menu = { attrs, body ->
 		def htmlArgs = attrs.findAll { !(['name','activeClass','maxDepth', 'linkOptions'].contains(it.key))}
@@ -17,7 +18,7 @@ class SpudCmsTagLib {
 		}
 		def maxDepth = attrs.maxDepth ?: 0
 		def activeClass = attrs.activeClass ?: 'menu-active'
-		def siteId = 0
+		def siteId = spudMultiSiteService.siteForUrl().siteId
 
 		def menuId = SpudMenu.withCriteria(uniqueResult:true, cache:true,readOnly:true) {
 			eq('siteId',siteId)
@@ -91,7 +92,7 @@ class SpudCmsTagLib {
 		if(!attrs.name) {
 			 throw new IllegalStateException("Property [name] must be set!")
 		}
-		def siteId = 0
+		def siteId = spudMultiSiteService.siteForUrl().siteId
 		def snippet = SpudSnippet.findBySiteIdAndName(siteId,attrs.name)
 		if(snippet) {
 			out << snippet.render()

@@ -8,20 +8,21 @@ class SpudCmsAdminTagLib {
 	def grailsApplication
 	def spudPageService
 	def spudMenuService
+    def spudMultiSiteService
 
 	def pageSelect = { attrs, body ->
 		def filter = attrs.remove('filter')
-		def pageOptions = spudPageService.optionsTreeForPage(filter ? [filter: filter] : [:])
+		def pageOptions = spudPageService.optionsTreeForPage((filter ? [filter: filter] : [:]) + [siteId: spudMultiSiteService.activeSite.siteId])
 		out << g.select(attrs + [from: pageOptions, optionKey: 'value', optionValue: 'name'])
 	}
 
-	def cacheBlock = {attrs, body -> 
+	def cacheBlock = {attrs, body ->
 		if(grailsApplication.config.spud.cms.cacheEnabled && grailsApplication.config.spud.cms.cacheMode == 'partial') {
-			out << cache.block(attrs,body)	
+			out << cache.block(attrs,body)
 		} else {
 			out << body()
 		}
-		
+
 	}
 
 
@@ -36,4 +37,3 @@ class SpudCmsAdminTagLib {
 		out << g.select(attrs + [from: menuOptions, optionKey: 'value', optionValue: 'name', noSelection:['':menu.name]])
 	}
 }
-

@@ -1,9 +1,11 @@
 import spud.cms.*
+import org.hibernate.FetchMode
 class SpudPageUrlMappings {
 
-	static mappings = {
+	static mappings = { ctx ->
 		def grailsApplication = grails.util.Holders.grailsApplication
 		def defaultSpudPage = grailsApplication?.config?.spud?.cms?.defaultPage ?: 'home'
+
 		def FORBIDDEN = [
 			'plugins',
 			'WEB-INF',
@@ -34,11 +36,20 @@ class SpudPageUrlMappings {
 					if(FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}) {
 						return false
 					}
-					//TODO : Perhaps store this in the request
-					if(!id) {
-						return SpudPage.findByUrlName(defaultSpudPage,[cache:true, readOnly:true]) ? true : false
+					def siteId = org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
+					println "Getting SiteId ${siteId}"
+					def urlName = id ?: defaultSpudPage
+					def page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
+						eq('siteId',siteId)
+						eq('urlName', urlName)
+						fetchMode 'partials', FetchMode.JOIN
+					}
+					if(!page) {
+						println "Page Not Found"
+						return false
 					} else {
-						return SpudPage.findByUrlName(id,[cache:true, readOnly:true]) ? true : false
+						// org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().setAttribute('spudPage',page,0)
+						return true
 					}
 
 				})

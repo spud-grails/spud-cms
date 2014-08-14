@@ -9,6 +9,7 @@ class SpudPageService {
 	def grailsApplication
 	def spudPermalinkService
 	def spudMenuService
+	def spudMultiSiteService
 
 	def remove(page) {
 		// We need to remove all associated objects before removing the page

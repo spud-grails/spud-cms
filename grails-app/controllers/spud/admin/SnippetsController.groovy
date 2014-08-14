@@ -7,8 +7,13 @@ import  spud.core.*
 class SnippetsController {
 	static namespace = "spud_admin"
 	def spudPageService
+	def spudMultiSiteService
+
 	def index = {
-		def snippets = SpudSnippet.list([sort: 'name', max:25] + params)
+		def snippets = SpudSnippet.createCriteria().list([sort: 'name', max:25] + params) {
+			eq('siteId',spudMultiSiteService.activeSite.siteId)
+		}
+		// def snippets = SpudSnippet.list()
 		render view: '/spud/admin/snippets/index', model:[snippets: snippets, snippetCount: SpudSnippet.count()]
 	}
 
@@ -33,7 +38,7 @@ class SnippetsController {
 
     def snippet = new SpudSnippet(params.snippet)
 
-
+    snippet.siteId = spudMultiSiteService.activeSite.siteId
 
     if(snippet.save(flush:true)) {
 		spudPageService.evictCache()
@@ -59,7 +64,7 @@ class SnippetsController {
 			return
 		}
 		snippet.properties += params.snippet
-
+		snippet.siteId = spudMultiSiteService.activeSite.siteId
 
 		if(snippet.save(flush:true)) {
 			spudPageService.evictCache()
@@ -87,7 +92,7 @@ class SnippetsController {
 			return null
 		}
 
-		def page = SpudSnippet.get(params.id)
+		def page = SpudSnippet.findBySiteIdAndId(spudMultiSiteService.activeSite.siteId, params.long('id'))
 		if(!page) {
 			flash.error = "Snippet not found!"
 			redirect controller: 'snippets', action: 'index', namespace: 'spud_admin'
