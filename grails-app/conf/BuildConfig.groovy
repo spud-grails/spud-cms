@@ -28,14 +28,14 @@ grails.project.dependency.resolution = {
 
     plugins {
         if(System.getProperty('plugin.mode') != 'local') {
-            runtime ":spud-core:0.5.1"
-            runtime ":spud-permalinks:0.5.0"
-            
+            runtime ":spud-core:0.6.0"
+            runtime ":spud-permalinks:0.6.0"
+
             runtime(':hibernate4:4.3.5.4') {
                 export = false
             }
         }
-        runtime ':cache:1.1.1'
+        runtime ':cache:1.1.7'
         runtime ':sitemaps:1.0.0'
 
 
