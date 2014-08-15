@@ -37,7 +37,6 @@ class SpudPageUrlMappings {
 						return false
 					}
 					def siteId = org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
-					println "Getting SiteId ${siteId}"
 					def urlName = id ?: defaultSpudPage
 					def page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 						eq('siteId',siteId)
@@ -45,7 +44,6 @@ class SpudPageUrlMappings {
 						fetchMode 'partials', FetchMode.JOIN
 					}
 					if(!page) {
-						println "Page Not Found"
 						return false
 					} else {
 						// org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().setAttribute('spudPage',page,0)
