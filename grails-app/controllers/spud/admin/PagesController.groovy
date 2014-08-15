@@ -196,7 +196,7 @@ class PagesController {
 
 				private newPartialsForLayout(layoutName=null, existingPartials=null) {
 
-					def layoutsForSite  = layoutParserService.layoutsForSite(0)
+					def layoutsForSite  = layoutsForSite()
 					def defaultLayoutName = grailsApplication.config.spud.cms.defaultLayout ?: 'page'
 					if(!layoutName) {
 						layoutName = defaultLayoutName
