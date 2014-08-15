@@ -20,7 +20,6 @@ class SpudPageController {
 
 	@Cacheable(value='spud.cms.page', condition="#cacheEnabled == true")
 	def show(Boolean cacheEnabled) {
-		println "No Cache Executed"
 		def urlName = params.id
 		def siteId = request.getAttribute('spudSiteId')
 		if(!urlName) {
@@ -36,7 +35,7 @@ class SpudPageController {
 		}
 
 		if(!page) {
-			println "Page Not Found"
+			log.debug "Page Not Found"
 			render status: 404
 			return
 		}

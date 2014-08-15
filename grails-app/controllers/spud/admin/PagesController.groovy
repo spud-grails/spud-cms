@@ -191,7 +191,7 @@ class PagesController {
 				}
 
 				private layoutsForSite() {
-					return layoutParserService.layoutsForSite(0)
+					return layoutParserService.layoutsForSite(spudMultiSiteService.activeSite.siteId)
 				}
 
 				private newPartialsForLayout(layoutName=null, existingPartials=null) {

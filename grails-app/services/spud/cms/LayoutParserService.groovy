@@ -7,19 +7,24 @@ class LayoutParserService {
 
 	def grailsApplication
 	def spudLayoutService
-	
+	def spudMultiSiteService
 
 	def layoutsForSite(siteId=0,parentLayout=null) {
 		def layoutService  = spudLayoutService.layoutServiceForSite(siteId)
 		def layouts        = layoutService.layoutsForSite(siteId)
 		def defaultLayout  = grailsApplication.config.spud.cms.defaultLayout ?: 'page'
 		def layoutMetaList = []
+
+		def site = spudMultiSiteService.siteForSiteId(siteId)
+		def siteName = site.shortName
 		// Scan Layout Files Dynamically
 		layouts.each { layout ->
 			def contents = layoutService.layoutContents(layout)
 			def meta     = metaInfoForLayoutContents(layout, contents)
 			if(meta) {
-				layoutMetaList << meta + [layout: layout]
+				if(meta.sites.size() == 0 || meta.sites.contains(siteName)) {
+					layoutMetaList << meta + [layout: layout]
+				}
 			} else if (layout == defaultLayout) {
 				layoutMetaList << [layout: layout, name: layout.humanize().titlecase(), html: ['Body']]
 			}
@@ -53,7 +58,7 @@ class LayoutParserService {
 						break
 					case 'site':
 						directive.args.each { arg ->
-							siteName = arg.trim()
+							def siteName = arg.trim()
 							if(siteName) {
 								layoutMeta.sites << siteName
 							}

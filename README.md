@@ -10,7 +10,7 @@ Installation/Usage
 Add spud-cms to your BuildConfig.groovy
 ```groovy
  plugins {
-    compile ':spud-cms:0.6.1'
+    compile ':spud-cms:0.6.2'
     compile ':spud-security:0.6.0' //Only necessary if you do not have a security bridge
  }
 ```
@@ -102,3 +102,40 @@ spud {
 	}
 }
 ```
+
+
+MultiSite Mode
+--------------
+
+Spud CMS Now Supports hosting multiple websites in one running instance!. This is great if you have multiple websites to manage and dont want to run a lot of high memory instances of spud grails.
+It's also great if you have marketing campaigns. By default, Spud utilizes the `SpudDefaultMultiSiteService` which implements the `SpudMultiSiteProvider` interface. This means all your multisite configuration is done via the `Config.groovy` file.
+
+
+```groovy
+spud {
+  core {
+    defaultSiteId = 0
+    sites = [
+      [siteId: 1, shortName: 'test', name: 'My Subsite', hosts: ['test.spudengine.local']]
+    ]
+  }
+}
+
+```
+
+What this does is add a second site with an identifier of `1` and a template shortname of `test` to your project. The hosts array will control wether or not this site id is rendered.
+In this example, if a user browsers your grails site from `test.spudengine.local` then the context is automatically switched to siteId 1.
+
+You can control your layout/template availability by using the site directive on templates:
+
+```
+<%
+//= template_name 2 Column Page
+//= html Left
+//= html Right
+//= site test default
+%>
+```
+Above this theme is designated as available for the site with a `shortName` of 'test' and 'default'. Default enables this for the default site bahavior. If a site directive is not specified in the template, it is assumed that the template is available for All sites.
+
+Managing content for each individual site is as simple as visiting the administrative dashboard `spud/admin`. In the upper right is a dropdown box which controls the active site context. Change this dropdown to designate which site you would like to work on.
