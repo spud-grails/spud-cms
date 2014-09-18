@@ -36,8 +36,10 @@ class SpudPageUrlMappings {
 					if(FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}) {
 						return false
 					}
+
 					def siteId = org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
 					def urlName = id ?: defaultSpudPage
+					println "Running Constraint Check for Page ${urlName} ${siteId}"
 					def page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 						eq('siteId',siteId)
 						eq('urlName', urlName)
@@ -46,6 +48,7 @@ class SpudPageUrlMappings {
 					if(!page) {
 						return false
 					} else {
+						println "Found IT !"
 						// org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().setAttribute('spudPage',page,0)
 						return true
 					}

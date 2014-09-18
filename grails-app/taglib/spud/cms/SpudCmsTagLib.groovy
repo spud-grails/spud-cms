@@ -65,7 +65,7 @@ class SpudCmsTagLib {
 			}
 			def classes = item.classes ? item.classes.split(" ") : []
 			if(active) {
-				classes << activeClass
+				classes += activeClass
 			}
 			if(classes) {
 				linkOptions.class = classes.join(" ")
@@ -131,7 +131,7 @@ class SpudCmsTagLib {
 			}
 			def classes = item.classes ? item.classes.split(" ") : []
 			if(active) {
-				classes << activeClass
+				classes += activeClass
 			}
 			linkOptions.class = classes.join(" ")
 
