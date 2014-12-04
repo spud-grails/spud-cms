@@ -72,4 +72,17 @@ class SpudPage {
 		return SpudPage.findAllBySiteId(siteId).groupBy{it.spudPageId}
 	}
 
+	def grailsCacheAdminService
+	def afterInsert() {
+		grailsCacheAdminService.clearAllCaches()
+	}
+
+	def afterUpdate() {
+		grailsCacheAdminService.clearAllCaches()
+	}
+
+	def afterDelete() {
+		grailsCacheAdminService.clearAllCaches()
+	}
+
 }

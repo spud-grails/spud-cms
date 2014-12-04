@@ -5,7 +5,7 @@ class SpudPagePartial {
 	def grailsApplication
 
 	static belongsTo = [page: SpudPage]
-	static transients = ['cachedContent']
+	static transients = ['cachedContent', 'postContent']
 	String name
 	String symbolName
 	String content
@@ -41,9 +41,13 @@ class SpudPagePartial {
 		// this.symbolName = name.replaceAll(" ", "_").replaceAll(":","_").replaceAll("-","_").replaceAll(",","_").toLowerCase()
 	}
 
-	public void setContent(String _content) {
+	public void setPostContent(String _content) {
 		content = _content
-		this.contentProcessed = null
+		contentProcessed = null
+	}
+
+	public String getPostContent() {
+		return content
 	}
 
 	def beforeValidate() {
@@ -63,5 +67,17 @@ class SpudPagePartial {
 			return cachedContent
 		}
 		cachedContent = spudTemplateService.render("${page.name}.${name}",contentProcessed ?: content,[model: [page:page]])
+	}
+	def grailsCacheAdminService
+	def afterInsert() {
+		grailsCacheAdminService.clearAllCaches()
+	}
+
+	def afterUpdate() {
+		grailsCacheAdminService.clearAllCaches()
+	}
+
+	def afterDelete() {
+		grailsCacheAdminService.clearAllCaches()
 	}
 }

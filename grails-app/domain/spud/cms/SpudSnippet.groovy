@@ -4,7 +4,7 @@ class SpudSnippet {
 	def grailsApplication
 	def spudTemplateService
 
-	static transients = ['cachedContent']
+	static transients = ['cachedContent', 'postContent', 'render']
 
 	Integer siteId = 0
 	String name
@@ -35,9 +35,13 @@ class SpudSnippet {
   	contentProcessed nullable:true
   }
 
-	public void setContent(String _content) {
+	public void setPostContent(String _content) {
 		content = _content
 		contentProcessed = null
+	}
+
+	public String getPostContent() {
+		return content
 	}
 
 
@@ -46,6 +50,8 @@ class SpudSnippet {
 			return cachedContent
 		}
 		cachedContent = spudTemplateService.render("_${this.name}",contentProcessed ?: content,[model: [snippet:this]])
+		
+		return cachedContent
 	}
 
 	public String getRender() {
@@ -62,5 +68,18 @@ class SpudSnippet {
 				contentProcessed = this.content
 			}
 		}
+	}
+
+	def grailsCacheAdminService
+	def afterInsert() {
+		grailsCacheAdminService.clearAllCaches()
+	}
+
+	def afterUpdate() {
+		grailsCacheAdminService.clearAllCaches()
+	}
+
+	def afterDelete() {
+		grailsCacheAdminService.clearAllCaches()
 	}
 }

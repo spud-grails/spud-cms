@@ -10,7 +10,7 @@
 				</div>
 			</div>
 			<g:hiddenField name="partial.${partial.symbolName}.name" value="${partial.name}" class="tab_name"/>
-			<g:textArea name="partial.${partial.symbolName}.content" id="spud-partial-editor-${partial.symbolName}" data-content-css="${assetPath(src: 'spud/content.css')}" class="spud-formatted-editor form-control" value="${partial.content}" data-format="${partial.format}"/>
+			<g:textArea name="partial.${partial.symbolName}.postContent" id="spud-partial-editor-${partial.symbolName}" data-content-css="${assetPath(src: 'spud/content.css')}" class="spud-formatted-editor form-control" value="${partial.postContent}" data-format="${partial.format}"/>
 		</div>
 	</g:each>
 </div>

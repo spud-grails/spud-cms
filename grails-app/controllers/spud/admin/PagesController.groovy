@@ -58,7 +58,7 @@ class PagesController {
 
 		params.partial.each { partial ->
 			if(partial.key.indexOf(".") == -1) {
-				def partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content, format: partial.value.format ?: 'html')
+				def partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, postContent: partial.value.postContent, format: partial.value.format ?: 'html')
 				page.addToPartials(partialRecord)
 			}
 		}
@@ -112,12 +112,12 @@ class PagesController {
 				if(partial.key.indexOf(".") == -1) {
 					def partialRecord = page.partials.find { it.symbolName == partial.key}
 					if(!partialRecord) {
-						if(partial.value.content) {
-							partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, content: partial.value.content, format: partial.value.format ?: 'html')
+						if(partial.value.postContent) {
+							partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, postContent: partial.value.postContent, format: partial.value.format ?: 'html')
 							page.addToPartials(partialRecord)
 						}
 						} else {
-							partialRecord.content = partial.value.content
+							partialRecord.postContent = partial.value.postContent
 							if(partial.value.format) {
 								partialRecord.format = partial.value.format
 							}

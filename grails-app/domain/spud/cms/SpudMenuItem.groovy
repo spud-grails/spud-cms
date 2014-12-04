@@ -93,4 +93,17 @@ class SpudMenuItem {
   static grouped(menu) {
   	menu.menuItemsCombined.groupBy { it.parentType }
   }
+
+  def grailsCacheAdminService
+  def afterInsert() {
+    grailsCacheAdminService.clearAllCaches()
+  }
+
+  def afterUpdate() {
+    grailsCacheAdminService.clearAllCaches()
+  }
+
+  def afterDelete() {
+    grailsCacheAdminService.clearAllCaches()
+  }
 }
