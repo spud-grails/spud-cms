@@ -1,7 +1,7 @@
 <g:applyLayout name="spud/admin/detail" >
 
 	<content tag="detail">
-		<g:form name="edit_page" url="[action: 'show',controller: 'pages',namespace: 'spud_admin', id: page.id]" method="PUT" class="form-horizontal">
+		<g:form name="edit_page" url="[action: 'update',resource: 'pages',namespace: 'spud_admin', id: page.id, method:'PUT']" method="PUT" class="form-horizontal">
 			<g:render template="/spud/admin/pages/form" model="[page: page, layouts: layouts, partials: partials]" />
 			<div class="form-group">
 				<div class="col-sm-8 col-sm-offset-2">
