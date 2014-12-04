@@ -63,7 +63,7 @@ class SnippetsController {
 		if(!snippet) {
 			return
 		}
-		snippet.properties += params.snippet
+		bindDate(snippet,params.snippet)
 		snippet.siteId = spudMultiSiteService.activeSite.siteId
 
 		if(snippet.save(flush:true)) {
