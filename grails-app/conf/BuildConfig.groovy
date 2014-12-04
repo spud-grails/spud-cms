@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
 
     plugins {
         if(System.getProperty('plugin.mode') != 'local') {
-            runtime ":spud-core:0.6.0"
+            runtime ":spud-core:0.6.1"
             runtime ":spud-permalinks:0.6.0"
 
             runtime(':hibernate4:4.3.5.4') {
