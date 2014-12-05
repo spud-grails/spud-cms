@@ -1,8 +1,9 @@
+
 package spud.cms
 import org.hibernate.FetchMode
 class SpudCmsTagLib {
   static defaultEncodeAs = 'html'
-	static encodeAsForTags = [menu: 'raw', pages: 'raw', snippet: 'raw', applyLayout: 'raw']
+	static encodeAsForTags = [menu: 'raw', pages: 'raw', pageLink: 'raw', snippet: 'raw', applyLayout: 'raw']
 	static namespace = 'sp'
 
 	def grailsApplication
@@ -86,7 +87,15 @@ class SpudCmsTagLib {
 		// TODO: Build this soon please
 	}
 
+	def createPageLink = {attrs ->
+		def link = g.createLink(buildPageLinkOptions(attrs))
+		out << link
+	}
 
+	def pageLink = {attrs, body ->
+		def link = g.link(buildPageLinkOptions(attrs), body())
+		out << link
+	}
 
 	def snippet = { attrs ->
 		if(!attrs.name) {
@@ -170,5 +179,26 @@ class SpudCmsTagLib {
 		attrs.collect { key, value -> "${key}=\"${value.replace('\'', '\\\'')}\"" }?.join(" ")
 	}
 
+	private buildPageLinkOptions(attrs) {
+		def name = attrs.remove('name')
 
+		if(!name) {
+			throw new IllegalArgumentException("'name' is required")
+		}
+
+		def siteId = (attrs.remove('siteId') ?: 0) as Integer
+ 
+		def page = SpudPage.createCriteria().get {
+			eq('name', name)
+			eq('siteId', siteId)
+		}
+
+		def linkOptions = attrs.remove('linkOptions') ?: [:]
+
+		linkOptions += [controller: "spudPage", action: "show"]
+		linkOptions.id = page.urlName
+		linkOptions += attrs
+
+		linkOptions
+	}
 }
