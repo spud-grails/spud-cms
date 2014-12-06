@@ -196,7 +196,7 @@ class SpudCmsTagLib {
 		def linkOptions = attrs.remove('linkOptions') ?: [:]
 
 		linkOptions += [controller: "spudPage", action: "show"]
-		linkOptions.id = page.urlName
+		linkOptions.id = page.urlName ?: ''
 		linkOptions += attrs
 
 		linkOptions
