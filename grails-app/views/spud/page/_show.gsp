@@ -10,9 +10,7 @@
 	<body>
 	<g:each var="partial" in="${page.partials}">
 			<content tag="${partial.symbolName}">
-				<cache:block key="spud.cms.${page.urlName}.${partial.symbolName}">
-					${raw(partial.render())}
-				</cache:block>
+				${raw(partial.render())}
 			</content>
 	</g:each>
 	</body>
