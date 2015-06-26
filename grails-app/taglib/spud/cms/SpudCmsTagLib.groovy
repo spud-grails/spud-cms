@@ -121,7 +121,6 @@ class SpudCmsTagLib {
 			return ""
 		}
 		def content = "<ul>"
-
 		menuItems?.sort{it.menuOrder}?.each { item ->
 			def active = false
 			def linkOptions = attrs.linkOptions ?: [:]
@@ -148,7 +147,7 @@ class SpudCmsTagLib {
 			content += "<li ${paramsToHtmlAttr([class: classes.join(" ")])}>"
 			content += linkTag
 			if(maxDepth == 0 || maxDepth > depth) {
-				content  << listMenuItem(childItems, item.id, depth + 1, attrs)
+				content  += listMenuItem(childItems, item.id, depth + 1, attrs)
 			}
 			content += "</li>"
 
