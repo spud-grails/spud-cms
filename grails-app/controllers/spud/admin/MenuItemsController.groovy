@@ -121,8 +121,8 @@ class MenuItemsController {
 				if(!menuItem) {
 					return
 				}
-
-				menuItem.delete()
+				menu.removeFromMenuItemsCombined(menuItem)
+				menuItem.delete(flush:true)
 				flash.notice = "Menu Item Removed Successfully!"
 				redirect resource: 'menus/menuItems', action: 'index', menusId: menu.id, namespace: 'spud_admin'
 			}
