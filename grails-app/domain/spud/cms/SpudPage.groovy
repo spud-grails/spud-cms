@@ -45,6 +45,7 @@ class SpudPage {
 		partials cache: true
 		siteId index: 'idx_page_url'
 		urlName index: 'idx_page_url'
+		published index: 'idx_page_url'
 	}
 
 	static constraints = {

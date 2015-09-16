@@ -43,6 +43,7 @@ class SpudPageUrlMappings {
 					def page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 						eq('siteId',siteId)
 						eq('urlName', urlName)
+						eq('published',true)
 						fetchMode 'partials', FetchMode.JOIN
 					}
 					if(!page) {
