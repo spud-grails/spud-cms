@@ -1,5 +1,6 @@
 <sp:applyLayout name="${page.layout}">
 	<head>
+		<title>${page.name}</title>
 		<meta property="og:title" content="${page.name}" />
 
 		<g:if test="${page.metaDescription}">
