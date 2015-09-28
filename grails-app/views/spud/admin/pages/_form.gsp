@@ -80,7 +80,7 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="checkbox">
 					 <label>
-					 	<g:checkBox name="page.published" value="${page?.published}"/> Published
+					 	<g:checkBox name="page.published" checked="${page?.published}"/> Published
 				 	</label>
 				</div>
 				

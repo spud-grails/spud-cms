@@ -31,6 +31,7 @@ class SpudPageController {
 				eq('siteId',siteId)
 				eq('published',true)
 				eq('urlName', urlName)
+				eq('published',true)
 				fetchMode 'partials', FetchMode.JOIN
 			}
 		}

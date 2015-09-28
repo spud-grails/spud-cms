@@ -92,7 +92,7 @@ class PagesController {
 			if(!page) {
 				return
 			}
-			page.properties += params.page
+			bindData(page, params.page)
 			spudPageService.generateUrlName(page)
 			def partialsToDelete = []
 			page.siteId = spudMultiSiteService.activeSite.siteId
