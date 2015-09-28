@@ -29,6 +29,7 @@ class SpudPageController {
 		if(!page) {
 			page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 				eq('siteId',siteId)
+				eq('published',true)
 				eq('urlName', urlName)
 				fetchMode 'partials', FetchMode.JOIN
 			}
