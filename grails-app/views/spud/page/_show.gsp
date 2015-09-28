@@ -1,7 +1,11 @@
 <sp:applyLayout name="${page.layout}">
 	<head>
+		<meta property="og:title" content="${page.name}" />
+
 		<g:if test="${page.metaDescription}">
 			<meta name="description" content="${page.metaDescription}">
+			<meta property="og:description" content="${page.metaDescription}" />
+
 		</g:if>
 		<g:if test="${page.metaKeywords}">
 			<meta name="keywords" content="${page.metaKeywords}">
