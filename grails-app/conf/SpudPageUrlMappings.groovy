@@ -50,6 +50,9 @@ class SpudPageUrlMappings {
 					if(!page) {
 						return false
 					} else {
+						if(page.visibility == 1) {
+							cacheEnabled = false
+						}
 						return true
 					}
 

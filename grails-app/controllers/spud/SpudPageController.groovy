@@ -13,6 +13,7 @@ class SpudPageController {
 	def grailsApplication
 	def spudLayoutService
 	def spudPermalinkService
+	def sharedSecurityService
 
 
 	static layout = null
@@ -40,9 +41,12 @@ class SpudPageController {
 			log.debug "Page Not Found"
 			render status: 404
 			return
+		} else if(page.visibility == 1 && !sharedSecurityService.currentUser) {
+			log.debug "Page Restricted"
+			render status: 403
+			return
 		}
 
 		render template: '/spud/page/show', model: [page:page], layout: null
-
 	}
 }

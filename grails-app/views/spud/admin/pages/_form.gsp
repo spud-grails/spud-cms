@@ -31,7 +31,6 @@
 
 		<div class="col-sm-8">
 			<spAdmin:pageSelect class="form-control" name="page.spudPage.id" filter="${page?.id}" value="${page?.spudPageId}" noSelection="['':'']"/>
-			%{-- TODO DROPDOWN BOX TO SELECT A PARENT PAGE GOES HERE --}%
 		</div>
 	</div>
 
@@ -73,7 +72,7 @@
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="page.visibility">Visibility</label>
 			<div class="col-sm-8">
-				%{-- <%=f.select :visibility, [["Public",0],["Private",1]]%> --}%
+				<g:select name='page.visibility' from="${[[name: 'Public', value: 0],[name: 'Private', value: 1]]}" optionKey='value' optionValue='name' value="${page?.visibility}"/>
 			</div>
 		</div>
 		<div class="form-group">
