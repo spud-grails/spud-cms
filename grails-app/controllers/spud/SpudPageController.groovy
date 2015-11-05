@@ -43,6 +43,7 @@ class SpudPageController {
 			return
 		} else if(page.visibility == 1 && !sharedSecurityService.currentUser) {
 			log.debug "Page Restricted"
+			sharedSecurityService.storeLocation(request)
 			redirect sharedSecurityService.createLink('login')
 			return
 		}
