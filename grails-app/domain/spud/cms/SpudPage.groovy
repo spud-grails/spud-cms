@@ -17,7 +17,8 @@ class SpudPage {
 	Integer visibility = 0 //0=Public, 1=Private
 	Integer pageOrder  = 0
 	Boolean published  = true
-
+	Boolean metaNoIndex = false
+	Boolean metaNoFollow = false
 	String metaDescription
 	String metaKeywords
 	String notes
