@@ -12,7 +12,7 @@
 			<meta name="keywords" content="${page.metaKeywords}">
 		</g:if>
 		<g:if test="${page.metaNoIndex || page.metaNoFollow}">
-			<meta name="robot" content="${sp.metaNoIndexNoFollow(noFollow:page.metaNoFollow, noIndex:page.metaNoIndex)}" />
+			<meta name="robots" content="${sp.metaNoIndexNoFollow(noFollow:page.metaNoFollow, noIndex:page.metaNoIndex)}" />
 		</g:if>
 	</head>
 	<body>

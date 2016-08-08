@@ -119,7 +119,7 @@ class SpudCmsTagLib {
 		} else if(attrs.noFollow){
 			content = "nofollow"
 		} else if(attrs.noIndex){
-			content = "noIndex"
+			content = "noindex"
 		}
 		if(content){
 			out << content
