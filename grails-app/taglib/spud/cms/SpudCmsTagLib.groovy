@@ -112,6 +112,21 @@ class SpudCmsTagLib {
 		out << g.applyLayout(attrs,body)
 	}
 
+	def metaNoIndexNoFollow = { attrs, body ->
+		def content
+		if(attrs.noIndex && attrs.noFollow){
+			content = "noindex, nofollow"
+		} else if(attrs.noFollow){
+			content = "nofollow"
+		} else if(attrs.noIndex){
+			content = "noindex"
+		}
+		if(content){
+			out << content
+		}
+
+	}
+
 	private listMenuItem(childItems, itemId, depth, attrs) {
 		def maxDepth = attrs.maxDepth ?: 0
 		def defaultPage = grailsApplication.config.spud.cms.defaultPage ?: 'home'

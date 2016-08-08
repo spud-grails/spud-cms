@@ -4,9 +4,9 @@
 		<div class="form-group">
 		<label for="page.name" style="display:none;" class="control-label">Name</label>
 		<div class="col-sm-12">
-			<g:textField name="page.name" class="form-control full-width" value="${page?.name}" autofocus="true"/>	
+			<g:textField name="page.name" class="form-control full-width" value="${page?.name}" autofocus="true"/>
 		</div>
-		
+
 	</div>
 </fieldset>
 
@@ -19,9 +19,9 @@
 	<div class="form-group">
 		<label for="page.layout" class="control-label col-sm-2">Template</label>
 		<div class="col-sm-8">
-			
+
 				<g:select name="page.layout" class="form-control" from="${layouts}" value="${page?.layout}" optionKey="layout" optionValue="name" id="spud_page_layout" data-source="${createLink([controller: 'pages', namespace: 'spud_admin', action:'pageParts'] + (page?.id ? [id: page.id] : [:]))}"/>
-			
+
 			<span class="help-inline">Use this to control the layout template to be used for this page if they are available.</span>
 		</div>
 	</div>
@@ -69,6 +69,8 @@
 				<span class="help-inline">A short description of the page. This is what appears on a search engines search result page.</span>
 			</div>
 		</div>
+
+
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="page.visibility">Visibility</label>
 			<div class="col-sm-8">
@@ -82,7 +84,27 @@
 					 	<g:checkBox name="page.published" checked="${page?.published}"/> Published
 				 	</label>
 				</div>
-				
+
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class="checkbox">
+					<label>
+						<g:checkBox name="page.metaNoIndex" checked="${page?.metaNoIndex}"/> No Index
+					</label>
+				</div>
+
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class="checkbox">
+					<label>
+						<g:checkBox name="page.metaNoFollow" checked="${page?.metaNoFollow}"/> No Follow
+					</label>
+				</div>
+
 			</div>
 		</div>
 		<div class="form-group">
