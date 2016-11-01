@@ -32,6 +32,10 @@ class SpudPage {
 	Date dateCreated
 	Date lastUpdated
 
+  // SEO 
+  Boolean nofollow = false;
+  Boolean noindex = false;
+
 	static mapping = {
         def cfg = it?.getBean('grailsApplication')?.config
 		datasource(cfg?.spud?.core?.datasource ?: 'DEFAULT')

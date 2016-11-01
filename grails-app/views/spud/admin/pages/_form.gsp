@@ -82,9 +82,26 @@
 					 	<g:checkBox name="page.published" checked="${page?.published}"/> Published
 				 	</label>
 				</div>
-				
 			</div>
 		</div>
+    <div class="form-group">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="checkbox">
+           <label>
+            <g:checkBox name="page.nofollow" checked="${page?.nofollow}"/> Enable NoFollow
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="checkbox">
+           <label>
+            <g:checkBox name="page.noindex" checked="${page?.noindex}"/> Enable NoIndex
+          </label>
+        </div>
+      </div>
+    </div>
 		<div class="form-group">
 			<label for="page.notes" class="control-label col-sm-2">Notes</label>
 			<div class="col-sm-8">
