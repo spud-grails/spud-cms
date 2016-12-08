@@ -1,7 +1,7 @@
 <div class="page_row">
 
 	<span class="row_meta">
-		<spAdmin:link resource="pages" action="edit" id="${page.id}">${page.name}</spAdmin:link>
+		<spAdmin:link resource="pages" action="edit" id="${page.id}">${page.name}</spAdmin:link> ${!page.published ? '(unpublished)' : ''}
 	</span>
 
 	<span class="edit_controls">
