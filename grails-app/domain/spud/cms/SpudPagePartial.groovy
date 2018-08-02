@@ -29,6 +29,7 @@ class SpudPagePartial {
 		dateCreated column: 'created_at'
 		lastUpdated column: 'updated_at'
 	}
+
 	static constraints = {
 		contentProcessed nullable: true, maxSize: 65000
 		content nullable:true, maxSize: 65000

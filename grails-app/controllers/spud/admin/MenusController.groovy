@@ -1,4 +1,5 @@
 package spud.admin
+
 import  spud.cms.*
 import  spud.core.*
 
@@ -11,6 +12,7 @@ class MenusController {
     static namespace = "spud_admin"
 
     def index() {
+		println "index params: ${params}"
         def menus = SpudMenu.createCriteria().list([sort: 'name', max: 25] + params) {
             eq('siteId',spudMultiSiteService.activeSite.siteId)
         }

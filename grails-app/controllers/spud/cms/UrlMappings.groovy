@@ -1,6 +1,9 @@
-import spud.cms.*
+package spud.cms
+
+import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.hibernate.FetchMode
-class SpudPageUrlMappings {
+
+class UrlMappings {
 
 	static mappings = { ctx ->
 		def grailsApplication = grails.util.Holders.grailsApplication
@@ -38,7 +41,7 @@ class SpudPageUrlMappings {
 						return false
 					}
 
-					def siteId = org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
+					def siteId = GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
 					def urlName = id ?: defaultSpudPage
 					def page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 						eq('siteId',siteId)

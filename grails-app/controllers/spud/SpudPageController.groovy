@@ -10,7 +10,7 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class SpudPageController {
-	def grailsApplication
+
 	def spudLayoutService
 	def spudPermalinkService
 	def sharedSecurityService

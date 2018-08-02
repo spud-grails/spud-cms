@@ -13,34 +13,33 @@ class SpudPageService {
 
 	def remove(page) {
 		// We need to remove all associated objects before removing the page
-		spudMenuService.removeMenuItems(SpudMenuItem.where{ page == page}.list())
+		spudMenuService.removeMenuItems(SpudMenuItem.where { page == page }.list())
 
 		// Partials Are cascade Removed
 		// Permalinks
 		spudPermalinkService.deletePermalinksForAttachment(page)
 
 		// Move sub pages up the tree one
-		SpudPage.where{spudPage == page}.updateAll(spudPage: page.spudPage)
+		SpudPage.where { spudPage == page }.updateAll(spudPage: page.spudPage)
 
 		// Remove the actual Page
 		page.delete()
 	}
 
-	def grouped(siteId=0) {
-		return SpudPage.findAllBySiteId(siteId).groupBy{it.spudPageId}
+	def grouped(siteId = 0) {
+		return SpudPage.findAllBySiteId(siteId).groupBy { it.spudPageId }
 	}
-
 
 	// Returns an array of pages in order of heirarchy
 	// 	:filter Filters out a page by ID, and all of its children
 	//  :value Pick an attribute to be used in the value field, defaults to ID
-	def optionsTreeForPage(config=[:]) {
+	def optionsTreeForPage(config = [:]) {
 		def collection = config.collection ?: grouped(config.siteId ?: 0)
-		def level      = config.level ?: 0
-		def parentId   = config.parentId
-		def filter     = config.filter
-		def value      = "id"
-		def list       = []
+		def level = config.level ?: 0
+		def parentId = config.parentId
+		def filter = config.filter
+		def value = "id"
+		def list = []
 
 		collection[parentId]?.each { c ->
 			if(!filter || c.id != filter) {
@@ -48,7 +47,7 @@ class SpudPageService {
 				level.times { listName += "- " }
 				listName += c.name
 				list << [name: listName, value: c[value]]
-				list += optionsTreeForPage([collection: collection, parentId: c.id, level: level+1, filter: filter])
+				list += optionsTreeForPage([collection: collection, parentId: c.id, level: level + 1, filter: filter])
 			}
 		}
 		return list
@@ -60,7 +59,7 @@ class SpudPageService {
 			return
 		}
 		def originalUrlName = page.getPersistentValue('urlName') ?: page.urlName
-		def urlNamePrefix   = ""
+		def urlNamePrefix = ""
 
 		if(page.spudPage) {
 			urlNamePrefix += page.spudPage.urlName + "/"
@@ -68,9 +67,9 @@ class SpudPageService {
 
 		if(!page.useCustomUrlName || !page.urlName) { //If we need to generate a url name
 			def uniqueName = uniqueUrlName(page)
-			def urlName    = uniqueName.urlName
+			def urlName = uniqueName.urlName
 			def urlNameNew = urlName
-			if(uniqueName.counter > 0 ) {
+			if(uniqueName.counter > 0) {
 				urlNameNew = uniqueName.urlName + "-${uniqueName.counter}"
 			}
 
@@ -89,7 +88,7 @@ class SpudPageService {
 				}
 
 				if(originalUrlName != null && (urlNamePrefix + urlNameNew) != originalUrlName) {
-					spudPermalinkService.createPermalink(originalUrlName,page, urlNamePrefix + urlNameNew, page.siteId)
+					spudPermalinkService.createPermalink(originalUrlName, page, urlNamePrefix + urlNameNew, page.siteId)
 				}
 
 				page.urlName = urlNamePrefix + urlNameNew
@@ -98,37 +97,37 @@ class SpudPageService {
 	}
 
 
-    @CacheEvict(value='spud.cms.page', allEntries=true)
-    def evictCache() {
-        log.info("Evicting Sitemap Cache")
-    }
+	@CacheEvict(value = 'spud.cms.page', allEntries = true)
+	def evictCache() {
+		log.info("Evicting Sitemap Cache")
+	}
 
 	private uniqueUrlName(page) {
-			def urlNamePrefix = ""
-			def urlName = page.name.parameterize().toLowerCase()
-			if(page.spudPage) {
-				urlNamePrefix += page.spudPage.urlName + "/"
-			}
-			def currentCounter = 0
+		def urlNamePrefix = ""
+		def urlName = page.name.parameterize().toLowerCase()
+		if(page.spudPage) {
+			urlNamePrefix += page.spudPage.urlName + "/"
+		}
+		def currentCounter = 0
 
-			SpudPage.withNewSession { session ->
-				def urlNames = SpudPage.createCriteria().list {
-					ne('id', page.id)
-					eq('siteId', page.siteId)
-					projections {
-						property('urlName')
-					}
-				}
-
-				def counter = 1
-
-				def urlNameNew = urlName
-				while(urlNames.contains(urlNamePrefix + urlNameNew)) {
-					urlNameNew = urlName + "-${counter}"
-					currentCounter = counter
-					counter += 1
+		SpudPage.withNewSession { session ->
+			def urlNames = SpudPage.createCriteria().list {
+				ne('id', page.id)
+				eq('siteId', page.siteId)
+				projections {
+					property('urlName')
 				}
 			}
-			return [urlName: urlName, counter: currentCounter]
+
+			def counter = 1
+
+			def urlNameNew = urlName
+			while(urlNames.contains(urlNamePrefix + urlNameNew)) {
+				urlNameNew = urlName + "-${counter}"
+				currentCounter = counter
+				counter += 1
+			}
+		}
+		return [urlName: urlName, counter: currentCounter]
 	}
 }

@@ -2,7 +2,11 @@
 //= require spud/admin/cms/pages
 //= require spud/admin/cms/menu_items
 
-spud.admin.cms = {};
+//spud.admin.cms = {};
+
+spud = (typeof(spud) == 'undefined') ? {} : spud;
+spud.admin = (typeof(spud.admin) == 'undefined') ? {} : spud.admin;
+spud.admin.cms = (typeof(spud.admin.cms) == 'undefined') ? {} : spud.admin.cms;
 
 $(document).ready(function() {
 	spud.admin.cms.pages.initFormTabs();
