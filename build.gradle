@@ -5,6 +5,12 @@ buildscript {
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
+		maven { url "http://dl.bintray.com/bertramlabs/grails3-plugins" }
+		maven { url "http://dl.bintray.com/bluesliverx/grails-plugins" }
+		maven { url "https://dl.bintray.com/bertramlabs/gomorpheus/" }
+		maven { url "http://nexus.bertramlabs.com/content/repositories/snapshots" }
+		maven { url "http://nexus.bertramlabs.com/content/repositories/releases" }
+		maven { url "http://nexus.bertramlabs.com/content/repositories/publicReleases" }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -30,6 +36,12 @@ ext {
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
+	maven { url "http://dl.bintray.com/bertramlabs/grails3-plugins" }
+	maven { url "http://dl.bintray.com/bluesliverx/grails-plugins" }
+	maven { url "https://dl.bintray.com/bertramlabs/gomorpheus/" }
+	maven { url "http://nexus.bertramlabs.com/content/repositories/snapshots" }
+	maven { url "http://nexus.bertramlabs.com/content/repositories/releases" }
+	maven { url "http://nexus.bertramlabs.com/content/repositories/publicReleases" }
 }
 
 dependencyManagement {
@@ -49,8 +61,8 @@ dependencies {
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
     compile "org.grails.plugins:scaffolding"
-	compile "spud.core:spud-core:3.0.0"
-	compile "spud.permalinks:spud-permalinks:3.0.0"
+	compile "spud.core:spud-core:3.0.0-SNAPSHOT"
+	compile "spud.permalinks:spud-permalinks:3.0.0-SNAPSHOT"
 	compile "org.grails:grails-datastore-rest-client"
 	compile "com.bertramlabs.plugins:sitemaps:3.0.0"
 
@@ -78,9 +90,9 @@ grailsPublish {
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
-    desc = "Full plugin description"
-    developers = [johndoe:"John Doe"]
+    title = "Spud Cms Plugin"
+    desc = "Provides CMS functionality for Spud"
+	developers = [destes:"David Estes", wchu:"William Chu"]
     portalUser = ""
     portalPassword = ""    
 }
@@ -91,4 +103,22 @@ assets {
 
 task wrapper(type: Wrapper) {
 	gradleVersion = gradleWrapperVersion
+}
+
+publishing {
+	repositories {
+		maven {
+			credentials {
+				if (project.hasProperty("labsNexusUser")) {
+					username = labsNexusUser
+				}
+				if (project.hasProperty("labsNexusPassword")) {
+					password = labsNexusPassword
+				}
+			}
+			def releasesRepoUrl = "http://nexus.bertramlabs.com/content/repositories/releases"
+			def snapshotsRepoUrl = "http://nexus.bertramlabs.com/content/repositories/snapshots"
+			url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+		}
+	}
 }
