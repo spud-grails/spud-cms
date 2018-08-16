@@ -1,14 +1,12 @@
 package spud.cms
 
-
-import grails.test.mixin.TestFor
+import grails.testing.web.interceptor.InterceptorUnitTest
 import spock.lang.Specification
 
 /**
- * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
+ * See the API for {@link grails.testing.web.interceptor.InterceptorUnitTest} for usage instructions
  */
-@TestFor(SpudCmsInterceptor)
-class SpudCmsInterceptorSpec extends Specification {
+class SpudCmsInterceptorSpec extends Specification implements InterceptorUnitTest<SpudCmsInterceptor> {
 
     def setup() {
     }
@@ -19,7 +17,7 @@ class SpudCmsInterceptorSpec extends Specification {
 
     void "Test spudCms interceptor matching"() {
         when:"A request matches the interceptor"
-            withRequest(controller:"spudCms")
+            withRequest(controller:"page")
 
         then:"The interceptor does match"
             interceptor.doesMatch()

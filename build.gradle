@@ -61,8 +61,8 @@ dependencies {
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
     compile "org.grails.plugins:scaffolding"
-	compile "spud.core:spud-core:3.0.0-SNAPSHOT"
-	compile "spud.permalinks:spud-permalinks:3.0.0-SNAPSHOT"
+	compile "spud.core:spud-core:3.3.0-SNAPSHOT"
+	compile "spud.permalinks:spud-permalinks:3.3.0-SNAPSHOT"
 	compile "org.grails:grails-datastore-rest-client"
 	compile "com.bertramlabs.plugins:sitemaps:3.0.0"
 
@@ -77,8 +77,10 @@ dependencies {
 
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
+	testCompile "org.grails:grails-gorm-testing-support:1.1.4"
+	testCompile "org.grails:grails-web-testing-support:1.1.4"
 
-    testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
+	testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 }
 
