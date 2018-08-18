@@ -73,7 +73,8 @@ dependencies {
 	compile "spud.core:spud-core:3.3.0-SNAPSHOT"
 	compile "spud.permalinks:spud-permalinks:3.3.0-SNAPSHOT"
 	compile "org.grails:grails-datastore-rest-client"
-	compile "com.bertramlabs.plugins:sitemaps:3.0.0"
+//    compile "com.bertramlabs.plugins:sitemaps:3.0.0"
+	compile "com.bertramlabs.plugins:sitemaps:3.3.0-SNAPSHOT"
 
     console "org.grails:grails-console"
 
