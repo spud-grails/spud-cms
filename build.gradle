@@ -119,7 +119,12 @@ grailsPublish {
 }
 
 assets {
-    packagePlugin = true
+	minifyJs = false
+	minifyCss = false
+
+    enableSourceMaps = true
+
+	packagePlugin = true
 }
 
 task wrapper(type: Wrapper) {
