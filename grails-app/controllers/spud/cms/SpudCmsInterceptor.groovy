@@ -10,7 +10,7 @@ class SpudCmsInterceptor {
 	}
 
     boolean before() {
-		println "SpudCmsInterceptor before"
+		log.debug "SpudCmsInterceptor before"
 		def pageUri = request.forwardURI
 		if(request.contextPath && request.contextPath != "/") {
 			pageUri = pageUri.substring(request.contextPath.size())

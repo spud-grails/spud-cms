@@ -83,6 +83,7 @@ dependencies {
     provided "org.grails:grails-plugin-services"
     provided "org.grails:grails-plugin-domain-class"
 
+    // Add the Grails Plugin to the runtime dependencies
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:${assetPipelineVersion}"
 
     testCompile "org.grails:grails-plugin-testing"
@@ -119,8 +120,8 @@ grailsPublish {
 }
 
 assets {
-	minifyJs = false
-	minifyCss = false
+	minifyJs = true
+	minifyCss = true
 
     enableSourceMaps = true
 

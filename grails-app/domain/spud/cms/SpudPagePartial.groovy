@@ -54,8 +54,13 @@ class SpudPagePartial {
 	def beforeValidate() {
 		if(this.content && !this.contentProcessed) {
 			def formatter = grailsApplication.config.spud.formatters.find{ it.name == this.format}?.formatterClass
+			log.debug "beforeValidate formatter: ${formatter}"
 			if(formatter) {
-				def formattedText = formatter.newInstance().compile(this.content)
+				grailsApplication.classLoader.loadClass(formatter)
+				Class.forName(formatter).newInstance()
+//				def formattedText = formatter.newInstance().compile(this.content)
+				def formattedText = Class.forName(formatter).newInstance().compile(this.content)
+				log.debug "beforeValidate formattedText: ${formattedText}"
 				contentProcessed = formattedText
 			} else {
 				contentProcessed = this.content

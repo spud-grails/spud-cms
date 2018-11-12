@@ -53,13 +53,26 @@ class PagesController {
 		def page = new SpudPage(params.page)
 		page.siteId = spudMultiSiteService.activeSite.siteId
 		spudPageService.generateUrlName(page)
-
+/*
 		params.partial.each { partial ->
 			if(partial.key.indexOf(".") == -1) {
 				def partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, postContent: partial.value.postContent, format: partial.value.format ?: 'html')
 				page.addToPartials(partialRecord)
 			}
 		}
+*/
+		def item = params.partial.find { it -> it.key.indexOf(".") == -1 }
+		log.debug "update item: ${item?.dump()}"
+		def symbolName = item.key
+		def name = item.value
+
+		def postContent = params.partial.get("${symbolName}.postContent")
+		def format = params.partial.get("${symbolName}.format")
+
+		log.debug "update postContent: ${postContent}"
+//						if(partial.value.postContent) {
+		def partialRecord = new SpudPagePartial(symbolName: symbolName, name: name, postContent: postContent, format: format ?: 'html')
+		page.addToPartials(partialRecord)
 
 		if(page.save(flush:true)) {
 			sitemapService.evictCache()
@@ -91,50 +104,152 @@ class PagesController {
 	}
 
 	def update() {
+		log.debug "update params: ${params}"
 		def page = loadPage()
 		if(!page) {
 			return
 		}
-		bindData(page, params.page)
-		spudPageService.generateUrlName(page)
-		def partialsToDelete = []
-		page.siteId = spudMultiSiteService.activeSite.siteId
-		page.partials.each { partial ->
-			def partialParam = params.partial.find { it.key == partial.symbolName }
-			if(!partialParam || !partialParam.value.content) {
-				partialsToDelete << partial
-			}
-		}
 
-		partialsToDelete.each {
-			page.removeFromPartials(it)
-			it.delete()
-		}
-
-		params.partial.each { partial ->
-			if(partial.key.indexOf(".") == -1) {
-				def partialRecord = page.partials.find { it.symbolName == partial.key}
-				if(!partialRecord) {
-					if(partial.value.postContent) {
-						partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, postContent: partial.value.postContent, format: partial.value.format ?: 'html')
-						page.addToPartials(partialRecord)
-					}
-				} else {
-					partialRecord.postContent = partial.value.postContent
-					if(partial.value.format) {
-						partialRecord.format = partial.value.format
-					}
-					partialRecord.save(flush:true)
+		try {
+			log.debug "update page: ${page}"
+			bindData(page, params.page)
+			spudPageService.generateUrlName(page)
+			def partialsToDelete = []
+			page.siteId = spudMultiSiteService.activeSite.siteId
+			page.partials.each { partial ->
+				log.debug "update partial: ${partial}"
+				log.debug "update partial.getClass().simpleName: ${partial.getClass().simpleName}"
+				debugPartial(partial)
+//				log.debug "update partial.key: ${partial.key}"
+				def partialParam = params.partial.find { it.key == partial.symbolName }
+				debugPartial(partialParam)
+				log.debug "update partialParam: ${partialParam}"
+				log.debug "update partialParam.getClass().simpleName: ${partialParam.getClass().simpleName}"
+				log.trace "update partialParam?.dump(): ${partialParam?.dump()}"
+//				if(!partialParam || !partialParam.value?.content) {
+//				if(!partialParam || !partialParam.content) {
+				if(!partialParam) {
+					partialsToDelete << partial
 				}
 			}
-		}
 
+			partialsToDelete.each {
+				page.removeFromPartials(it)
+				it.delete()
+			}
 
-		if(page.save(flush:true)) {
-			sitemapService.evictCache()
-			spudPageService.evictCache()
-			redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
-		} else {
+			log.debug "update params.partial.size(): ${params.partial.size()}"
+
+			params.partial.each { partial ->
+				debugPartial(partial)
+			}
+
+//			def item = params.partials.find { key, value -> key.indexOf(".") == -1 }
+			log.debug "update params.partial.getClass().simpleName: ${params.partial.getClass().simpleName}"
+			def item = params.partial.find { it -> it.key.indexOf(".") == -1 }
+			log.debug "update item: ${item?.dump()}"
+			def symbolName = item.key
+			log.debug "update symbolName: ${symbolName}"
+			def name = item.value
+			log.debug "update name: ${name}"
+
+			def postContentKey = params.partial."${symbolName}.postContent"
+			log.debug "update postContentKey: ${postContentKey}"
+			def postContent = postContentKey
+			log.debug "update postContent: ${postContent}"
+			def formatKey = params.partial."${symbolName}.format"
+			def format = formatKey
+			log.debug "update format: ${format}"
+
+			def partialRecord = page.partials.find { it.symbolName == symbolName}
+			log.debug "update partialRecord.getClass().simpleName: ${partialRecord.getClass().simpleName}"
+			debugPartial(partialRecord)
+			if(!partialRecord) {
+				log.debug "update partialRecord was null"
+				log.debug "update postContent: ${postContent}"
+//						if(partial.value.postContent) {
+				if(postContent) {
+//							partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, postContent: partial.value.postContent, format: partial.value.format ?: 'html')
+					partialRecord = new SpudPagePartial(symbolName: symbolName, name: name, postContent: postContent, format: format ?: 'html')
+					page.addToPartials(partialRecord)
+				}
+			} else {
+				log.debug "update partialRecord was not null"
+//						partialRecord.postContent = partial.postContent
+				if(postContent) {
+					log.debug "update postContent: ${postContent}"
+					log.trace "update partialRecord.postContent: ${partialRecord.postContent}"
+					partialRecord.postContent = postContent
+				}
+				if(format) {
+					//						if(partial.value.format) {
+					log.debug "update format: ${format}"
+					//							partialRecord.format = partial.value.format
+					partialRecord.format = format
+				}
+				partialRecord.save(flush:true)
+			}
+/*			
+			log.debug "update params.partial: ${params.partial}"
+			params.partial.each { partial ->
+				log.debug "update partial: ${partial}"
+				log.debug "update partial.key.indexOf('.'): ${partial.key.indexOf(".")}"
+				if(partial.key.indexOf(".") == -1) {
+					log.debug "update processing partial.key: ${partial.key}"
+					debugPartial(partial)
+					def partialRecord = page.partials.find { it.symbolName == partial.key}
+					log.debug "update partialRecord.getClass().simpleName: ${partialRecord.getClass().simpleName}"
+					debugPartial(partialRecord)
+					if(!partialRecord) {
+						log.debug "update partialRecord was null"
+						log.debug "update partial.postContent: ${partial.postContent}"
+//						if(partial.value.postContent) {
+						if(partial.postContent) {
+//							partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.value?.name, postContent: partial.value.postContent, format: partial.value.format ?: 'html')
+							partialRecord = new SpudPagePartial(symbolName: partial.key, name: partial.name, postContent: partial.postContent, format: partial.format ?: 'html')
+							page.addToPartials(partialRecord)
+						}
+					} else {
+						log.debug "update partialRecord was not null"
+//						partialRecord.postContent = partial.postContent
+						debugPartial(partial)
+						if(partial.postContent) {
+							log.debug "update partial.value: ${partial.postContent}"
+							log.trace "update partialRecord.postContent: ${partialRecord.postContent}"
+							partialRecord.postContent = partial.postContent
+						}
+						if(partial instanceof SpudPagePartial) {
+							if(partial.format) {
+	//						if(partial.value.format) {
+								log.debug "update partial.format: ${partial.format}"
+	//							partialRecord.format = partial.value.format
+								partialRecord.format = partial.format
+							}
+							partialRecord.save(flush:true)
+						} else {
+							log.debug "update partial not instanceof SpudPagePartial: ${partial.getClass().simpleName}"
+						}
+					}
+				} else {
+					log.debug "update ignoring partial.key: ${partial.key}"
+					debugPartial(partial)
+				}
+			}
+*/
+			if(!page.validate()) {
+				page.errors.each { error ->
+					log.error "update error saving page: ${error}"
+				}
+			}
+			if(page.save(flush:true)) {
+				sitemapService.evictCache()
+				spudPageService.evictCache()
+				redirect resource: 'pages', action: 'index', namespace: 'spud_admin'
+			} else {
+				render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
+			}
+		} catch(e) {
+			log.error "An error occurred attempting to update the spud page. Reason: ${e.message}", e
 			render view: '/spud/admin/pages/edit', model: [page: page, layouts: this.layoutsForSite(), partials: page.partials]
 		}
 	}
@@ -231,7 +346,7 @@ class PagesController {
 			}
 		}
 		partials.each { it ->
-			log.debug "newPartialsForLayout it: ${it.dump()}"
+			log.trace "newPartialsForLayout it: ${it.dump()}"
 		}
 		return partials
 	}
@@ -252,5 +367,25 @@ class PagesController {
 		return page
 	}
 
-
+	private debugPartial(partial) {
+		log.debug "=========================================================================================================================================================================="
+		log.debug "debugPartial partial.getClass().simpleName: ${partial.getClass().simpleName}"
+		if(partial instanceof String) {
+			log.debug "debugPartial String: ${partial}"
+		} else if(partial instanceof SpudPagePartial) {
+			log.debug "debugPartial SpudPagePartial format: ${partial.format}"
+			log.debug "debugPartial SpudPagePartial name: ${partial.name}"
+			log.debug "debugPartial SpudPagePartial pageId: ${partial.pageId}"
+			log.debug "debugPartial SpudPagePartial symbolName: ${partial.symbolName}"
+			log.debug "debugPartial SpudPagePartial postContent: ${partial.postContent}"
+		} else if(partial.getClass().simpleName == "Entry") {
+			log.debug "debugPartial Entry key: ${partial.key}"
+			log.debug "debugPartial Entry value: ${partial.value}"
+			log.debug "debugPartial partial.getClass().simpleName: ${partial.key.getClass().simpleName}"
+			log.debug "debugPartial partial.getClass().simpleName: ${partial.value.getClass().simpleName}"
+		} else {
+			log.debug "debugPartial partial.getClass().getCanonicalName(): ${partial.getClass().getCanonicalName()}"
+		}
+		log.debug "=========================================================================================================================================================================="
+	}
 }
