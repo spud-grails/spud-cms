@@ -31,7 +31,6 @@ class UrlMappings {
 			"/menu_items"(resources: "menuItems", namespace: "spud_admin")
 		}
 
-
 		"/$id**?" {
 			controller = 'spudPage'
 			action = 'show'
