@@ -1,6 +1,7 @@
 package spud.admin
-import  spud.cms.*
-import  spud.core.*
+
+import spud.cms.*
+import spud.core.*
 
 @SpudApp(name="Snippets", thumbnail="spud/admin/snippets_icon.png", order="1")
 @SpudSecure(['SNIPPETS'])

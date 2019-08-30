@@ -9,10 +9,11 @@ class LayoutParserService {
 	def spudLayoutService
 	def spudMultiSiteService
 
-	def layoutsForSite(siteId=0,parentLayout=null) {
-		def layoutService  = spudLayoutService.layoutServiceForSite(siteId)
-		def layouts        = layoutService.layoutsForSite(siteId)
-		def defaultLayout  = grailsApplication.config.spud.cms.defaultLayout ?: 'page'
+	def layoutsForSite(siteId = 0, parentLayout = null) {
+		log.debug "layoutsForSite siteId: ${siteId}"
+		def layoutService = spudLayoutService.layoutServiceForSite(siteId)
+		def layouts = layoutService.layoutsForSite(siteId)
+		def defaultLayout = grailsApplication.config.spud.cms.defaultLayout ?: 'page'
 		def layoutMetaList = []
 
 		def site = spudMultiSiteService.siteForSiteId(siteId)
@@ -20,12 +21,12 @@ class LayoutParserService {
 		// Scan Layout Files Dynamically
 		layouts.each { layout ->
 			def contents = layoutService.layoutContents(layout)
-			def meta     = metaInfoForLayoutContents(layout, contents)
+			def meta = metaInfoForLayoutContents(layout, contents)
 			if(meta) {
 				if(meta.sites.size() == 0 || meta.sites.contains(siteName)) {
 					layoutMetaList << meta + [layout: layout]
 				}
-			} else if (layout == defaultLayout) {
+			} else if(layout == defaultLayout) {
 				layoutMetaList << [layout: layout, name: layout.humanize().titlecase(), html: ['Body']]
 			}
 		}
@@ -37,7 +38,7 @@ class LayoutParserService {
 			return null
 		}
 		def lines = contents.split("\n")
-		def layoutMeta = [layout: layout, name: layout.humanize().titlecase(), html: [], partials: [], sites:[]]
+		def layoutMeta = [layout: layout, name: layout.humanize().titlecase(), html: [], partials: [], sites: []]
 		def metaFound = false
 		lines.each { line ->
 			def directive = directiveForLine(line)
@@ -85,8 +86,8 @@ class LayoutParserService {
 		if(directive) {
 			def argsWithDirective = directive.split(" ")
 			def command = argsWithDirective[0].toLowerCase()
-			def args = argsWithDirective[1..argsWithDirective.size()-1]
-			return [command: command, args:args]
+			def args = argsWithDirective[1..argsWithDirective.size() - 1]
+			return [command: command, args: args]
 		}
 		return null
 	}
