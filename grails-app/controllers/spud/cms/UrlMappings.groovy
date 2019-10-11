@@ -1,16 +1,17 @@
 package spud.cms
 
-import groovy.util.logging.Slf4j
 import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.hibernate.FetchMode
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-@Slf4j
 class UrlMappings {
 
 	static mappings = { ctx ->
+		Logger log = LoggerFactory.getLogger(UrlMappings.class)
 		def grailsApplication = grails.util.Holders.grailsApplication
 		def defaultSpudPage = grailsApplication?.config?.spud?.cms?.defaultPage ?: 'home'
-		println "defaultSpudPage: ${defaultSpudPage}"
+		if(log.isTraceEnabled()) log.trace "defaultSpudPage: ${defaultSpudPage}"
 		def FORBIDDEN = [
 			'plugins',
 			'WEB-INF',
@@ -38,14 +39,14 @@ class UrlMappings {
 			constraints {
 				id(validator: { id ->
 					if(FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}) {
-						println "starts with forbidden returning false"
+						if(log.isDebugEnabled()) log.debug "starts with forbidden returning false"
 						return false
 					}
-					println "id: ${id}"
+					if(log.isDebugEnabled()) log.debug "id: ${id}"
 					def siteId = GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
-					println "siteId: ${siteId}"
+					if(log.isDebugEnabled()) log.debug "siteId: ${siteId}"
 					def urlName = id ?: defaultSpudPage
-					println "urlName: ${urlName}"
+					if(log.isDebugEnabled()) log.debug "urlName: ${urlName}"
 					def page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 						eq('siteId',siteId)
 						eq('published',true)
@@ -53,16 +54,16 @@ class UrlMappings {
 						eq('published',true)
 						fetchMode 'partials', FetchMode.JOIN
 					}
-					println "page: ${page}"
+					if(log.isTraceEnabled()) log.trace "page: ${page}"
 					if(!page) {
-						println "page was null"
+						if(log.isDebugEnabled()) log.debug "page was null"
 						return false
 					} else {
 						if(page.visibility == 1) {
-							println "cacheEnabled set to false"
+							if(log.isInfoEnabled()) log.info "cacheEnabled set to false"
 							cacheEnabled = false
 						}
-						println "returning true"
+						if(log.isDebugEnabled()) log.debug "returning true"
 						return true
 					}
 

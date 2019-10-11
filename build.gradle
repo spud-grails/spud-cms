@@ -70,7 +70,7 @@ dependencies {
     compile "org.grails.plugins:async"
     compile "org.grails.plugins:scaffolding"
     compile "org.grails.plugins:gsp"
-	compile "spud.core:spud-core:3.3.0-SNAPSHOT"
+	compile "spud.core:spud-core:3.3.1-SNAPSHOT"
 	compile "spud.permalinks:spud-permalinks:3.3.0-SNAPSHOT"
 	compile "org.grails:grails-datastore-rest-client"
 //    compile "com.bertramlabs.plugins:sitemaps:3.0.0"

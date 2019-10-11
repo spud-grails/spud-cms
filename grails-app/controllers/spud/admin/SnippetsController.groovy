@@ -11,6 +11,7 @@ class SnippetsController {
 	def spudMultiSiteService
 
 	def index = {
+		log.debug "index params: ${params}"
 		def snippets = SpudSnippet.createCriteria().list([sort: 'name', max:25] + params) {
 			eq('siteId',spudMultiSiteService.activeSite.siteId)
 		}
