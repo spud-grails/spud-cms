@@ -10,6 +10,7 @@
 			</div>
 			
 		</g:form>
+		<asset:javascript src="spud/admin/cms/application.js"/>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('input[type=submit].btn-preview').click(function(evt) {

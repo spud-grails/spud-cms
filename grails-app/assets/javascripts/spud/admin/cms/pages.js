@@ -1,10 +1,14 @@
-spud.admin.cms.pages = {};
+spud = (typeof(spud) == 'undefined') ? {} : spud;
+spud.admin = (typeof(spud.admin) == 'undefined') ? {} : spud.admin;
+spud.admin.cms = (typeof(spud.admin.cms) == 'undefined') ? {} : spud.admin.cms;
+spud.admin.cms.pages = spud.admin.cms.pages || {};
 
 (function(){
   var pages = spud.admin.cms.pages;
 
 
   pages.initFormTabs = function(){
+    console.log("spud-cms initFormTabs called");
     var tabNames = [];
 
     $('.formtabs .formtab').each(function(tabind) {

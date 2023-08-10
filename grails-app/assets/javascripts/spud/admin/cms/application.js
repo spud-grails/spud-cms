@@ -2,9 +2,10 @@
 //= require spud/admin/cms/pages
 //= require spud/admin/cms/menu_items
 
-spud.admin.cms = {};
+//spud.admin.cms = {};
 
 $(document).ready(function() {
+	console.log("spud-cms document ready and about to init the form tabs");
 	spud.admin.cms.pages.initFormTabs();
 
 	$("#spud_page_layout").bind('change', function() {

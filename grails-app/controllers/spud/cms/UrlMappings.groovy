@@ -1,11 +1,17 @@
-import spud.cms.*
+package spud.cms
+
+import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.hibernate.FetchMode
-class SpudPageUrlMappings {
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+class UrlMappings {
 
 	static mappings = { ctx ->
+		Logger log = LoggerFactory.getLogger(UrlMappings.class)
 		def grailsApplication = grails.util.Holders.grailsApplication
 		def defaultSpudPage = grailsApplication?.config?.spud?.cms?.defaultPage ?: 'home'
-
+		if(log.isTraceEnabled()) log.trace "defaultSpudPage: ${defaultSpudPage}"
 		def FORBIDDEN = [
 			'plugins',
 			'WEB-INF',
@@ -14,7 +20,6 @@ class SpudPageUrlMappings {
 			'is-tomcat-running',
 			'spud/admin'
 		]
-
 
 		"/spud/admin/pages"(resources: "pages", namespace: "spud_admin")
 		"/spud/admin/pages/clear"(controller: "pages", namespace: "spud_admin", action: 'clear')
@@ -27,7 +32,6 @@ class SpudPageUrlMappings {
 			"/menu_items"(resources: "menuItems", namespace: "spud_admin")
 		}
 
-
 		"/$id**?" {
 			controller = 'spudPage'
 			action = 'show'
@@ -35,11 +39,14 @@ class SpudPageUrlMappings {
 			constraints {
 				id(validator: { id ->
 					if(FORBIDDEN.find{ forbidden -> id?.startsWith(forbidden)}) {
+						if(log.isDebugEnabled()) log.debug "starts with forbidden returning false"
 						return false
 					}
-
-					def siteId = org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
+					if(log.isDebugEnabled()) log.debug "id: ${id}"
+					def siteId = GrailsWebRequest.lookup().getAttribute('spudSiteId',0)
+					if(log.isDebugEnabled()) log.debug "siteId: ${siteId}"
 					def urlName = id ?: defaultSpudPage
+					if(log.isDebugEnabled()) log.debug "urlName: ${urlName}"
 					def page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 						eq('siteId',siteId)
 						eq('published',true)
@@ -47,12 +54,16 @@ class SpudPageUrlMappings {
 						eq('published',true)
 						fetchMode 'partials', FetchMode.JOIN
 					}
+					if(log.isTraceEnabled()) log.trace "page: ${page}"
 					if(!page) {
+						if(log.isDebugEnabled()) log.debug "page was null"
 						return false
 					} else {
 						if(page.visibility == 1) {
+							if(log.isInfoEnabled()) log.info "cacheEnabled set to false"
 							cacheEnabled = false
 						}
+						if(log.isDebugEnabled()) log.debug "returning true"
 						return true
 					}
 

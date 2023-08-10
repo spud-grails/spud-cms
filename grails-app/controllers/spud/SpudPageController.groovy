@@ -10,23 +10,26 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class SpudPageController {
-	def grailsApplication
+
 	def spudLayoutService
 	def spudPermalinkService
 	def sharedSecurityService
 
-
 	static layout = null
 	// static namespace = 'spud'
 
-	@Cacheable(value='spud.cms.page', condition="#cacheEnabled == true")
+//	@Cacheable(value='spud.cms.page')	CURSE THIS PLUGIN USAGE!!!!! not compatible with spud atm. Probably need to provide spud page unique id in order to differentiate
 	def show(Boolean cacheEnabled) {
+		log.debug "show Boolean cacheEnabled params: ${params}"
 		def urlName = params.id
+		log.debug "show urlName: ${urlName}"
 		def siteId = request.getAttribute('spudSiteId')
+		log.debug "show siteId: ${siteId}"
 		if(!urlName) {
 			urlName = grailsApplication.config.spud.cms.defaultPage ?: 'home'
 		}
 		def page = request.getAttribute('spudPage')
+		log.debug "show page: ${page}"
 		if(!page) {
 			page = SpudPage.withCriteria(readOnly:true, uniqueResult:true, cache:true) {
 				eq('siteId',siteId)
@@ -47,7 +50,10 @@ class SpudPageController {
 			redirect sharedSecurityService.createLink('login')
 			return
 		}
+		log.debug "show page: ${page}"
 
+//		render view: '/spud/page/show', model: [page:page], layout: null
+//		render template: '/show', model: [page:page], layout: null
 		render template: '/spud/page/show', model: [page:page], layout: null
 	}
 }

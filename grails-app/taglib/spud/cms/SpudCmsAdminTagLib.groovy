@@ -1,11 +1,12 @@
 package spud.cms
+
 import org.hibernate.FetchMode
+
 class SpudCmsAdminTagLib {
   static defaultEncodeAs = 'html'
     static encodeAsForTags = [pageSelect: 'raw', menuItemSelect: 'raw']
 	static namespace = 'spAdmin'
 
-	def grailsApplication
 	def spudPageService
 	def spudMenuService
     def spudMultiSiteService

@@ -1,6 +1,7 @@
 package spud.admin
-import  spud.cms.*
-import  spud.core.*
+
+import spud.cms.*
+import spud.core.*
 
 @SpudApp(name="Snippets", thumbnail="spud/admin/snippets_icon.png", order="1")
 @SpudSecure(['SNIPPETS'])
@@ -10,6 +11,7 @@ class SnippetsController {
 	def spudMultiSiteService
 
 	def index = {
+		log.debug "index params: ${params}"
 		def snippets = SpudSnippet.createCriteria().list([sort: 'name', max:25] + params) {
 			eq('siteId',spudMultiSiteService.activeSite.siteId)
 		}
